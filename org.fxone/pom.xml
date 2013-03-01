@@ -22,6 +22,7 @@
   <modules>
     <module>fxone-core</module>
     <module>fxone-model</module>
+    <module>fxone-ui-resources</module>
     <module>fxone-ui</module>
   </modules>
 

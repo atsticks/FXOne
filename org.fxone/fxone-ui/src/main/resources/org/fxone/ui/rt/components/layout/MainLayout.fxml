@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml">
+     <top>
+       <FlowPane ><children><Label text="Header"/></children></FlowPane>
+     </top>
+     <center>
+         <Label text="ABC"></Label>
+     </center>
+     <left>
+       <Label text="LEft"/>
+     </left>
+     <bottom>
+       <Label text="Bottom"/>
+     </bottom>
+</BorderPane>
+
+ 

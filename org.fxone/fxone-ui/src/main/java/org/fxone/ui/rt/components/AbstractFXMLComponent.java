@@ -46,7 +46,7 @@ public abstract class AbstractFXMLComponent<T extends Node> extends
 		return this.ui;
 	}
 
-	private void initComponent(String fxmlResource) {
+	private void initComponent(String fxml) {
 		// init id
 		Named named = getClass().getAnnotation(Named.class);
 		if (named != null) {
@@ -58,9 +58,10 @@ public abstract class AbstractFXMLComponent<T extends Node> extends
 		UIComponent comp = getClass().getAnnotation(UIComponent.class);
 		if (comp != null) {
 			this.fxmlResource = comp.fxmlLocation();
+			this.resourceBundle = comp.resourceBundle();
 		}
-		if (fxmlResource != null) {
-			this.fxmlResource = fxmlResource;
+		if (fxmlResource == null || fxmlResource.isEmpty()) {
+			this.fxmlResource = fxml;
 		}
 		if (fxmlResource == null || fxmlResource.isEmpty()) {
 			this.fxmlResource = getIdentifier() + ".fxml";
@@ -68,7 +69,7 @@ public abstract class AbstractFXMLComponent<T extends Node> extends
 		// initUI
 		Locale userLocale = Locale.ENGLISH; // TODO i18n
 		try {
-			ui = FXMLLoader.load(getClass().getResource(fxmlResource),
+			ui = FXMLLoader.load(getClass().getResource(this.fxmlResource),
 					ResourceBundle.getBundle(resourceBundle, userLocale));
 		} catch (IOException e) {
 			throw new IllegalArgumentException("Failed to load component: "

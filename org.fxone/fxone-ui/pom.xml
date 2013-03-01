@@ -17,6 +17,11 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
+	    <dependency>
+			<groupId>org.fxone</groupId>
+			<artifactId>fxone-ui-resources</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.fxone</groupId>
 			<artifactId>fxone-model</artifactId>

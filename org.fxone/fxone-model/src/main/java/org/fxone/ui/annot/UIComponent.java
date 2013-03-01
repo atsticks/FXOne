@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface UIComponent {
 	String stylesheet() default "";
 	String fxmlLocation() default "";
+	String resourceBundle() default "i18n/ui";
 }
