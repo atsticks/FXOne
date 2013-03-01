@@ -3,10 +3,7 @@ package org.fxone.ui.rt;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import org.homemotion.di.Container;
-import org.homemotion.ui.model.session.ContextManager;
-
-import skins.dark.DarkSkin;
+import org.fxone.core.cdi.Container;
 
 import com.sun.javafx.tk.Toolkit;
 
@@ -17,7 +14,6 @@ public class FXApplication extends Application {
 
 	public void start(final Stage primaryStage) {
 		try {
-			ContextManager.setInstance(Stage.class, primaryStage);
 			this.widgetset = loadWidgetset();
 			Stage splashStage = widgetset.init(primaryStage);
 			splashStage.show();

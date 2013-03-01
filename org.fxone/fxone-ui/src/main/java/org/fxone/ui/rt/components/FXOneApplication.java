@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import org.fxone.core.cdi.Container;
+import org.fxone.ui.rt.DarkSkin;
+import org.fxone.ui.rt.Widgetset;
 
 import com.sun.javafx.tk.Toolkit;
 
