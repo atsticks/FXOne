@@ -6,24 +6,31 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import org.apache.log4j.Logger;
+import org.fxone.core.Context;
 import org.fxone.core.cdi.Container;
-import org.fxone.ui.rt.ApplicationComponent;
+import org.fxone.ui.rt.ApplicationLoader;
 import org.fxone.ui.rt.SplashScreen;
+import org.fxone.ui.rt.components.workbench.DefaultWorkbench;
 
 import com.sun.javafx.tk.Toolkit;
 
 public class FXOneApplication extends Application {
 
-	private ApplicationComponent application;
+	private ApplicationLoader application;
 	private static final Logger LOGGER = Logger
 			.getLogger(FXOneApplication.class);
 
 	public void start(final Stage primaryStage) {
 		try {
-			this.application = loadApplication();
+			Context.get().setSingleton(Stage.class, primaryStage);
+			Context.get().setSingleton(Application.class, this);
+			this.application = loadApplicationLoader();
+			Context.get().setSingleton(ApplicationLoader.class,
+					this.application);
 			this.application.init(primaryStage);
 			final SplashScreen splash = application.getSplashScreen();
 			if (splash != null) {
+				Context.get().setSingleton(SplashScreen.class, splash);
 				splash.show();
 			}
 			Thread startup = new Thread() {
@@ -64,7 +71,7 @@ public class FXOneApplication extends Application {
 				}
 			});
 			startup.start();
-			
+
 		} catch (Exception e) {
 			LOGGER.fatal("Failed to start application.", e);
 			System.exit(-1);
@@ -75,8 +82,8 @@ public class FXOneApplication extends Application {
 		Application.launch(FXOneApplication.class, args);
 	}
 
-	private ApplicationComponent loadApplication() {
-		return new DefaultApplicationComponent(); // TODO Make this configurable
+	private ApplicationLoader loadApplicationLoader() {
+		return new DefaultApplicationLoader(); // TODO Make this configurable
 	}
 
 }

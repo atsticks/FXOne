@@ -17,8 +17,8 @@ import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
 import com.sun.javafx.tk.Toolkit;
 
-@UIComponent(fxmlLocation="/org/fxone/ui/rt/components/splash/SplashScreen.fxml")
-public class SimpleSplashScreen extends AbstractFXMLComponent<Parent> implements
+@UIComponent(fxmlLocation = "/org/fxone/ui/rt/components/splash/SplashScreen.fxml")
+public class SimpleSplashScreen extends AbstractFXMLComponent implements
 		SplashScreen {
 
 	private int maxProgressValue = 100;
@@ -41,7 +41,7 @@ public class SimpleSplashScreen extends AbstractFXMLComponent<Parent> implements
 
 	public SimpleSplashScreen() {
 		super();
-		splashScene = new Scene(this.getUI());
+		splashScene = new Scene(this);
 		stage.setScene(splashScene);
 		stage.centerOnScreen();
 		stage.initStyle(StageStyle.UNDECORATED);
@@ -125,7 +125,16 @@ public class SimpleSplashScreen extends AbstractFXMLComponent<Parent> implements
 
 	@Override
 	public void hide() {
-		stage.hide();
+		if (Toolkit.getToolkit().isFxUserThread()) {
+			stage.hide();
+		} else {
+			Toolkit.getToolkit().defer(new Runnable() {
+				@Override
+				public void run() {
+					stage.hide();
+				}
+			});
+		}
 	}
 
 }

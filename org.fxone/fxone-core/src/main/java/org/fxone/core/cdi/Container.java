@@ -4,6 +4,8 @@ import java.lang.annotation.Annotation;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.inject.Named;
+
 public final class Container {
 
 	private static boolean hookRegistered = false;
@@ -56,5 +58,16 @@ public final class Container {
 	@SuppressWarnings("unchecked")
 	public static <T> T getNamedInstance(Class<T> type, String id) {
 		return cdiContainer.getNamedInstance(type, id);
+	}
+
+	public static String getName(Object o) {
+		if(o==null){
+			return "<null>";
+		}
+		Named named = o.getClass().getAnnotation(Named.class);
+		if(named!=null){
+			return named.value();
+		}
+		return o.getClass().getSimpleName();
 	}
 }

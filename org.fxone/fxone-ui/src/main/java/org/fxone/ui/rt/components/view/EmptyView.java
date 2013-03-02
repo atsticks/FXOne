@@ -6,27 +6,26 @@ import java.io.StringWriter;
 
 import javafx.scene.control.Label;
 
-import org.fxone.ui.model.view.AbstractView;
+import org.fxone.ui.model.view.View;
+import org.fxone.ui.model.view.ViewContext;
 
 @SuppressWarnings("unchecked")
-public class EmptyView extends AbstractView {
+public class EmptyView extends Label implements View {
 
-	private Label label = new Label();
+	private String id;
 	
 	public EmptyView(String id) {
-		super("UndefinedView: " + id);
-		label.setText("Undefined View: '" + id + "'.");
+		setText("Undefined View: '" + id + "'.");
 	}
 	
 	public EmptyView(String id, Throwable err) {
-		super("ViewError: " + id);
 		StringWriter tgt = new StringWriter(200);
 		PrintWriter w = new PrintWriter(tgt);
 		w.println("Failed to load View: '" + id + "': ");
 		if(err!=null){
 			err.printStackTrace(w);
 		}
-		label.setText(tgt.toString());
+		setText(tgt.toString());
 	}
 	
 	@Override
@@ -39,13 +38,13 @@ public class EmptyView extends AbstractView {
 	}
 
 	@Override
-	public String getViewContainerID() {
-		return null;
+	public void init(ViewContext viewContext) {
+		// may be empty
 	}
 
 	@Override
-	public Object getUI() {
-		return this.label;
+	public void opened() {
+		// may be empty
 	}
 
 }

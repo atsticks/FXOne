@@ -11,7 +11,7 @@ import javax.inject.Named;
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.model.workbench.SceneEvent;
+import org.fxone.ui.model.workbench.cmd.WorkbenchEvent;
 
 @Dependent
 @Named("footer")
@@ -50,12 +50,12 @@ public class Footer extends HBox implements NotificationListener {
 
 	@Override
 	public void notified(Notification notif) {
-		if (SceneEvent.NOTIFTYPE_SETSTATUS.isMatching(notif)) {
-			SceneEvent cmd = (SceneEvent) notif;
+		if (WorkbenchEvent.NOTIFTYPE_SETSTATUS.isMatching(notif)) {
+			WorkbenchEvent cmd = (WorkbenchEvent) notif;
 			setStatus(cmd.getValue());
-		} else if (SceneEvent.NOTIFTYPE_GETSTATUS
+		} else if (WorkbenchEvent.NOTIFTYPE_GETSTATUS
 				.isMatching(notif)) {
-			((SceneEvent) notif).setResult(getStatus());
+			((WorkbenchEvent) notif).setResult(getStatus());
 		}
 		notif.setHandledBy(this);
 		notif.setCompleted();

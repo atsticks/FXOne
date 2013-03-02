@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?scenebuilder-background-color 0x000000ff?>
+
+<AnchorPane id="AnchorPane" maxWidth="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <ToolBar fx:id="toolbar" maxHeight="77.0" opacity="0.7" prefHeight="30.0" style="-fx-border-color: transparent;&#10;-fx-border-width: 0px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <minHeight>
+        <Long fx:value="30" />
+      </minHeight>
+      <prefWidth>
+        <Long fx:value="-1" />
+      </prefWidth>
+    </ToolBar>
+  </children>
+  <maxHeight>
+    <Long fx:value="30" />
+  </maxHeight>
+  <minHeight>
+    <Long fx:value="30" />
+  </minHeight>
+  <prefHeight>
+    <Long fx:value="30" />
+  </prefHeight>
+  <prefWidth>
+    <Long fx:value="-1" />
+  </prefWidth>
+</AnchorPane>

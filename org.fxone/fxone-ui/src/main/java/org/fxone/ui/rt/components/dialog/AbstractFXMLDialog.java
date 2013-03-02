@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
-public abstract class AbstractFXMLDialog extends AbstractFXMLComponent<Node>
+public abstract class AbstractFXMLDialog extends AbstractFXMLComponent
 		implements Dialog {
 
 	protected String title;
@@ -18,7 +18,7 @@ public abstract class AbstractFXMLDialog extends AbstractFXMLComponent<Node>
 	public AbstractFXMLDialog(String id, String title) {
 		super(id);
 		this.title = title;
-		getUI().setOpacity(1);
+		setOpacity(1);
 		// title
 		initButtons();
 	}

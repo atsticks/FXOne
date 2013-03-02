@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.fxone.ui.model.workbench.Workbench;
 import org.fxone.ui.rt.components.dialog.Dialog;
 import org.fxone.ui.rt.components.dialog.DialogManager;
 
@@ -20,8 +21,8 @@ public final class DialogManagerImpl implements DialogManager {
 	private ModalDialogPane modalPane;
 
 	@Inject
-	public DialogManagerImpl(@Named("workbench") Node workbench) {
-		this.modalPane = new ModalDialogPane(workbench);
+	public DialogManagerImpl(@Named("workbench") Workbench workbench) {
+		this.modalPane = new ModalDialogPane((Node)workbench);
 	}
 
 	/**
@@ -33,7 +34,7 @@ public final class DialogManagerImpl implements DialogManager {
 	 *            dialog message
 	 */
 	public void showInfo(String title, String message) {
-//		this.modalPane.showDialog(new InfoDialog(title, message)); // TODO
+		// this.modalPane.showDialog(new InfoDialog(title, message)); // TODO
 	}
 
 	/**
@@ -46,7 +47,8 @@ public final class DialogManagerImpl implements DialogManager {
 	 */
 	public void showYesNo(String title, String message,
 			javafx.event.EventHandler<ActionEvent> h) {
-//		this.modalPane.showDialog(new YesNoDialog(title, message, h)); // TODO
+		// this.modalPane.showDialog(new YesNoDialog(title, message, h)); //
+		// TODO
 	}
 
 	/**
@@ -58,7 +60,7 @@ public final class DialogManagerImpl implements DialogManager {
 	 *            dialog message
 	 */
 	public void showWarning(String title, String message) {
-//		this.modalPane.showDialog(new WarningDialog(title, message)); // TODO
+		// this.modalPane.showDialog(new WarningDialog(title, message)); // TODO
 	}
 
 	/**
@@ -70,7 +72,7 @@ public final class DialogManagerImpl implements DialogManager {
 	 *            dialog message
 	 */
 	public void showError(String title, String message) {
-//		this.modalPane.showDialog(new ErrorDialog(title, message)); // TODO
+		// this.modalPane.showDialog(new ErrorDialog(title, message)); // TODO
 	}
 
 	/**
@@ -84,7 +86,8 @@ public final class DialogManagerImpl implements DialogManager {
 	 *            throwable
 	 */
 	public void showThrowable(String title, String message, Throwable t) {
-//		this.modalPane.showDialog(new ThrowableDialog(title, message, t)); // TODO
+		// this.modalPane.showDialog(new ThrowableDialog(title, message, t)); //
+		// TODO
 	}
 
 	/**

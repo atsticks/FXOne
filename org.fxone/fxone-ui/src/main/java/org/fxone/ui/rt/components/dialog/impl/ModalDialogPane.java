@@ -22,9 +22,6 @@
  ************************************************************************/
 package org.fxone.ui.rt.components.dialog.impl;
 
-import org.fxone.ui.rt.components.dialog.Dialog;
-import org.fxone.ui.rt.components.dialog.DialogContainer;
-
 import javafx.animation.Animation.Status;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -34,10 +31,12 @@ import javafx.animation.TimelineBuilder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+
+import org.fxone.ui.rt.components.dialog.Dialog;
+import org.fxone.ui.rt.components.dialog.DialogContainer;
 
 /**
  * The Class ModalDialogPane.
@@ -76,13 +75,12 @@ public class ModalDialogPane extends StackPane implements DialogContainer {
 			getHideTimeline().stop();
 		}
 		this.getChildren().clear();
-		this.getChildren().add(dialog.getUI());
+		this.getChildren().add((Node) dialog);
 		this.setOpacity(0);
 		dialog.beforeOpen(this);
 		this.setVisible(true);
 		this.setCache(true);
-		((GaussianBlur) root.getEffect())
-				.setRadius(this.MAX_BLUR);
+		((GaussianBlur) root.getEffect()).setRadius(this.MAX_BLUR);
 
 		getShowTimeline().play();
 	}
@@ -96,8 +94,7 @@ public class ModalDialogPane extends StackPane implements DialogContainer {
 									@Override
 									public void handle(final ActionEvent t) {
 										ModalDialogPane.this.setCache(false);
-										ModalDialogPane.this
-												.setVisible(false);
+										ModalDialogPane.this.setVisible(false);
 									}
 								}, new KeyValue(this.opacityProperty(), 0,
 										Interpolator.EASE_BOTH))).build()

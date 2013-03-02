@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import org.fxone.core.cdi.Container;
 import org.fxone.ui.model.msg.ResourceProvider;
 import org.fxone.ui.model.nav.UICommand;
-import org.fxone.ui.model.workbench.WorkbenchCommands;
+import org.fxone.ui.model.workbench.cmd.WorkbenchCommands;
 
 public class CommandButton extends MenuButton {
 

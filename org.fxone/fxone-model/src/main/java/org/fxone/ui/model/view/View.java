@@ -1,12 +1,10 @@
 package org.fxone.ui.model.view;
 
-import org.fxone.core.types.Identifiable;
 
 
-public interface View extends Identifiable{
 
-	public String getViewContainerID();
-	
+public interface View{
+
 	void init(ViewContext viewContext);
 	
 	void opened();
@@ -14,5 +12,5 @@ public interface View extends Identifiable{
 	boolean canClose();
 
 	void closed();
-
+	
 }

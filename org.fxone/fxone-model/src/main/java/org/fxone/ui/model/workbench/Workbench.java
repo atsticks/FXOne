@@ -1,5 +1,7 @@
 package org.fxone.ui.model.workbench;
 
+import java.util.Enumeration;
+
 import org.fxone.ui.model.perspective.Perspective;
 
 public interface Workbench {
@@ -12,14 +14,14 @@ public interface Workbench {
 
 	public void centerOnScreen();
 
-	public String[] getPerspectives();
-	
-	public Perspective getPerspective(String key);
-	
-	public Perspective getCurrentPerspective();
+	public Enumeration<Perspective> getPerspectives();
+
+	public Perspective<?> getPerspective(String key);
+
+	public Perspective<?> getCurrentPerspective();
 
 	public boolean setCurrentPerspective(String perspectiveID);
 
 	void setDefaultPerspective();
-	
+
 }

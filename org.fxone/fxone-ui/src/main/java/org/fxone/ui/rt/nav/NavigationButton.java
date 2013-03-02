@@ -13,7 +13,7 @@ import org.fxone.ui.model.nav.NavigationArea;
 import org.fxone.ui.model.nav.NavigationHistory;
 import org.fxone.ui.model.nav.cmd.Navigation;
 import org.fxone.ui.model.nav.cmd.NavigationEvent;
-import org.fxone.ui.model.workbench.WorkbenchCommands;
+import org.fxone.ui.model.workbench.cmd.WorkbenchCommands;
 
 public class NavigationButton extends MenuButton {
 

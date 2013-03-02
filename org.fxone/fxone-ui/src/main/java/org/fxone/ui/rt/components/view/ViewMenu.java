@@ -1,6 +1,5 @@
 package org.fxone.ui.rt.components.view;
 
-import java.util.Collection;
 import java.util.Locale;
 
 import javafx.scene.control.Menu;
@@ -14,6 +13,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.fxone.core.cdi.Container;
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
@@ -60,7 +60,7 @@ public class ViewMenu extends MenuButton implements NotificationListener {
 			// Add views to be selected...
 			Locale userLocale = Locale.ENGLISH; // TODO i18n
 			for (View v : currentViews) {
-				RadioMenuItem mi = new RadioMenuItem(resourceProvider.getName(v.getIdentifier(), userLocale));
+				RadioMenuItem mi = new RadioMenuItem(resourceProvider.getName(Container.getName(v), userLocale));
 				mi.setUserData(v);
 				if (v == currentView) {
 					mi.setSelected(true);

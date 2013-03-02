@@ -17,7 +17,7 @@ import org.fxone.ui.rt.components.layout.VSpacer;
 public class HeaderToolbar extends VBox {
 	
 	@Inject
-	public HeaderToolbar(@Named("header-links") Node headerLinks, @Named("header-menu") Node headerMenu) {
+	public HeaderToolbar(@Named("header-linkbar") Node headerLinks, @Named("header-menu") Node headerMenu) {
 		setId("header-toolbar");
 		setAlignment(Pos.BASELINE_RIGHT);
 		VSpacer spacer = new VSpacer();

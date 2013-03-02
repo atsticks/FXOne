@@ -21,7 +21,7 @@ public class HeaderLinkbar extends HBox {
 	
 	@Inject
 	public HeaderLinkbar(NavigationManager man, ViewMenu viewMenu, Instance<HeaderCommand> headerCommands) {
-		setId("header-links");
+		setId("header-linkbar");
 		setAlignment(Pos.BASELINE_RIGHT);
 		for (HeaderCommand cmd : headerCommands) {
 			getChildren().add(new CommandLink(cmd));

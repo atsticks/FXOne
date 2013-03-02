@@ -4,11 +4,13 @@ package org.fxone.ui.rt.components.view;
   * Copyright (c) 2008, 2011 Oracle and/or its affiliates.
   * All rights reserved. Use is subject to license terms.
   */
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 
-import org.fxone.ui.model.view.AbstractView;
+import org.fxone.ui.model.view.View;
+import org.fxone.ui.model.view.ViewContext;
 
-public class WebPage extends AbstractView {
+public class WebPage extends AnchorPane implements View {
 
 	private String location;
 	private WebView view = new WebView();
@@ -18,10 +20,14 @@ public class WebPage extends AbstractView {
 	}
 	
 	public WebPage(String pageId, String location) {
-		super(location);
 		if(location==null){
 			throw new IllegalArgumentException("location is null.");
 		}
+		getChildren().add(view);
+		AnchorPane.setBottomAnchor(view, 0d);
+		AnchorPane.setTopAnchor(view, 0d);
+		AnchorPane.setRightAnchor(view, 0d);
+		AnchorPane.setLeftAnchor(view, 0d);
 		setLocation(location);
 	}
 
@@ -48,8 +54,20 @@ public class WebPage extends AbstractView {
 	}
 
 	@Override
-	public Object getUI() {
-		return this.view;
+	public void init(ViewContext viewContext) {
+	}
+
+	@Override
+	public void opened() {
+	}
+
+	@Override
+	public boolean canClose() {
+		return true;
+	}
+
+	@Override
+	public void closed() {
 	}
 
 	
