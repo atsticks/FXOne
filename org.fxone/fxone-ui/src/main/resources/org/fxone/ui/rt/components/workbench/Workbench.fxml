@@ -11,31 +11,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
-<?import org.fxone.ui.rt.components.clocks.SimpleLabelClock?>
 <?import org.fxone.ui.rt.components.workbench.*?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="800" prefHeight="1400" prefWidth="1600" styleClass="rootLayout" xmlns:fx="http://javafx.com/fxml">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" prefHeight="768.0" prefWidth="1024.0" styleClass="rootLayout" xmlns:fx="http://javafx.com/fxml">
   <children>
-    <BorderPane fx:id="rootLayout" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefHeight="160.0" prefWidth="2000.0">
+    <BorderPane fx:id="rootLayout" minWidth="1033.0" prefHeight="1081.0" prefWidth="1033.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
       <bottom>
-        <BorderPane fx:id="Footer_BorderPane" prefHeight="160.0" prefWidth="2000.0">
-          <center> 
-                <MessagePane fx:id="MessageTickerPane" prefHeight="160.0" minHeight="80.0" maxHeight="-Infinity"/>
-          </center>
+        <BorderPane fx:id="Footer_BorderPane" maxHeight="25.0" maxWidth="1.7976931348623157E308" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="-1.0">
           <left>
-            <StatusPane fx:id="StatusPane" prefHeight="150.0" prefWidth="200.0" />
+            <Label fx:id="statusLabel" prefHeight="40.0" prefWidth="200.0" />
           </left>
           <right>
-            <InfoPane fx:id="InfoPane" prefHeight="150.0" prefWidth="200.0" />
+            <Label fx:id="infoLabel" prefHeight="150.0" prefWidth="200.0" />
           </right>
           <top>
-            <Line fx:id="Footer_SeparatorLine" stroke="$x2" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="1.0" BorderPane.alignment="CENTER_LEFT">
+            <Line fx:id="Footer_SeparatorLine" endX="980.0" stroke="$x2" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="1.0" BorderPane.alignment="TOP_CENTER">
               <effect>
                 <GaussianBlur radius="2.539473684210526" />
               </effect>
-              <endX>
-                <Long fx:value="1227" />
-              </endX>
               <endY>
                 <Long fx:value="0" />
               </endY>
@@ -64,77 +57,94 @@
           </top>
         </BorderPane>
       </bottom>
+      <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+          <children>
+            <SplitPane fx:id="splitPane" dividerPositions="0.26272912423625255" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane fx:id="leftSplitPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <padding>
+                    <Insets top="10.0" />
+                  </padding>
+                </AnchorPane>
+                <AnchorPane id="splitPane" fx:id="rightSplitPane" minHeight="0.0" minWidth="0.0" prefHeight="596.0" prefWidth="762.0">
+                  <padding>
+                    <Insets fx:id="x1" />
+                  </padding>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </children>
+          <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+          </BorderPane.margin>
+        </AnchorPane>
+      </center>
       <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
       </padding>
-      <prefHeight>
-        <Long fx:value="1200" />
-      </prefHeight>
-      <prefWidth>
-        <Long fx:value="1400" />
-      </prefWidth>
       <top>
-      <StackPane fx:id="Content_Header_StackPane" alignment="TOP_CENTER">
+        <VBox id="headerBox" prefHeight="-1.0" prefWidth="-1.0">
           <children>
-            	<HBox fx:id="header" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="1225.0" BorderPane.alignment="TOP_LEFT">
-		          <children>
-		            <HBox id="areaTitleBox" fx:id="areaTitleBox" alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="NEVER">
-		              <children>
-		                <ImageView fx:id="areaLogo" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
-		                  <effect>
-		                    <DropShadow color="#fffdcc" height="41.0" offsetX="3.0" offsetY="3.0" radius="20.0" width="41.0" />
-		                  </effect>
-		                  <fitHeight>
-		                    <Long fx:value="32" />
-		                  </fitHeight>
-		                  <fitWidth>
-		                    <Long fx:value="32" />
-		                  </fitWidth>
-		                  <image>
-		                    <Image url="@/img/32x32/Home.png" preserveRatio="false" smooth="false" />
-		                  </image>
-		                </ImageView>
-		                <Line fx:id="areaSeparator" stroke="WHITE" strokeWidth="2.5" styleClass="areaSeparator" HBox.hgrow="NEVER">
-		                  <endX>
-		                    <Long fx:value="100" />
-		                  </endX>
-		                  <startX>
-		                    <Long fx:value="100" />
-		                  </startX>
-		                  <startY>
-		                    <Long fx:value="-35" />
-		                  </startY>
-		                  <HBox.margin>
-		                    <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
-		                  </HBox.margin>
-		                </Line>
-		                <Label fx:id="areaTitle" id="areaTitle" styleClass="areaTitle" text="Homemotion" HBox.hgrow="NEVER">
-		                  <HBox.margin>
-		                    <Insets fx:id="x1" />
-		                  </HBox.margin>
-		                </Label>
-		              </children>
-		              <prefHeight>
-		                <Long fx:value="-1" />
-		              </prefHeight>
-		              <prefWidth>
-		                <Long fx:value="-1" />
-		              </prefWidth>
-		              <HBox.margin>
-		                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-		              </HBox.margin>
-		            </HBox>
-		            <Label fx:id="viewTitle" alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="viewTitle" text="HOME" HBox.hgrow="ALWAYS">
-		              <graphicTextGap>
-		                <Long fx:value="4" />
-		              </graphicTextGap>
-		              <HBox.margin>
-		                <Insets top="35.0" />
-		              </HBox.margin>
-		            </Label>
-		            <VBox fx:id="timeBox" alignment="TOP_RIGHT" fillWidth="false" minHeight="64.99990844726562" prefHeight="64.99990844726562" HBox.hgrow="NEVER">
-		              <children>
-		                <SimpleLabelClock fx:id="Clock" alignment="TOP_RIGHT" contentDisplay="TEXT_ONLY" styleClass="timeLabel" text="00:00 h" textAlignment="RIGHT" VBox.vgrow="NEVER">
+            <HBox fx:id="workbenchHeader" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="1225.0">
+              <children>
+                <HBox id="workbenchTitleBox" fx:id="areaTitleBox" alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="NEVER">
+                  <children>
+                    <ImageView fx:id="logo" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                      <effect>
+                        <DropShadow color="#fffdcc" height="41.0" offsetX="3.0" offsetY="3.0" radius="20.0" width="41.0" />
+                      </effect>
+                      <fitHeight>
+                        <Long fx:value="32" />
+                      </fitHeight>
+                      <fitWidth>
+                        <Long fx:value="32" />
+                      </fitWidth>
+                      <image>
+                        <Image url="@/img/32x32/Home.png" preserveRatio="false" smooth="false" />
+                      </image>
+                    </ImageView>
+                    <Line fx:id="workbenchTitleSeparator" stroke="WHITE" strokeWidth="2.5" styleClass="workbenchTitleSeparator" HBox.hgrow="NEVER">
+                      <endX>
+                        <Long fx:value="100" />
+                      </endX>
+                      <startX>
+                        <Long fx:value="100" />
+                      </startX>
+                      <startY>
+                        <Long fx:value="-35" />
+                      </startY>
+                      <HBox.margin>
+                        <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
+                      </HBox.margin>
+                    </Line>
+                    <Label id="areaTitle" fx:id="workbenchTitle" styleClass="workbenchTitle" text="FXOne Sample Workbench" HBox.hgrow="NEVER">
+                      <HBox.margin>
+                        <Insets fx:id="x1" />
+                      </HBox.margin>
+                    </Label>
+                  </children>
+                  <prefHeight>
+                    <Long fx:value="-1" />
+                  </prefHeight>
+                  <prefWidth>
+                    <Long fx:value="-1" />
+                  </prefWidth>
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+                </HBox>
+                <Label fx:id="workbenchTopTitle" alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="workbenchTopTitle" text=" " HBox.hgrow="ALWAYS">
+                  <graphicTextGap>
+                    <Long fx:value="4" />
+                  </graphicTextGap>
+                  <HBox.margin>
+                    <Insets top="35.0" />
+                  </HBox.margin>
+                </Label>
+                <VBox fx:id="workbenchTimeBox" alignment="TOP_RIGHT" fillWidth="false" minHeight="64.99990844726562" prefHeight="64.99990844726562" HBox.hgrow="NEVER">
+                  <children>
+                    <!-- SimpleLabelClock fx:id="Clock" alignment="TOP_RIGHT" contentDisplay="TEXT_ONLY" styleClass="timeLabel" text="00:00 h" textAlignment="RIGHT" VBox.vgrow="NEVER">
 		                  <graphicTextGap>
 		                    <Long fx:value="4" />
 		                  </graphicTextGap>
@@ -142,48 +152,41 @@
 		                    <Insets fx:id="x1" />
 		                  </VBox.margin>
 		                </SimpleLabelClock>
-		                <ChoiceBox fx:id="buildingChoice" id="buildingChoice" maxWidth="1.7976931348623157E308" styleClass="buildingLabel" VBox.vgrow="NEVER">
-		                  <items>
-		                    <FXCollections fx:factory="observableArrayList">
-		                      <String fx:value="Item 1" />
-		                      <String fx:value="Item 2" />
-		                      <String fx:value="Item 3" />
-		                    </FXCollections>
-		                  </items>
-		                  <minWidth>
-		                    <Long fx:value="200" />
-		                  </minWidth>
-		                  <prefWidth>
-		                    <Long fx:value="200" />
-		                  </prefWidth>
-		                  <VBox.margin>
-		                    <Insets bottom="4.0" left="10.0" top="4.0" />
-		                  </VBox.margin>
-		                </ChoiceBox>
-		                <Hyperlink fx:id="userLink" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" text="Not logged in..." textAlignment="RIGHT" textFill="WHITE" VBox.vgrow="ALWAYS">
-		                  <graphicTextGap>
-		                    <Long fx:value="4" />
-		                  </graphicTextGap>
-		                  <VBox.margin>
-		                    <Insets bottom="10.0" />
-		                  </VBox.margin>
-		                </Hyperlink>
-		              </children>
-		              <prefWidth>
-		                <Long fx:value="-1" />
-		              </prefWidth>
-		            </VBox>
-		          </children>
-		          <minHeight>
-		            <Long fx:value="65" />
-		          </minHeight>
-		          <BorderPane.margin>
-		            <Insets bottom="8.0" />
-		          </BorderPane.margin>
-		        </HBox>
-		        <Toolbar fx:id="toolbar" maxHeight="20.0" maxWidth="400" prefHeight="20.0" prefWidth="400" BorderPane.alignment="TOP_CENTER"/>
-        </children>
-        </StackPane>
+		                 -->
+                  </children>
+                  <prefWidth>
+                    <Long fx:value="-1" />
+                  </prefWidth>
+                </VBox>
+              </children>
+              <effect>
+                <Shadow blurType="ONE_PASS_BOX" color="#6400a8" height="1.0" radius="0.0" width="1.0" />
+              </effect>
+              <minHeight>
+                <Long fx:value="65" />
+              </minHeight>
+            </HBox>
+            <MenuBar fx:id="menubar">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem id="showMessageHistoryMenuItem" mnemonicParsing="false" text="Show Message History" fx:id="showMessageHistoryMenuItem" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+          </children>
+        </VBox>
       </top>
     </BorderPane>
   </children>

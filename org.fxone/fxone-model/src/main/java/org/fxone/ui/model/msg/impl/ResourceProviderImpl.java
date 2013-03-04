@@ -9,10 +9,8 @@ import java.util.ResourceBundle;
 import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
-import org.fxone.core.events.EventGroup;
 import org.fxone.core.events.Notification;
-import org.fxone.core.events.NotificationDefinition;
-import org.fxone.core.events.NotificationRegistry;
+import org.fxone.core.events.NotificationType;
 import org.fxone.core.events.Severity;
 import org.fxone.ui.model.msg.ResourceProvider;
 
@@ -29,28 +27,23 @@ public final class ResourceProviderImpl implements ResourceProvider {
 	private static final String BASE128 = "128x128/";
 	private static final String BASESCALABLE = "scalable/";
 
-	private NotificationDefinition def;
-	
-	public ResourceProviderImpl() {
-		def = new NotificationDefinition(EventGroup.UI.toString(),
-				"Resource:getMessage",
-				"Access a message using the application's UI bundle.",
-				Severity.DEBUG);
-		def.defineParameter("message", String.class);
-		def.defineParameter("contextData", Object[].class);
-		NotificationRegistry.get().registerEventDefinition(def);
-	}
+	private static NotificationType GET_MESSAGE_NOTIF = new NotificationType.Builder(
+			"UI", "Resource:getMessage",
+			"Access a message using the application's UI bundle.",
+			Severity.DEBUG).defineParameter("message", String.class)
+			.defineParameter("contextData", Object[].class)
+			.addResult(String.class).buildAndRegister();
 
 	@Override
-	public String getMessage(String key, Locale locale,
-			Object... contextData) {
+	public String getMessage(String key, Locale locale, Object... contextData) {
 		return getMessage("translations", key, locale, contextData);
 	}
 
 	@Override
 	public String getMessage(String family, String key, Locale locale,
 			Object... contextData) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family),
+				locale);
 		try {
 			String msg = null;
 			String accessKey = family + '.' + key;
@@ -71,25 +64,28 @@ public final class ResourceProviderImpl implements ResourceProvider {
 	}
 
 	public void notified(Notification n) {
-		if (n.getEventTypeID()==this.def.getID()) {
-			String family = n.getData("family", String.class);
-			String key = n.getData("key", String.class);
+		if (GET_MESSAGE_NOTIF.isMatching(n)) {
+			String family = n.getAttribute("family", String.class);
+			String key = n.getAttribute("key", String.class);
 			Locale locale = Locale.getDefault();
-			if (n.getData("locale", Locale.class)!=null) {
-				locale = (Locale) n.getData("locale", Locale.class);
+			if (n.getAttribute("locale", Locale.class) != null) {
+				locale = (Locale) n.getAttribute("locale", Locale.class);
 			}
-			Object[] contextData = n.getData("contextData", Object[].class);
-			if(contextData==null) {
+			Object[] contextData = n
+					.getAttribute("contextData", Object[].class);
+			if (contextData == null) {
 				contextData = new Object[0];
 			}
-			n.setData("result", getMessage(family, key, locale, contextData));
+			n.getAttribute("returnResult",
+					getMessage(family, key, locale, contextData));
 			n.setCompleted();
 		}
 	}
 
 	@Override
 	public String getIconScalable(String family, String key, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family),
+				locale);
 		String accessKey = family + '.' + key + ".iconScalable";
 		if (family != null && bundle.containsKey(accessKey)) {
 			String path = bundle.getString(accessKey);
@@ -117,7 +113,8 @@ public final class ResourceProviderImpl implements ResourceProvider {
 
 	@Override
 	public String getIcon16(String family, String key, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family),
+				locale);
 		String accessKey = family + '.' + key + ".icon16";
 		if (family != null && bundle.containsKey(accessKey)) {
 			String path = bundle.getString(accessKey);
@@ -143,10 +140,10 @@ public final class ResourceProviderImpl implements ResourceProvider {
 		return getIconScalable(family, key, locale);
 	}
 
-
 	@Override
 	public String getIcon32(String family, String key, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family),
+				locale);
 		String accessKey = family + '.' + key + ".icon32";
 		if (family != null && bundle.containsKey(accessKey)) {
 			String path = bundle.getString(accessKey);
@@ -174,7 +171,8 @@ public final class ResourceProviderImpl implements ResourceProvider {
 
 	@Override
 	public String getIcon48(String family, String key, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family),
+				locale);
 		String accessKey = family + '.' + key + ".icon48";
 		if (family != null && bundle.containsKey(accessKey)) {
 			String path = bundle.getString(accessKey);
@@ -200,10 +198,10 @@ public final class ResourceProviderImpl implements ResourceProvider {
 		return getIcon32(family, key, locale);
 	}
 
-
 	@Override
 	public String getIcon64(String family, String key, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family),
+				locale);
 		String accessKey = family + '.' + key + ".icon64";
 		if (family != null && bundle.containsKey(accessKey)) {
 			String path = bundle.getString(accessKey);
@@ -229,10 +227,10 @@ public final class ResourceProviderImpl implements ResourceProvider {
 		return getIcon48(family, key, locale);
 	}
 
-
 	@Override
 	public String getIcon128(String family, String key, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family),
+				locale);
 		String accessKey = family + '.' + key + ".icon128";
 		if (family != null && bundle.containsKey(accessKey)) {
 			String path = bundle.getString(accessKey);
@@ -258,10 +256,10 @@ public final class ResourceProviderImpl implements ResourceProvider {
 		return getIcon64(family, key, locale);
 	}
 
-
 	@Override
 	public String getImage(String family, String key, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName(family),
+				locale);
 		String accessKey = family + '.' + key + ".image";
 		if (family != null && bundle.containsKey(accessKey)) {
 			return bundle.getString(accessKey);
@@ -276,7 +274,8 @@ public final class ResourceProviderImpl implements ResourceProvider {
 
 	@Override
 	public String getName(Class<?> adapterClass, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName("classes"), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(
+				getBundleName("classes"), locale);
 		String accessKey = adapterClass.getName() + ".name";
 		if (bundle.containsKey(accessKey)) {
 			return bundle.getString(accessKey);
@@ -287,17 +286,19 @@ public final class ResourceProviderImpl implements ResourceProvider {
 
 	@Override
 	public String getDescription(Class<?> adapterClass, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(getBundleName("classes"), locale);
+		ResourceBundle bundle = ResourceBundle.getBundle(
+				getBundleName("classes"), locale);
 		String accessKey = adapterClass.getName() + ".description";
 		if (bundle.containsKey(accessKey)) {
 			return bundle.getString(accessKey);
 		}
-		LOGGER.debug("Description 'i18n/ui' for key '" + accessKey + "' not found");
+		LOGGER.debug("Description 'i18n/ui' for key '" + accessKey
+				+ "' not found");
 		return adapterClass.getSimpleName();
 	}
 
 	public String getBundleName(String name) {
-		return "i18n/"+name;
+		return "i18n/" + name;
 	}
 
 	@Override

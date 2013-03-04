@@ -1,7 +1,7 @@
 package org.fxone.core.events;
 
 @SuppressWarnings("rawtypes")
-public class ParamDef {
+class ParamDef {
 
 	private String name;
 	private Class type;

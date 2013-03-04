@@ -12,7 +12,7 @@ import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
 import org.fxone.ui.annot.UIComponent;
-import org.fxone.ui.model.workbench.cmd.WorkbenchEvent;
+import org.fxone.ui.model.workbench.WorkbenchEvent;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
 import com.sun.javafx.tk.Toolkit;
@@ -39,7 +39,6 @@ public class StatusPane extends AbstractFXMLComponent implements
 		if (WorkbenchEvent.NOTIFTYPE_SETSTATUS.isMatching(notif)) {
 			WorkbenchEvent evt = (WorkbenchEvent) notif;
 			setStatus(evt.getValue());
-			notif.setHandledBy(this);
 		}
 	}
 

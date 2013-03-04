@@ -3,9 +3,9 @@ package org.fxone.ui.model.workbench.cmd;
 import java.util.concurrent.Future;
 
 import org.fxone.core.events.Notification;
-import org.fxone.core.events.NotificationDefinition;
-import org.fxone.core.events.NotificationDefinitionFactory;
 import org.fxone.core.events.NotificationService;
+import org.fxone.core.events.NotificationType;
+import org.fxone.ui.model.workbench.WorkbenchEvent;
 
 public class WorkbenchCommands extends Notification {
 
@@ -14,7 +14,7 @@ public class WorkbenchCommands extends Notification {
 	 */
 	private static final long serialVersionUID = 1131749928750548590L;
 
-	private WorkbenchCommands(NotificationDefinition def) {
+	private WorkbenchCommands(NotificationType def) {
 		super(def);
 	}
 
@@ -31,7 +31,7 @@ public class WorkbenchCommands extends Notification {
 	public static Future<WorkbenchEvent> setAreaSubTitle(String title) {
 		WorkbenchEvent notif = new WorkbenchEvent(
 				WorkbenchEvent.NOTIFTYPE_SET_AREA_SUBTITLE);
-		notif.setData(NotificationDefinitionFactory.VALUE, title);
+		notif.setAttribute(SIMPLE_VALUE, title);
 		return NotificationService.get().publishEvent(notif, WorkbenchEvent.class);
 	}
 
@@ -65,13 +65,13 @@ public class WorkbenchCommands extends Notification {
 	}
 
 	public String getValue() {
-		return getData(NotificationDefinitionFactory.VALUE, String.class);
+		return getAttribute(SIMPLE_VALUE, String.class);
 	}
 
 	public static WorkbenchEvent createSetAreaDescriptionNotif(String value) {
 		WorkbenchEvent notif = new WorkbenchEvent(
 				WorkbenchEvent.NOTIFTYPE_SET_AREA_DESCRIPTION);
-		notif.setData(NotificationDefinitionFactory.VALUE, value);
+		notif.setAttribute(SIMPLE_VALUE, value);
 		return notif;
 	}
 
@@ -84,20 +84,20 @@ public class WorkbenchCommands extends Notification {
 	public static WorkbenchEvent createSetAreaTitleNotif(String value) {
 		WorkbenchEvent notif = new WorkbenchEvent(
 				WorkbenchEvent.NOTIFTYPE_SET_AREA_TITLE);
-		notif.setData(NotificationDefinitionFactory.VALUE, value);
+		notif.setAttribute(SIMPLE_VALUE, value);
 		return notif;
 	}
 
 	public static WorkbenchEvent createSetTitleNotif(String value) {
 		WorkbenchEvent notif = new WorkbenchEvent(
 				WorkbenchEvent.NOTIFTYPE_SET_TITLE);
-		notif.setData(NotificationDefinitionFactory.VALUE, value);
+		notif.setAttribute(SIMPLE_VALUE, value);
 		return notif;
 	}
 	
 	public static Future<WorkbenchEvent> setSceneInfo(String info) {
 		WorkbenchEvent notif = new WorkbenchEvent(WorkbenchEvent.NOTIFTYPE_SETINFO);
-		notif.setData(NotificationDefinitionFactory.VALUE, info);
+		notif.setAttribute(SIMPLE_VALUE, info);
 		return NotificationService.get().publishEvent(notif, WorkbenchEvent.class);
 	}
 

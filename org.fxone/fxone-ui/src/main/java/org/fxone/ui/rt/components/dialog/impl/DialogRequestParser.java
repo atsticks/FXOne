@@ -1,10 +1,12 @@
-package org.fxone.ui.rt.components.dialog.cmd;
+package org.fxone.ui.rt.components.dialog.impl;
 
 import org.apache.log4j.Logger;
 import org.fxone.core.annot.NotificationExtension;
 import org.fxone.core.events.AbstractNotificationConsumer;
 import org.fxone.core.events.Notification;
 import org.fxone.ui.rt.components.dialog.Dialog;
+import org.fxone.ui.rt.components.dialog.DialogEvent;
+import org.fxone.ui.rt.components.dialog.cmd.Dialogs;
 
 @NotificationExtension
 public final class DialogRequestParser extends AbstractNotificationConsumer {
@@ -13,16 +15,16 @@ public final class DialogRequestParser extends AbstractNotificationConsumer {
 	@Override
 	public Notification parseNotification(ParseResult result) {
 		if (result.group != null
-				&& (!DialogRequest.NOTIFTYPE_OPEN.getGroup().equals(
+				&& (!DialogEvent.NOTIFTYPE_OPEN.getGroup().equals(
 						result.group))) {
 			return null;
 		}
 		try {
-//			if (result.name.equals(DialogRequest.NOTIFTYPE_OPEN.getName())) {
+//			if (result.name.equals(DialogEvent.NOTIFTYPE_OPEN.getName())) {
 //				Dialog dialog = (Dialog) result.params.get("dialog");
 //				return Dialogs.createOpenDialogNotif(dialog);
 //			} else 
-				if (result.name.equals(DialogRequest.NOTIFTYPE_CLOSEALL
+				if (result.name.equals(DialogEvent.NOTIFTYPE_CLOSEALL
 					.getName())) {
 				String forceValue = result.params.get("force");
 				if (forceValue != null) {
@@ -31,7 +33,7 @@ public final class DialogRequestParser extends AbstractNotificationConsumer {
 				}
 				return Dialogs.createCloseAllDialogsNotif();
 //			} else {
-//				if (result.name.equals(DialogRequest.NOTIFTYPE_CLOSE.getName())) {
+//				if (result.name.equals(DialogEvent.NOTIFTYPE_CLOSE.getName())) {
 //					String forceValue = result.params.get("force");
 //					if (forceValue != null) {
 //						return Dialogs.createCloseDialogNotif(Boolean

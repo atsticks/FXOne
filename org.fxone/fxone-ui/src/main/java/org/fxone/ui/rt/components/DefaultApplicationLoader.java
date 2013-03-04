@@ -44,12 +44,14 @@ public class DefaultApplicationLoader implements ApplicationLoader {
 				try {
 					if(splashScreen!=null){
 						splashScreen.updateProgress("Loading application container...", 40);
+						Thread.sleep(500L);
 					}
 //					ApplicationContainer applicationContainer = new ApplicationContainerImpl();
 //					ApplicationContainer result = Context.getInstance(
 //							ApplicationContainer.class, false);
 					if(splashScreen!=null){
-						splashScreen.updateProgress("Initializing Maina UI...", 50);
+						splashScreen.updateProgress("Initializing Maina UI...", 70);
+						Thread.sleep(500L);
 					}
 //					MainScene applicationScene = new MainScene(primaryGroup,
 //							applicationContainer); // (DialogRootPane) dlogMan, 
@@ -57,18 +59,22 @@ public class DefaultApplicationLoader implements ApplicationLoader {
 //					ViewTitle viewTitle = new ViewInfoAreaAdapter(
 //							applicationScene.getNode());
 					if(splashScreen!=null){
-						splashScreen.updateProgress("Application started.", 100);
+						splashScreen.updateProgress("Application started.", 95);
+						Thread.sleep(500L);
 					}
 					// Showing up UI
 					Thread.sleep(500L);
 					if(splashScreen!=null){
 						splashScreen.setFinished();
+						Thread.sleep(500L);
 					}
 					Workbench workbench = Container.getInstance(Workbench.class);
 					primaryStage.setScene(((Node)workbench).getScene());
 					primaryStage.hide();
 					primaryStage.sizeToScene();
 					primaryStage.initStyle(StageStyle.DECORATED);
+					primaryStage.setHeight(600d);
+					primaryStage.setWidth(800d);
 					primaryStage.show();
 				} catch (Exception e) {
 					System.err.println("Failed to switch UI:");

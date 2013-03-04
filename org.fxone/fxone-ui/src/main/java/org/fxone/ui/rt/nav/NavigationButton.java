@@ -10,9 +10,9 @@ import org.apache.log4j.Logger;
 import org.fxone.core.cdi.Container;
 import org.fxone.ui.model.msg.ResourceProvider;
 import org.fxone.ui.model.nav.NavigationArea;
+import org.fxone.ui.model.nav.NavigationEvent;
 import org.fxone.ui.model.nav.NavigationHistory;
 import org.fxone.ui.model.nav.cmd.Navigation;
-import org.fxone.ui.model.nav.cmd.NavigationEvent;
 import org.fxone.ui.model.workbench.cmd.WorkbenchCommands;
 
 public class NavigationButton extends MenuButton {

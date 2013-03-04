@@ -1,13 +1,9 @@
 package org.fxone.ui.model.nav.cmd;
 
-import java.util.Locale;
 import java.util.concurrent.Future;
 
-import org.fxone.core.cdi.Container;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.model.nav.NavigationArea;
-import org.fxone.ui.model.nav.NavigationManager;
-import org.fxone.ui.model.workbench.cmd.WorkbenchCommands;
+import org.fxone.ui.model.nav.NavigationEvent;
 
 public final class Navigation {
 
@@ -48,7 +44,7 @@ public final class Navigation {
 
 	public static NavigationEvent createNavigateToNotif(String target) {
 		NavigationEvent notif = new NavigationEvent(NavigationEvent.NOTIFTYPE_NAVIGATE_TO);
-		notif.setTarget(target);
+		notif.setNavigationTarget(target);
 		return notif;
 	}
 
@@ -61,14 +57,14 @@ public final class Navigation {
 	public static Future<NavigationEvent> navigateToL1(String target) {
 		NavigationEvent notif = new NavigationEvent(
 				NavigationEvent.NOTIFTYPE_NAVIGATE_TO_L1);
-		notif.setTarget(target);
+		notif.setNavigationTarget(target);
 		return NotificationService.get().publishEvent(notif,NavigationEvent.class);
 	}
 
 	public static Future<NavigationEvent> navigateToL2(String target) {
 		NavigationEvent notif = new NavigationEvent(
 				NavigationEvent.NOTIFTYPE_NAVIGATE_TO_L2);
-		notif.setTarget(target);
+		notif.setNavigationTarget(target);
 		return NotificationService.get().publishEvent(notif,NavigationEvent.class);
 	}
 
@@ -95,7 +91,7 @@ public final class Navigation {
 	public static NavigationEvent createNavigateToViewNotif(String target) {
 		NavigationEvent notif = new NavigationEvent(
 				NavigationEvent.NOTIFTYPE_NAVIGATE_TOVIEW);
-		notif.setTarget(target);
+		notif.setNavigationTarget(target);
 		return notif;
 	}
 	

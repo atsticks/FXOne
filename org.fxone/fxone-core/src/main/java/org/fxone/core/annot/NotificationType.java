@@ -5,12 +5,12 @@ package org.fxone.core.annot;
 //import java.lang.annotation.RetentionPolicy;
 //import java.lang.annotation.Target;
 //
-//import org.fxone.core.events.EventGroup;
+//import org.fxone.core.events.NotificationGroup;
 //
 //@Retention(RetentionPolicy.RUNTIME)
 //@Target(value = { ElementType.METHOD })
 //public @interface NotificationType {
-//	EventGroup eventGroup() default EventGroup.UI;
+//	NotificationGroup eventGroup() default NotificationGroup.UI;
 //
 //	String id();
 //	

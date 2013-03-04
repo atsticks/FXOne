@@ -10,11 +10,7 @@ public final class DefaultMessageConsumer extends AbstractNotificationConsumer {
 
 	@Override
 	public Notification parseNotification(ParseResult result) {
-		if (result.group != null
-				&& !Message.NOTIFICATION_DEF.getGroup().equals(result.group)) {
-			return null;
-		}
-		if (result.name.equals(Message.NOTIFICATION_DEF.getName())) {
+		if (Message.NOTIFICATION_DEF.isMatching(result)) {
 			String message = (String) result.params.get("message");
 			String severity = (String) result.params.get("severity");
 			if (message == null || message.isEmpty()) {

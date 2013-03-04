@@ -19,7 +19,7 @@ import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
 import org.fxone.ui.model.msg.ResourceProvider;
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.cmd.ViewCommand;
+import org.fxone.ui.model.view.ViewCommand;
 
 @Dependent
 @Named("view-menu")
@@ -100,8 +100,8 @@ public class ViewMenu extends MenuButton implements NotificationListener {
 	}
 
 	public void notified(Notification event) {
-		ViewCommand ve = event.getAdapter(ViewCommand.class);
-		if (ve.getName().equals(ViewCommand.NOTIFTYPE_VIEW_CLOSED.getName())) {
+		if (ViewCommand.NOTIFTYPE_VIEW_CLOSED.isMatching(event)) {
+			ViewCommand ve = event.getAdapter(ViewCommand.class);
 			View[] currentViews = ve.getViewContainer().getViewsVisible();
 			if (currentViews.length==0) {
 				viewClosed();
@@ -110,7 +110,8 @@ public class ViewMenu extends MenuButton implements NotificationListener {
 			} else {
 				viewOpenend();
 			}
-		} else if (ve.getName().equals(ViewCommand.NOTIFTYPE_VIEW_OPENED.getName())) {
+		} else if (ViewCommand.NOTIFTYPE_VIEW_OPENED.isMatching(event)) {
+			ViewCommand ve = event.getAdapter(ViewCommand.class);
 			View viewOpened = ve.getView();
 			View[] currentViews = ve.getViewContainer().getViewsVisible();
 			if (currentViews.length==0) {

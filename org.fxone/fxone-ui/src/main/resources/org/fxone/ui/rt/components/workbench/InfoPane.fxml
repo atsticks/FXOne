@@ -12,18 +12,14 @@
 <?import javafx.scene.web.*?>
 <?scenebuilder-background-color 0x000000ff?>
 
-<VBox id="BorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="150.0" prefHeight="150.0" style="-fx-background-color: transparent;&#10;" styleClass="boxed" xmlns:fx="http://javafx.com/fxml">
+<VBox id="BorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="42.0" prefHeight="47.0" style="-fx-background-color: transparent;&#10;" styleClass="boxed" xmlns:fx="http://javafx.com/fxml">
   <children>
     <Label id="messageTickerLabel" fx:id="infoAreaLabel" text="Info" textFill="#bfbfbf" />
-    <AnchorPane fx:id="infoPane" prefHeight="200.0" prefWidth="200.0">
-      <children>
-        <Label fx:id="noInfoLabel" alignment="TOP_LEFT" layoutY="6.0" prefHeight="113.0" prefWidth="200.0" text="No info available.">
-          <graphicTextGap>
-            <Long fx:value="4" />
-          </graphicTextGap>
-        </Label>
-      </children>
-    </AnchorPane>
+    <Label fx:id="noInfoLabel" alignment="TOP_LEFT" prefHeight="113.0" prefWidth="200.0" text="No info available.">
+      <graphicTextGap>
+        <Long fx:value="4" />
+      </graphicTextGap>
+    </Label>
   </children>
   <layoutX>
     <Long fx:value="0" />

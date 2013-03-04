@@ -4,6 +4,7 @@ import java.util.concurrent.Future;
 
 import org.fxone.core.events.NotificationService;
 import org.fxone.ui.rt.components.dialog.Dialog;
+import org.fxone.ui.rt.components.dialog.DialogEvent;
 
 public final class Dialogs {
 
@@ -11,28 +12,28 @@ public final class Dialogs {
 		// singleton
 	}
 
-	public static Future<DialogRequest> openDialog(Dialog dialog) {
+	public static Future<DialogEvent> openDialog(Dialog dialog) {
 		return NotificationService.get().publishEvent(
-				createOpenDialogNotif(dialog), DialogRequest.class);
+				createOpenDialogNotif(dialog), DialogEvent.class);
 	}
 
-	public static Future<DialogRequest> closeAllDialogs() {
+	public static Future<DialogEvent> closeAllDialogs() {
 		return NotificationService.get().publishEvent(
-				createCloseAllDialogsNotif(), DialogRequest.class);
+				createCloseAllDialogsNotif(), DialogEvent.class);
 	}
 
-	public static DialogRequest createOpenDialogNotif(Dialog dialog) {
-		DialogRequest notif = new DialogRequest(DialogRequest.NOTIFTYPE_OPEN);
+	public static DialogEvent createOpenDialogNotif(Dialog dialog) {
+		DialogEvent notif = new DialogEvent(DialogEvent.NOTIFTYPE_OPEN);
 		notif.setDialog(dialog);
 		return notif;
 	}
 
-	public static DialogRequest createCloseAllDialogsNotif() {
+	public static DialogEvent createCloseAllDialogsNotif() {
 		return createCloseAllDialogsNotif(false);
 	}
 	
-	public static DialogRequest createCloseAllDialogsNotif(boolean forced) {
-		DialogRequest notif = new DialogRequest(DialogRequest.NOTIFTYPE_CLOSEALL);
+	public static DialogEvent createCloseAllDialogsNotif(boolean forced) {
+		DialogEvent notif = new DialogEvent(DialogEvent.NOTIFTYPE_CLOSEALL);
 		notif.setForced(forced);
 		return notif;
 	}

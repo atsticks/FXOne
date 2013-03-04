@@ -12,15 +12,15 @@ public abstract class AbstractNotificationAdapter {
 	}
 	
 	public String getName(){
-		return getNotification().getName();
+		return getNotificationType().getName();
 	}
 	
 	public final Object getOwner(){
 		return getNotification().getOwner();
 	}
 	
-	public final NotificationDefinition getNotificationDefinition(){
-		return getNotification().getEventDefinition();
+	public final NotificationType getNotificationType(){
+		return getNotification().getNotificationType();
 	}
 	
 	public final Severity getSeverity(){

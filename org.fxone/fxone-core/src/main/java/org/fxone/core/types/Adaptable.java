@@ -8,6 +8,4 @@ public interface Adaptable {
 
 	public boolean isAdaptable(Class<?> type);
 
-	public <T> T removeAdapter(Class<T> type);
-
 }

@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 import org.fxone.core.annot.NotificationExtension;
 import org.fxone.core.events.AbstractNotificationConsumer;
 import org.fxone.core.events.Notification;
+import org.fxone.ui.model.nav.NavigationEvent;
 import org.fxone.ui.model.nav.cmd.Navigation;
-import org.fxone.ui.model.nav.cmd.NavigationEvent;
 
 @NotificationExtension
 public final class NavigationNotificationParser extends

@@ -3,6 +3,7 @@ package org.fxone.core.events;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import javax.imageio.spi.RegisterableService;
 
 import org.apache.log4j.Logger;
 import org.fxone.core.annot.NotificationExtension;
@@ -60,8 +63,10 @@ public final class NotificationService {
 		}
 		start();
 		// init default targets
-		for (EventGroup group : EventGroup.values()) {
-			defineTarget(group.toString());
+		Enumeration<NotificationGroup> groups = NotificationGroup.getGroups();
+		while (groups.hasMoreElements()) {
+			NotificationGroup group = groups.nextElement();
+			defineTarget(group.getName());
 		}
 	}
 
@@ -157,15 +162,15 @@ public final class NotificationService {
 
 	public <T extends Notification> Future<T> publishEvent(final T event,
 			Class<T> type) {
-		ExecutorService service = this.eventQueues.get(event.getGroup());
+		ExecutorService service = this.eventQueues.get(event.getType().getGroup().getName());
 		if (service == null) {
-			throw new IllegalArgumentException("Undefined target:"
-					+ event.getGroup());
+			defineTarget(event.getType().getGroup().getName());
+			service = this.eventQueues.get(event.getType().getGroup().getName());
 		}
 		return service.submit(new Callable<T>() {
 			public T call() {
 				final Collection<NotificationListener> targets = listeners
-						.get(event.getGroup());
+						.get(event.getType().getGroup());
 				if (targets != null) {
 					if (NotificationService.this.decorators.isEmpty()) {
 						notifyTargets(event, targets);

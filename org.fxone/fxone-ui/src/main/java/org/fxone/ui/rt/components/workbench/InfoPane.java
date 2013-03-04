@@ -11,7 +11,7 @@ import javax.inject.Named;
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationService;
 import org.fxone.ui.annot.UIComponent;
-import org.fxone.ui.model.workbench.cmd.WorkbenchEvent;
+import org.fxone.ui.model.workbench.WorkbenchEvent;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 import org.fxone.ui.rt.components.api.WorkbenchInfo;
 
@@ -49,7 +49,6 @@ public class InfoPane extends AbstractFXMLComponent implements
 			if (WorkbenchEvent.NOTIFTYPE_SETINFO.isMatching(notif)) {
 			WorkbenchEvent evt = (WorkbenchEvent)notif;
 			setInfo(evt.getValue());
-			notif.setHandledBy(this);
 			notif.setCompleted();
 		}
 	}

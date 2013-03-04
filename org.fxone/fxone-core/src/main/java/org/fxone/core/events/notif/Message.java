@@ -2,9 +2,8 @@ package org.fxone.core.events.notif;
 
 import java.util.Formatter;
 
-import org.fxone.core.events.EventGroup;
 import org.fxone.core.events.Notification;
-import org.fxone.core.events.NotificationDefinition;
+import org.fxone.core.events.NotificationType;
 import org.fxone.core.events.Severity;
 
 public final class Message extends Notification {
@@ -16,36 +15,36 @@ public final class Message extends Notification {
 	private static final String FIELD_MESSAGE = "message";
 	private static final String FIELD_CONTEXT_DATA = "contextData";
 
-	public static final NotificationDefinition NOTIFICATION_DEF = new NotificationDefinition(
-			EventGroup.COMMON.toString(), "Message:show",
+	public static final NotificationType NOTIFICATION_DEF = new NotificationType.Builder(
+			"common", "Message:show",
 			"Displays/triggers an arbitrary message.", Severity.INFO)
 			.defineParameter(FIELD_MESSAGE, String.class, true)
 			.defineParameter(FIELD_CONTEXT_DATA, Object[].class, false)
-			.setReadOnly();
+			.buildAndRegister();
 
 	Message(Object owner, String message, Object... contextData) {
 		super(NOTIFICATION_DEF);
 		setOwner(owner);
-		setData(String.class, message);
+		setAttribute(FIELD_MESSAGE, message);
 		if (contextData != null) {
-			setData(FIELD_CONTEXT_DATA, contextData);
+			setAttribute(FIELD_CONTEXT_DATA, contextData);
 		}
 
 	}
 
 	Message(Object owner, Severity severity, String message,
 			Object... contextData) {
-		super(severity, NOTIFICATION_DEF);
+		super(NOTIFICATION_DEF, severity);
 		setOwner(owner);
-		setData(String.class, message);
+		setAttribute(FIELD_MESSAGE, message);
 		if (contextData != null) {
-			setData(FIELD_CONTEXT_DATA, contextData);
+			setAttribute(FIELD_CONTEXT_DATA, contextData);
 		}
 
 	}
 
 	public String getMessage() {
-		return getData(FIELD_MESSAGE, String.class);
+		return getAttribute(FIELD_MESSAGE, String.class);
 	}
 
 	public String getFormattedMessage() {
@@ -63,7 +62,7 @@ public final class Message extends Notification {
 	}
 
 	public Object[] getContextData() {
-		return getData(FIELD_CONTEXT_DATA, Object[].class);
+		return getAttribute(FIELD_CONTEXT_DATA, Object[].class);
 	}
 
 }

@@ -12,9 +12,9 @@
 <?import javafx.scene.web.*?>
 <?scenebuilder-background-color 0x000000ff?>
 
-<VBox id="BorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="150.0" prefHeight="150.0" style="-fx-background-color: transparent;&#10;" styleClass="boxed" xmlns:fx="http://javafx.com/fxml">
+<VBox id="BorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="41.0" prefHeight="52.0" style="-fx-background-color: transparent;&#10;" styleClass="boxed" xmlns:fx="http://javafx.com/fxml">
   <children>
-    <Label fx:id="statusAreaLabel" text="Info" textFill="#bfbfbf" />
+    <Label fx:id="statusAreaLabel" text="Status" textFill="#bfbfbf" />
     <AnchorPane fx:id="statusPane" prefHeight="200.0" prefWidth="200.0">
       <children>
         <Label fx:id="statusLabel" alignment="TOP_LEFT" layoutY="6.0" prefHeight="113.0" prefWidth="200.0" text="Status: OK">

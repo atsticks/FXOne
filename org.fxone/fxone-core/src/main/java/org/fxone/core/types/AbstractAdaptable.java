@@ -39,7 +39,6 @@ public class AbstractAdaptable implements Adaptable {
 		}
 	}
 
-	@Override
 	public <T> T removeAdapter(Class<T> type) {
 		synchronized (adapters) {
 			return (T) this.adapters.remove(type);

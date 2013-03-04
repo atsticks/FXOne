@@ -8,9 +8,9 @@ import javax.inject.Singleton;
 import org.apache.log4j.Logger;
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationService;
+import org.fxone.ui.model.nav.NavigationEvent;
 import org.fxone.ui.model.nav.NavigationHistory;
 import org.fxone.ui.model.nav.cmd.Navigation;
-import org.fxone.ui.model.nav.cmd.NavigationEvent;
 
 @Singleton
 public class NavigationHistoryImpl implements NavigationHistory {

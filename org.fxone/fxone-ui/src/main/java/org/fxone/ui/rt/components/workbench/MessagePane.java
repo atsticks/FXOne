@@ -61,15 +61,13 @@ public class MessagePane extends AbstractFXMLComponent implements
 		TableColumn<MessageEntry, Image> severityCol = new TableColumn<MessageEntry, Image>(
 				" ");
 		severityCol.setMaxWidth(22);
+		severityCol.setMinWidth(22);
 		TableColumn<MessageEntry, String> groupCol = new TableColumn<MessageEntry, String>(
 				"Group");
-		groupCol.setMinWidth(100);
 		TableColumn<MessageEntry, String> nameCol = new TableColumn<MessageEntry, String>(
 				"Name");
-		groupCol.setMinWidth(150);
 		TableColumn<MessageEntry, String> paramsCol = new TableColumn<MessageEntry, String>(
 				"Parameters");
-		paramsCol.setMinWidth(200);
 		paramsCol.setMaxWidth(Integer.MAX_VALUE);
 		severityCol
 				.setCellValueFactory(new PropertyValueFactory<MessageEntry, Image>(
@@ -188,10 +186,10 @@ public class MessagePane extends AbstractFXMLComponent implements
 		if (this.level != null
 				&& this.level.compareTo(notif.getSeverity()) <= 0) {
 			MessageEntry msg = new MessageEntry();
-			msg.group = notif.getGroup();
-			msg.name = notif.getName();
+			msg.group = notif.getType().getGroup().getName();
+			msg.name = notif.getType().getName();
 			msg.severity = notif.getSeverity();
-			msg.params = String.valueOf(notif.getData());
+			msg.params = String.valueOf(notif.getAttributes());
 			data.add(msg);
 		}
 	}

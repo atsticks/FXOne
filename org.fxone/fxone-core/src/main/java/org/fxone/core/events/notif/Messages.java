@@ -2,20 +2,14 @@ package org.fxone.core.events.notif;
 
 import java.util.concurrent.Future;
 
-import org.fxone.core.annot.NotificationExtension;
-import org.fxone.core.events.NotificationDefinition;
-import org.fxone.core.events.NotificationProvider;
 import org.fxone.core.events.NotificationService;
 import org.fxone.core.events.Severity;
 
-@NotificationExtension
-public final class Messages implements NotificationProvider{
+public final class Messages{
 
-	@Override
-	public NotificationDefinition[] getNotificationDefinitions() {
-		return new NotificationDefinition[]{Message.NOTIFICATION_DEF};
+	private Messages() {
 	}
-
+	
 	public static Future<Message> send(Object owner, Severity severity,
 			String message, Object... contextData) {
 		Message evt = new Message(owner, severity, message, contextData);

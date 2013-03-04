@@ -1,6 +1,5 @@
 package org.fxone.ui.model.nav;
 
-import org.fxone.ui.model.nav.cmd.NavigationEvent;
 
 
 public interface NavigationHistory {
