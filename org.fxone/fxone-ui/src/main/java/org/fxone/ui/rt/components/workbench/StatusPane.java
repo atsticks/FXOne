@@ -11,7 +11,6 @@ import javax.inject.Named;
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.annot.UIComponent;
 import org.fxone.ui.model.workbench.WorkbenchEvent;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
@@ -20,7 +19,6 @@ import com.sun.javafx.tk.Toolkit;
 @Dependent
 @Named("workbench-status")
 @Default
-@UIComponent(fxmlLocation = "/org/fxone/ui/rt/components/workbench/StatusPane.fxml")
 public class StatusPane extends AbstractFXMLComponent implements
 		NotificationListener {
 
@@ -30,7 +28,7 @@ public class StatusPane extends AbstractFXMLComponent implements
 	private Label statusLabel;
 
 	public StatusPane() {
-		super();
+		super("/org/fxone/ui/rt/components/workbench/StatusPane.fxml");
 		NotificationService.get().addListener(this);
 	}
 

@@ -8,15 +8,15 @@ public interface ViewContainer{
 
 	boolean isViewVisible(String id);
 
-	View getCurrentView();
+	View<?> getCurrentView();
 
 	boolean closeView(String id);
 	
-	boolean closeView(View view);
+	boolean closeView(View<?> view);
 
 	boolean closeAllViews();
 
-	View[] getViewsOpened();
+	View<?>[] getViewsOpened();
 
 	/**
 	 * Take ensemble to the given page path, navigating there and adding current
@@ -29,15 +29,13 @@ public interface ViewContainer{
 	 * @param force
 	 *            Reload page even if its the current page
 	 */
-	View getView(String id);
+	View<?> getView(String id);
 	
-	boolean openView(View view);
-	
-	boolean openView(View view, Object ui);
+	boolean openView(View<?> view);
 	
 	boolean showView(String id);
 	
-	View[] getViewsVisible();
+	View<?>[] getViewsVisible();
 	
 }
 

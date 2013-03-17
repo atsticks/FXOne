@@ -9,8 +9,16 @@ public class AbstractFXMLView extends AbstractFXMLComponent
 
 	private ViewContext viewContext;
 
+	public AbstractFXMLView() {
+		super();
+	}
+	
 	public AbstractFXMLView(String fxmlResource) {
 		super(fxmlResource);
+	}
+	
+	public AbstractFXMLView(String fxmlResource, String resourceBundle) {
+		super(fxmlResource, resourceBundle);
 	}
 
 	@Override
@@ -33,5 +41,9 @@ public class AbstractFXMLView extends AbstractFXMLComponent
 
 	protected final ViewContext getViewContext() {
 		return this.viewContext;
+	}
+	
+	public Node getUI(){
+		return this;
 	}
 }

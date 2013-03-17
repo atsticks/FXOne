@@ -14,12 +14,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import javax.imageio.spi.RegisterableService;
-
 import org.apache.log4j.Logger;
 import org.fxone.core.annot.NotificationExtension;
 import org.fxone.core.types.AnnotationManager;
-
 
 public final class NotificationService {
 
@@ -36,8 +33,6 @@ public final class NotificationService {
 
 	@SuppressWarnings("rawtypes")
 	private Map<Class, NotificationProvider> notificationProvider = new HashMap<Class, NotificationProvider>();
-
-	private List<NotificationDecorator> decorators = new ArrayList<NotificationDecorator>();
 
 	private NotificationService() {
 		// Load notification providers
@@ -162,49 +157,30 @@ public final class NotificationService {
 
 	public <T extends Notification> Future<T> publishEvent(final T event,
 			Class<T> type) {
-		ExecutorService service = this.eventQueues.get(event.getType().getGroup().getName());
+		ExecutorService service = this.eventQueues.get(event.getType()
+				.getGroup().getName());
 		if (service == null) {
 			defineTarget(event.getType().getGroup().getName());
-			service = this.eventQueues.get(event.getType().getGroup().getName());
+			service = this.eventQueues
+					.get(event.getType().getGroup().getName());
 		}
 		return service.submit(new Callable<T>() {
 			public T call() {
-				final Collection<NotificationListener> targets = listeners
-						.get(event.getType().getGroup());
-				if (targets != null) {
-					if (NotificationService.this.decorators.isEmpty()) {
+				try {
+					final Collection<NotificationListener> targets = listeners
+							.get(event.getType().getGroup());
+					if (targets != null) {
 						notifyTargets(event, targets);
-					} else {
-						notifyTargets(event, targets, 0);
 					}
-				}
-				final Collection<NotificationListener> defTargets = listeners
-						.get(DEFAULT_TARGET);
-				if (defTargets != null) {
-					if (NotificationService.this.decorators.isEmpty()) {
+					final Collection<NotificationListener> defTargets = listeners
+							.get(DEFAULT_TARGET);
+					if (defTargets != null) {
 						notifyTargets(event, defTargets);
-					} else {
-						notifyTargets(event, defTargets, 0);
 					}
+				} finally {
+					event.setCompleted();
 				}
 				return event;
-			}
-
-			private void notifyTargets(final Notification event,
-					final Collection<NotificationListener> targets, final int i) {
-				if (i >= NotificationService.this.decorators.size()) {
-					// call notification
-					notifyTargets(event, targets);
-				} else {
-					NotificationDecorator decorator = NotificationService.this.decorators
-							.get(i);
-					decorator.runDecorated(new Runnable() {
-						@Override
-						public void run() {
-							notifyTargets(event, targets, i + 1);
-						}
-					});
-				}
 			}
 
 			protected void notifyTargets(final Notification event,
@@ -238,18 +214,6 @@ public final class NotificationService {
 			// Load notification provider
 			Set<String> annotatedClasses = AnnotationManager
 					.getAnnotatedClasses(NotificationExtension.class.getName());
-			for (String decoratorClassName : annotatedClasses) {
-				try {
-					Class<?> clazz = Class.forName(decoratorClassName);
-					if (clazz.isAssignableFrom(NotificationDecorator.class)) {
-
-						this.decorators.add((NotificationDecorator) clazz
-								.newInstance());
-					}
-				} catch (Exception e) {
-					LOGGER.error("Failed to load NotificationDecorator.", e);
-				}
-			}
 			started = true;
 			LOGGER.info("Notification Service started.");
 		}

@@ -10,7 +10,6 @@ import javax.inject.Named;
 
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.annot.UIComponent;
 import org.fxone.ui.model.workbench.WorkbenchEvent;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 import org.fxone.ui.rt.components.api.WorkbenchInfo;
@@ -20,7 +19,6 @@ import com.sun.javafx.tk.Toolkit;
 @Dependent
 @Named("info-pane")
 @Default
-@UIComponent(fxmlLocation = "/org/fxone/ui/rt/components/workbench/InfoPane.fxml")
 public class InfoPane extends AbstractFXMLComponent implements
 		org.fxone.core.events.NotificationListener, WorkbenchInfo {
 	@FXML
@@ -32,7 +30,7 @@ public class InfoPane extends AbstractFXMLComponent implements
 	private Object selectedItem;
 
 	public InfoPane() {
-		super();
+		super("/org/fxone/ui/rt/components/workbench/InfoPane.fxml");
 		NotificationService.get().addListener(this);
 	}
 

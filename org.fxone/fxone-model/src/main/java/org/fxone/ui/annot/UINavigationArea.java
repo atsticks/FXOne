@@ -7,8 +7,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value={ElementType.TYPE})
-public @interface UIFactory {
-
-	String value() default "";
-	
+public @interface UINavigationArea {
+	int priority() default 0;
+	String value();
+	String perspective() default "default";
+	String tree() default "default";
 }

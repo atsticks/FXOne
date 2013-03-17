@@ -10,7 +10,7 @@ import org.fxone.ui.model.view.View;
 import org.fxone.ui.model.view.ViewContext;
 
 @SuppressWarnings("unchecked")
-public class EmptyView extends Label implements View {
+public class EmptyView extends Label implements View<Node> {
 
 	private String id;
 	

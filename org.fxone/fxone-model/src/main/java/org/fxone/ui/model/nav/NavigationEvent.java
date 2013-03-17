@@ -71,15 +71,15 @@ public class NavigationEvent extends Notification {
 		return getAttribute(NAVIGATION_TARGET, String.class);
 	}
 
-	public NavigationArea getTargetNode() {
-		return getAttribute(TARGET_NODE, NavigationArea.class);
+	public NavigateableArea getTargetNode() {
+		return getAttribute(TARGET_NODE, NavigateableArea.class);
 	}
 
 	public void setNavigationTarget(String target) {
 		setAttribute(NAVIGATION_TARGET, target);
 	}
 
-	public void setTargetNode(NavigationArea node) {
+	public void setTargetNode(NavigateableArea node) {
 		setAttribute(TARGET_NODE, node);
 	}
 }

@@ -1,17 +1,17 @@
 package org.fxone.ui.rt.components.api;
 
 
-import org.fxone.ui.model.nav.NavigationArea;
-import org.fxone.ui.model.nav.UIAction;
+import org.fxone.ui.model.nav.NavigateableArea;
+import org.fxone.ui.model.nav.NavigateableAction;
 import org.fxone.ui.model.nav.UICommand;
 
 public interface Breadcrumbs {
 
-	public UIAction[] getPath();
+	public NavigateableAction[] getPath();
 	
-	public void setPath(UIAction[] actions);
+	public void setPath(NavigateableAction[] actions);
 	
-	public void setPath(NavigationArea area);
+	public void setPath(NavigateableArea area);
 	
 	public void setPath(UICommand command);
 }

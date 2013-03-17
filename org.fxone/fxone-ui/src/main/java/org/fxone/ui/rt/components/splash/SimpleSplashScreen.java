@@ -4,20 +4,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import org.fxone.ui.annot.UIComponent;
 import org.fxone.ui.rt.SplashScreen;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
 import com.sun.javafx.tk.Toolkit;
 
-@UIComponent(fxmlLocation = "/org/fxone/ui/rt/components/splash/SplashScreen.fxml")
 public class SimpleSplashScreen extends AbstractFXMLComponent implements
 		SplashScreen {
 
@@ -40,7 +37,7 @@ public class SimpleSplashScreen extends AbstractFXMLComponent implements
 	private volatile AtomicInteger currentProgress = new AtomicInteger();
 
 	public SimpleSplashScreen() {
-		super();
+		super("/org/fxone/ui/rt/components/splash/SplashScreen.fxml");
 		splashScene = new Scene(this);
 		stage.setScene(splashScene);
 		stage.centerOnScreen();

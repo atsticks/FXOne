@@ -3,7 +3,7 @@ package org.fxone.ui.model.view;
 
 
 
-public interface View{
+public interface View<T>{
 
 	void init(ViewContext viewContext);
 	
@@ -12,5 +12,7 @@ public interface View{
 	boolean canClose();
 
 	void closed();
+	
+	public T getUI();
 	
 }

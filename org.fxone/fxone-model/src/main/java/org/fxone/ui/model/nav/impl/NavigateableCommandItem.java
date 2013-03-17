@@ -1,25 +1,25 @@
 package org.fxone.ui.model.nav.impl;
 
 import org.fxone.core.types.AbstractIdentifiable;
-import org.fxone.ui.model.nav.NavigationArea;
-import org.fxone.ui.model.nav.UIAction;
-import org.fxone.ui.model.nav.UICommand;
+import org.fxone.ui.model.nav.NavigateableAction;
+import org.fxone.ui.model.nav.NavigateableArea;
 
-public class UICommandImpl extends AbstractIdentifiable implements
-		UICommand {
+public class NavigateableCommandItem extends AbstractIdentifiable implements
+		NavigateableAction {
 
-	protected NavigationArea parent;
+	protected NavigateableArea parent;
 
 	private String perspective;
-	
-	private UIAction delegate;
 
-	public UICommandImpl(String id, NavigationArea parent, UIAction delegate) {
+	private NavigateableAction delegate;
+
+	public NavigateableCommandItem(String id, NavigateableArea parent,
+			NavigateableAction delegate) {
 		super(id);
 		this.parent = parent;
 		this.delegate = delegate;
 	}
-	
+
 	public void setPerspective(String perspective) {
 		this.perspective = perspective;
 	}
@@ -31,7 +31,7 @@ public class UICommandImpl extends AbstractIdentifiable implements
 		return parent.getPath() + '/' + getIdentifier();
 	}
 
-	public NavigationArea getParent() {
+	public NavigateableArea getParent() {
 		return this.parent;
 	}
 
@@ -52,7 +52,7 @@ public class UICommandImpl extends AbstractIdentifiable implements
 
 	@Override
 	public String toString() {
-		return "NavigationCommand [" + getPath() + "]";
+		return "Command: " + getIdentifier();
 	}
 
 	public void run() {

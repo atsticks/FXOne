@@ -10,7 +10,7 @@ import javafx.scene.web.WebView;
 import org.fxone.ui.model.view.View;
 import org.fxone.ui.model.view.ViewContext;
 
-public class WebPage extends AnchorPane implements View {
+public class WebPage extends AnchorPane implements View<Node> {
 
 	private String location;
 	private WebView view = new WebView();
@@ -70,5 +70,7 @@ public class WebPage extends AnchorPane implements View {
 	public void closed() {
 	}
 
-	
+	public Node getUI(){
+		return this;
+	}
 }

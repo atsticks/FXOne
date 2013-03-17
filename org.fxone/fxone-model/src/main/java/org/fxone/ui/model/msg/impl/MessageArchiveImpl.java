@@ -9,10 +9,10 @@ import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
 import org.fxone.core.events.Notification;
+import org.fxone.core.events.Severity;
 import org.fxone.core.events.notif.Message;
 import org.fxone.ui.model.msg.MessageArchive;
-import org.fxone.ui.model.msg.MessageSeverity;
-import org.fxone.ui.model.msg.ResourceProvider;
+import org.fxone.ui.model.res.ResourceProvider;
 
 @Singleton
 public final class MessageArchiveImpl implements MessageArchive {
@@ -26,29 +26,29 @@ public final class MessageArchiveImpl implements MessageArchive {
 
 	private List<Message> messages = new ArrayList<Message>(20);
 
-	public MessageArchiveImpl(){
+	public MessageArchiveImpl() {
 	}
 
-	public boolean hasMessages() {
+	public boolean hasArchivedMessages() {
 		synchronized (LOCK) {
 			return !messages.isEmpty();
 		}
 	}
 
-	public List<Message> getMessages() {
+	public List<Message> getArchivedMessages() {
 		synchronized (LOCK) {
 			return Collections.unmodifiableList(messages);
 		}
 	}
 
-	public List<Message> getMessages(MessageSeverity... severities) {
+	public List<Message> getArchivedMessages(Severity... severities) {
 		synchronized (LOCK) {
 			List<Message> result = new ArrayList<Message>();
 			if (severities == null || severities.length == 0) {
 				return result;
 			}
 			for (Message message : messages) {
-				for (MessageSeverity sev : severities) {
+				for (Severity sev : severities) {
 					if (message.getSeverity().equals(sev)) {
 						result.add(message);
 					}
@@ -58,7 +58,7 @@ public final class MessageArchiveImpl implements MessageArchive {
 		}
 	}
 
-	public void clearMessages() {
+	public void clearArchivedMessages() {
 		synchronized (LOCK) {
 			this.messages.clear();
 		}
@@ -73,23 +73,23 @@ public final class MessageArchiveImpl implements MessageArchive {
 
 	public void notified(Notification n) {
 		// TODO implement correctly
-//		MessageEvent me = n.getAdapter(MessageEvent.class);
-//		if (me!=null) {
-//			String family = n.getData("family", String.class);
-//			String key = n.getData("key", String.class);
-//			Locale locale = Locale.getDefault();
-//			if (n.getData("locale", Locale.class) != null) {
-//				locale = n.getData("locale", Locale.class);
-//			}
-//			Object[] contextData = (Object[]) n.getData("contextData",
-//					new Object[0]);
-//			n.setData("result", resourceProvider.getMessage(family, key,
-//					locale, contextData));
-//			n.setCompleted();
-//		} else if (n.getName().equals("Messages.postMessage")) {
-//			MessageEvent msg = (MessageEvent) n.getData(MessageEvent.class);
-//			this.messages.add(msg);
-//		}
+		// MessageEvent me = n.getAdapter(MessageEvent.class);
+		// if (me!=null) {
+		// String family = n.getData("family", String.class);
+		// String key = n.getData("key", String.class);
+		// Locale locale = Locale.getDefault();
+		// if (n.getData("locale", Locale.class) != null) {
+		// locale = n.getData("locale", Locale.class);
+		// }
+		// Object[] contextData = (Object[]) n.getData("contextData",
+		// new Object[0]);
+		// n.setData("result", resourceProvider.getMessage(family, key,
+		// locale, contextData));
+		// n.setCompleted();
+		// } else if (n.getName().equals("Messages.postMessage")) {
+		// MessageEvent msg = (MessageEvent) n.getData(MessageEvent.class);
+		// this.messages.add(msg);
+		// }
 	}
 
 }

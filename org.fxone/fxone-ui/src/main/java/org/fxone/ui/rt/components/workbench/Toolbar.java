@@ -34,7 +34,6 @@ package org.fxone.ui.rt.components.workbench;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
@@ -48,7 +47,6 @@ import javax.inject.Named;
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.annot.UIComponent;
 import org.fxone.ui.model.nav.cmd.Navigation;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
@@ -58,7 +56,6 @@ import org.fxone.ui.rt.components.AbstractFXMLComponent;
 @Dependent
 @Named("toolbar")
 @Default
-@UIComponent(fxmlLocation = "/org/fxone/ui/rt/components/workbench/Toolbar.fxml")
 public class Toolbar extends AbstractFXMLComponent implements
 		NotificationListener {
 
@@ -71,7 +68,8 @@ public class Toolbar extends AbstractFXMLComponent implements
 	private Button prevButton = createButton(null, "Back");
 
 	public Toolbar() {
-		super("Toolbar");
+		super("/org/fxone/ui/rt/components/workbench/Toolbar.fxml");
+		setId("Toolbar");
 		homeButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent evt) {

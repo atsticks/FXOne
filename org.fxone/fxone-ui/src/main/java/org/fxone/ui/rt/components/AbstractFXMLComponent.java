@@ -15,12 +15,13 @@ import javafx.scene.layout.AnchorPane;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.fxone.ui.annot.UIComponent;
 
 import com.sun.corba.se.spi.ior.Identifiable;
 
 public class AbstractFXMLComponent extends
 		AnchorPane{
+
+	private static final String DEFAULT_BUNDLE = "i18n/translation";
 
 	protected final Logger logger = Logger.getLogger(getClass());
 
@@ -29,12 +30,17 @@ public class AbstractFXMLComponent extends
 	private Node ui;
 
 	public AbstractFXMLComponent() {
-		this(null);
+		this(null, null);
+	}
+	
+	public AbstractFXMLComponent(String fxmlResource) {
+		this(fxmlResource, null);
 	}
 
-	public AbstractFXMLComponent(String fxmlResource) {
+	public AbstractFXMLComponent(String fxmlResource, String resourceBundle) {
 		super();
-		initComponent(fxmlResource);
+		setId(getClass().getSimpleName());
+		initComponent(fxmlResource, resourceBundle);
 		initFields();
 	}
 
@@ -46,24 +52,23 @@ public class AbstractFXMLComponent extends
 		return this.resourceBundle;
 	}
 
-	private void initComponent(String fxml) {
+	private void initComponent(String fxmlResource, String resourceBundle) {
 		// init rest
-		UIComponent comp = getClass().getAnnotation(UIComponent.class);
-		if (comp != null) {
-			this.fxmlResource = comp.fxmlLocation();
-			this.resourceBundle = comp.resourceBundle();
-		}
-		if (fxmlResource == null || fxmlResource.isEmpty()) {
-			this.fxmlResource = fxml;
-		}
 		if (fxmlResource == null || fxmlResource.isEmpty()) {
 			this.fxmlResource = getClass().getName() + ".fxml";
+		}
+		else{
+			this.fxmlResource = fxmlResource;
+		}
+		this.resourceBundle = resourceBundle;
+		if(this.resourceBundle == null){
+			this.resourceBundle = DEFAULT_BUNDLE;
 		}
 		// initUI
 		Locale userLocale = Locale.ENGLISH; // TODO i18n
 		try {
 			ui = FXMLLoader.load(getClass().getResource(this.fxmlResource),
-					ResourceBundle.getBundle(resourceBundle, userLocale));
+					ResourceBundle.getBundle(this.resourceBundle, userLocale));
 			this.getChildren().add(ui);
 			AnchorPane.setBottomAnchor(ui, 0d);
 			AnchorPane.setTopAnchor(ui, 0d);

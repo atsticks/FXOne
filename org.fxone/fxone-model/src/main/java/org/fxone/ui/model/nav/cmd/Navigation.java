@@ -117,7 +117,7 @@ public final class Navigation {
 //	// }
 //	// }
 //
-//	public void navigateTo(NavigationArea nav) {
+//	public void navigateTo(NavigateableArea nav) {
 //		String perspective = nav.getPerspective();
 //		if (perspective == null) {
 //			perspective = DEFAULT_STYLE_ID;
@@ -135,19 +135,19 @@ public final class Navigation {
 //		// }
 //	}
 //
-//	protected void adaptTitles(NavigationArea nav) {
+//	protected void adaptTitles(NavigateableArea nav) {
 //		if (nav == null) {
 //			WorkbenchCommands.setAreaTitle("Homemotion");
 //			WorkbenchCommands.setAreaTitle("");
 //			return;
 //		}
-//		NavigationArea section = getSection(nav);
+//		NavigateableArea section = getSection(nav);
 //		if (section != null) {
 //			WorkbenchCommands.setAreaTitle(section.getIdentifier());
 //		} else {
 //			WorkbenchCommands.setAreaTitle("HOME");
 //		}
-//		NavigationArea parent = nav.getParent();
+//		NavigateableArea parent = nav.getParent();
 //		if (parent != null && parent != section) {
 //			WorkbenchCommands.setAreaSubTitle(this.resourceProvider.getName(
 //					parent.getIdentifier(), Locale.getDefault())); // TODO i18n
@@ -161,11 +161,11 @@ public final class Navigation {
 //		}
 //	}
 //
-//	protected NavigationArea getSection(NavigationArea nav) {
+//	protected NavigateableArea getSection(NavigateableArea nav) {
 //		if (nav == null || nav.isRoot()) {
 //			return null;
 //		}
-//		NavigationArea current = nav;
+//		NavigateableArea current = nav;
 //		while (current.getParent() != null) {
 //			if (current.getParent().isRoot()) {
 //				break;

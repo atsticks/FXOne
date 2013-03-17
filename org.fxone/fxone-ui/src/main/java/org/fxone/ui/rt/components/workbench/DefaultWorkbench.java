@@ -29,10 +29,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -42,10 +45,10 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.fxone.ui.annot.UIComponent;
-import org.fxone.ui.model.perspective.Perspective;
+import org.fxone.ui.model.workbench.Perspective;
 import org.fxone.ui.model.workbench.Workbench;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
+import org.fxone.ui.rt.components.clocks.SimpleLabelClockAdapter;
 
 /**
  * A simple JacpFX workbench. Define basic UI settings like size, menus and
@@ -57,7 +60,6 @@ import org.fxone.ui.rt.components.AbstractFXMLComponent;
 @Dependent
 @Named("workbench")
 @Default
-@UIComponent(fxmlLocation = "/org/fxone/ui/rt/components/workbench/Workbench.fxml")
 public class DefaultWorkbench extends AbstractFXMLComponent implements
 		Workbench {
 	private static final String DEFAULT_PERSPECTIVE_ID = "default";
@@ -72,9 +74,19 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 
 	private Map<String, Perspective> registeredPerspectives = new ConcurrentHashMap<String, Perspective>();
 
+	@FXML
+	private Label clockLabel;
+	
+	@FXML
+	private AnchorPane leftSplitPane;
+	
+	@FXML
+	private AnchorPane rightSplitPane;
+	
 	@Inject
 	public DefaultWorkbench(Instance<Perspective> perspectives, Stage stage) {
-		super();
+		super("/org/fxone/ui/rt/components/workbench/Workbench.fxml");
+		setId("workbench");
 		this.stage = stage;
 		workbenchScene = new Scene(workbenchGroup);
 		workbenchScene.setRoot(this);
@@ -91,7 +103,8 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 			// RT-13234
 			workbenchScene.setCamera(new PerspectiveCamera());
 		}
-
+		new SimpleLabelClockAdapter(clockLabel);
+		leftSplitPane.getChildren().add(new NavigationTree());
 	}
 
 	protected String getStyleSheet() {

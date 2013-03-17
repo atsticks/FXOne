@@ -15,8 +15,8 @@ import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
 import org.fxone.core.cdi.Container;
-import org.fxone.ui.model.msg.ResourceProvider;
 import org.fxone.ui.model.nav.cmd.Navigation;
+import org.fxone.ui.model.res.ResourceProvider;
 
 @Dependent
 @Default

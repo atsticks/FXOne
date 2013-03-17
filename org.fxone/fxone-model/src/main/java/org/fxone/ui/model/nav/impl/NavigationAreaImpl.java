@@ -1,31 +1,27 @@
 package org.fxone.ui.model.nav.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.fxone.core.types.AbstractIdentifiable;
-import org.fxone.ui.model.nav.NavigationArea;
-import org.fxone.ui.model.nav.UIAction;
-import org.fxone.ui.model.nav.UICommand;
+import org.fxone.ui.model.nav.NavigateableAction;
+import org.fxone.ui.model.nav.NavigateableArea;
 
 public class NavigationAreaImpl extends AbstractIdentifiable implements
-		NavigationArea {
+		NavigateableArea {
 
-	protected NavigationArea parent;
+	protected NavigateableArea parent;
 
 	protected String cachedPath;
 
-	private UIAction delegate;
+	private NavigateableAction delegate;
 
 	private String perspective;
 
-	private Map<String, NavigationArea> childAreas;
-	private Map<String, UICommand> commands;
+	private Map<String, NavigateableArea> childAreas;
+	private Map<String, NavigateableAction> commands;
 
 	public NavigationAreaImpl(String id, NavigationAreaImpl parent) {
 		this(id, parent, null);
@@ -35,11 +31,11 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 		this(id, null, null);
 	}
 
-	public NavigationAreaImpl(String id, UIAction action) {
+	public NavigationAreaImpl(String id, NavigateableAction action) {
 		this(id, null, action);
 	}
 
-	public NavigationAreaImpl(String id, NavigationArea parent, UIAction action) {
+	public NavigationAreaImpl(String id, NavigateableArea parent, NavigateableAction action) {
 		super(id);
 		this.parent = parent;
 		this.delegate = action;
@@ -60,7 +56,7 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 		return this.childAreas == null || this.childAreas.isEmpty();
 	}
 
-	public NavigationArea getChildArea(String id) {
+	public NavigateableArea getChildArea(String id) {
 		if (childAreas == null) {
 			return null;
 		}
@@ -81,12 +77,12 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 
 	public void addChildArea(NavigationAreaImpl cmd) {
 		if (childAreas == null) {
-			childAreas = new ConcurrentHashMap<String,NavigationArea>();
+			childAreas = new ConcurrentHashMap<String,NavigateableArea>();
 		}
 		childAreas.put(cmd.getIdentifier(), cmd);
 	}
 
-	public Collection<NavigationArea> getChildAreas() {
+	public Collection<NavigateableArea> getChildAreas() {
 		if (childAreas == null) {
 			return Collections.emptySet();
 		}
@@ -95,8 +91,7 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 
 	@Override
 	public String toString() {
-		return "NavigationNode [" + super.toString() + ", parent="
-				+ parent.getPath() + "]";
+		return "Area: " +getIdentifier();
 	}
 
 	public boolean isRoot() {
@@ -107,7 +102,7 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 		return this.delegate != null;
 	}
 
-	public Collection<UICommand> getCommands() {
+	public Collection<NavigateableAction> getCommands() {
 		if (commands == null) {
 			return Collections.emptySet();
 		}
@@ -128,22 +123,18 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 	}
 
 	@Override
-	public NavigationArea getParent() {
+	public NavigateableArea getParent() {
 		return this.parent;
 	}
 
-	@Override
-	public String getPerspective() {
-		return this.perspective;
-	}
 
 	public void setPerspective(String perspective) {
 		this.perspective = perspective;
 	}
 
-	public void addCommand(UICommand cmd) {
+	public void addCommand(NavigateableAction cmd) {
 		if (commands == null) {
-			commands = new ConcurrentHashMap<String, UICommand>();
+			commands = new ConcurrentHashMap<String, NavigateableAction>();
 		}
 		commands.put(cmd.getIdentifier(), cmd);
 	}

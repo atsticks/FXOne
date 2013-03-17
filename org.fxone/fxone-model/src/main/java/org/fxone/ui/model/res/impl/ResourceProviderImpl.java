@@ -1,4 +1,4 @@
-package org.fxone.ui.model.msg.impl;
+package org.fxone.ui.model.res.impl;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationType;
 import org.fxone.core.events.Severity;
-import org.fxone.ui.model.msg.ResourceProvider;
+import org.fxone.ui.model.res.ResourceProvider;
 
 @Singleton
 public final class ResourceProviderImpl implements ResourceProvider {

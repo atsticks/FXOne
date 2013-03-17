@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
@@ -19,7 +20,11 @@ public final class ComponentUtil {
 		if (id.startsWith("#")) {
 			id = id.substring(1);
 		}
-		return lookupInternal(root, id);
+		Node node = root.lookup('#'+id);
+		if(node == null){
+			return lookupInternal(root, id);
+		}
+		return node;
 	}
 
 	private static Node lookupInternal(Node node, String id) {
@@ -31,6 +36,16 @@ public final class ComponentUtil {
 				Node result = lookupInternal(child, id);
 				if (result != null) {
 					return result;
+				}
+			}
+			if (node instanceof SplitPane) {
+				SplitPane sp = (SplitPane) node;
+				Node result = null;
+				for(Node child:sp.getItems()){
+					result = lookupInternal(child, id);
+					if (result != null) {
+						return result;
+					}
 				}
 			}
 			if (node instanceof ScrollPane) {

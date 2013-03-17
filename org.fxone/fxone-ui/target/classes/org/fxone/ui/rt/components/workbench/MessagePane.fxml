@@ -11,13 +11,12 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
-<?scenebuilder-background-color 0x000000ff?>
 
 <VBox id="BorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="150.0" minWidth="300.0" prefHeight="150.0" style="-fx-background-color: transparent;&#10;" styleClass="boxed" xmlns:fx="http://javafx.com/fxml">
   <children>
     <AnchorPane id="AnchorPane">
       <children>
-        <Label fx:id="messageTickerLabel" text="Message Ticker" textFill="#bfbfbf" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Label fx:id="messageTickerLabel" text="Message Ticker" textFill="#202020" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
         <MenuButton fx:id="messageLevelButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Severity Level" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="-2.0">
           <font>
             <Font size="11.0" />

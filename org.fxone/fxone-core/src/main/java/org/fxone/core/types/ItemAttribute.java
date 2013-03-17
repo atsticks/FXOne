@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.log4j.Logger;
 
-public class ItemAttribute extends AbstractNamedItem implements
+public class ItemAttribute extends AbstractItem implements
 		Comparable<ItemAttribute>, Serializable {
 	/**
 	 * serialVersionUID.
@@ -13,6 +13,8 @@ public class ItemAttribute extends AbstractNamedItem implements
 
 	private static final Logger LOGGER = Logger.getLogger(ItemAttribute.class);
 
+	private String name;
+	
 	private String typeName;
 
 	private Class<?> type;
@@ -29,14 +31,14 @@ public class ItemAttribute extends AbstractNamedItem implements
 		if (name == null) {
 			throw new IllegalArgumentException("Name is null.");
 		}
-		setName(name);
+		this.name = name;
 	}
 
 	public ItemAttribute(String name, Object value) {
 		if (name == null) {
 			throw new IllegalArgumentException("Name is null.");
 		}
-		setName(name);
+		this.name = name;
 		setValue(value);
 	}
 
@@ -44,7 +46,7 @@ public class ItemAttribute extends AbstractNamedItem implements
 		if (name == null) {
 			throw new IllegalArgumentException("Name is null.");
 		}
-		setName(name);
+		this.name = name;
 		setType(type);
 	}
 
@@ -53,7 +55,7 @@ public class ItemAttribute extends AbstractNamedItem implements
 		if (name == null) {
 			throw new IllegalArgumentException("Name is null.");
 		}
-		setName(name);
+		this.name = name;
 		setType(type);
 		setValue(value);
 	}
@@ -155,7 +157,7 @@ public class ItemAttribute extends AbstractNamedItem implements
 
 	@Override
 	public String toString() {
-		return "DeviceAttribute [getName()=" + getName() + ", typeName="
+		return "DeviceAttribute [name=" + name + ", typeName="
 				+ typeName + ", serialized=" + serialized + ", value=" + value
 				+ "]";
 	}
@@ -165,7 +167,7 @@ public class ItemAttribute extends AbstractNamedItem implements
 			return 1;
 		}
 		ItemAttribute other = (ItemAttribute) o;
-		return getName().compareTo(other.getName());
+		return name.compareTo(other.name);
 	}
 
 	private boolean isTextMappableType(String type) {

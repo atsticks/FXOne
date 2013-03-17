@@ -17,7 +17,7 @@ import javax.inject.Named;
 
 import org.fxone.core.types.Identifiable;
 import org.fxone.core.types.NamedItem;
-import org.fxone.ui.model.msg.ResourceProvider;
+import org.fxone.ui.model.res.ResourceProvider;
 
 @Dependent
 @Default

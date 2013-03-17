@@ -7,8 +7,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Hyperlink;
 
 import org.fxone.core.cdi.Container;
-import org.fxone.ui.model.msg.ResourceProvider;
 import org.fxone.ui.model.nav.impl.HeaderCommand;
+import org.fxone.ui.model.res.ResourceProvider;
 
 public class CommandLink extends Hyperlink {
 

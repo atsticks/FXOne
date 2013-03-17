@@ -25,7 +25,7 @@ package org.fxone.ui.rt.components.dock;
 //		setOnAction(new EventHandler<ActionEvent>() {
 //			@Override
 //			public void handle(ActionEvent event) {
-//				NavigationArea.navigateTo(cmd.getUIId());
+//				NavigateableArea.navigateTo(cmd.getUIId());
 //			}
 //		});
 //		// setGraphic(createResource(cmd.getIcon64()));

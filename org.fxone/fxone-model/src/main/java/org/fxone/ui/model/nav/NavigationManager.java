@@ -3,7 +3,7 @@ package org.fxone.ui.model.nav;
 
 public interface NavigationManager {
 
-	public NavigationArea getRootNavigation();
-	public NavigationArea getRootNavigation(String treeName);
+	public NavigateableArea getRootNavigation();
+	public NavigateableArea getRootNavigation(String tree);
 	
 }

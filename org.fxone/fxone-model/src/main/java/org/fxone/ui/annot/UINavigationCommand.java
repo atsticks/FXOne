@@ -7,10 +7,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value={ElementType.TYPE})
-public @interface UINavigation {
+public @interface UINavigationCommand {
 	int priority() default 0;
-	boolean area() default false;
-	String target();
+	String value();
 	String perspective() default "default";
 	String tree() default "default";
 }

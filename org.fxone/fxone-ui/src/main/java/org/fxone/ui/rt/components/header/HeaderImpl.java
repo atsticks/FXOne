@@ -15,7 +15,6 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.fxone.ui.annot.UIComponent;
 import org.fxone.ui.rt.components.view.ViewTitle;
 
 

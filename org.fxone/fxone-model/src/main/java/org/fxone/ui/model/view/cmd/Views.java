@@ -5,7 +5,6 @@ import java.util.concurrent.Future;
 
 import org.fxone.core.events.NotificationService;
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.ViewCommand;
 import org.fxone.ui.model.view.ViewContainer;
 
 public class Views {

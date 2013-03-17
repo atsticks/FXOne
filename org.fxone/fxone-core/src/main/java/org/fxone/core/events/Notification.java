@@ -6,9 +6,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Notification implements Serializable {
 
 	private static final long serialVersionUID = -3616620214662973147L;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(Notification.class);
 
 	protected static final String SIMPLE_VALUE = "value";
 	
@@ -27,12 +32,16 @@ public class Notification implements Serializable {
 	private boolean completed;
 
 	private Severity severity = Severity.UNKNOWN;
-
+	
+	
 	public Notification(NotificationType type) {
 		if (type == null) {
 			throw new IllegalArgumentException("type required.");
 		}
 		this.type = type;
+		if(LOGGER.isDebugEnabled()){
+			LOGGER.debug("Created: " + this);
+		}
 	}
 	
 	public Notification(String typeLookupName) {
@@ -95,7 +104,12 @@ public class Notification implements Serializable {
 	}
 
 	public void setReadOnly() {
-		this.readOnly = true;
+		if(!this.readOnly){
+			this.readOnly = true;
+			if(LOGGER.isDebugEnabled()){
+				LOGGER.debug("Set to read-only: " + this);
+			}
+		}
 	}
 
 	private void checkReadOnly() {
@@ -109,6 +123,9 @@ public class Notification implements Serializable {
 			throw new IllegalArgumentException("Severity null.");
 		}
 		this.severity = severity;
+		if(LOGGER.isDebugEnabled()){
+			LOGGER.debug("Severity changed: " + this);
+		}
 	}
 
 	/*
@@ -187,6 +204,9 @@ public class Notification implements Serializable {
 
 	public Object setAttribute(String key, Object value) {
 		checkReadOnly();
+		if(LOGGER.isDebugEnabled()){
+			LOGGER.debug("Attribute set " + key + '=' + value);
+		}
 		if (this.attributes == null) {
 			this.attributes = new HashMap<Object, Object>();
 		}
@@ -237,8 +257,22 @@ public class Notification implements Serializable {
 
 	public final void setCompleted() {
 		this.completed = true;
+		
+		try{
+			notificationCompleted();
+			if(LOGGER.isDebugEnabled()){
+				LOGGER.debug("Completed notification: " + this);
+			}
+		}
+		catch(Exception e){
+			LOGGER.error("Completed notification with error: " + this, e);
+		}
 	}
 	
+	protected void notificationCompleted() {
+		
+	}
+
 	public Object setResult(Object value) {
 		if(!getType().isReturningResult()){
 			throw new UnsupportedOperationException("Notification has no result: " + getType());

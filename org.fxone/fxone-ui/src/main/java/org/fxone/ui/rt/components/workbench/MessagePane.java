@@ -29,7 +29,6 @@ import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
 import org.fxone.core.events.Severity;
-import org.fxone.ui.annot.UIComponent;
 import org.fxone.ui.model.workbench.cmd.WorkbenchCommands;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 import org.homemotion.ui.fx.framework.widget.table.ImageCell;
@@ -37,7 +36,6 @@ import org.homemotion.ui.fx.framework.widget.table.ImageCell;
 @Dependent
 @Named("message-pane")
 @Default
-@UIComponent(fxmlLocation = "/org/fxone/ui/rt/components/workbench/MessagePane.fxml")
 public class MessagePane extends AbstractFXMLComponent implements
 		NotificationListener {
 	@FXML
@@ -57,7 +55,7 @@ public class MessagePane extends AbstractFXMLComponent implements
 
 	@SuppressWarnings("unchecked")
 	public MessagePane() {
-		super();
+		super("/org/fxone/ui/rt/components/workbench/MessagePane.fxml");
 		TableColumn<MessageEntry, Image> severityCol = new TableColumn<MessageEntry, Image>(
 				" ");
 		severityCol.setMaxWidth(22);

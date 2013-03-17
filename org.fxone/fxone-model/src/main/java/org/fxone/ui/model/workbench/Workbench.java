@@ -2,7 +2,6 @@ package org.fxone.ui.model.workbench;
 
 import java.util.Enumeration;
 
-import org.fxone.ui.model.perspective.Perspective;
 
 public interface Workbench {
 

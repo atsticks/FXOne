@@ -8,10 +8,11 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
-import org.fxone.ui.annot.UINavigation;
-import org.fxone.ui.model.nav.NavigationArea;
+import org.fxone.ui.annot.UINavigationArea;
+import org.fxone.ui.annot.UINavigationCommand;
+import org.fxone.ui.model.nav.NavigateableArea;
 import org.fxone.ui.model.nav.NavigationManager;
-import org.fxone.ui.model.nav.UIAction;
+import org.fxone.ui.model.nav.NavigateableAction;
 
 @Singleton
 public class NavigationManagerImpl implements NavigationManager {
@@ -19,72 +20,86 @@ public class NavigationManagerImpl implements NavigationManager {
 	private static final Logger LOGGER = Logger
 			.getLogger(NavigationManagerImpl.class);
 
-	private Map<String, NavigationArea> trees = new ConcurrentHashMap<String, NavigationArea>();
+	private Map<String, NavigateableArea> trees = new ConcurrentHashMap<String, NavigateableArea>();
 
 	@Inject
-	public NavigationManagerImpl(Instance<UIAction> commandInstances) {
+	public NavigationManagerImpl(Instance<NavigateableAction> commandInstances) {
 		this.trees.put("default", new NavigationAreaImpl("default"));
-		for (UIAction actionCommand : commandInstances) {
+		for (NavigateableAction actionCommand : commandInstances) {
 			try {
-				UINavigation navSpec = (UINavigation) actionCommand.getClass()
-						.getAnnotation(UINavigation.class);
-				if (navSpec == null) {
-					LOGGER.warn("Missing annotation '@UINavigation' for action, ignoring: "
+				UINavigationCommand commandSpec = (UINavigationCommand) actionCommand
+						.getClass().getAnnotation(UINavigationCommand.class);
+				UINavigationArea areaSpec = (UINavigationArea) actionCommand
+						.getClass().getAnnotation(UINavigationArea.class);
+				if (commandSpec == null && areaSpec==null) {
+					LOGGER.warn("Missing annotation '@UINavigationCommand' or '@UINavigationArea' for action, ignoring: "
 							+ actionCommand.getClass());
 					continue;
 				}
-				int index = navSpec.target().lastIndexOf('/');
-				String id = null;
-				String parentPath = null;
-				if(index>=0){
-					parentPath = navSpec.target().substring(0, index);
-					id =  navSpec.target().substring(index+1);
-				}
-				else{
-					parentPath = "";
-					id =  navSpec.target();
-				}
-				String tree = navSpec.tree();
-				String perspective = navSpec.perspective();
-				int prio = navSpec.priority();
 				NavigationAreaImpl parent = null;
-				if (tree == null || tree.isEmpty()) {
-					parent = (NavigationAreaImpl) getRootNavigation();
-				} else {
-					parent = (NavigationAreaImpl) getRootNavigation(tree);
-					if (parent == null) {
-						parent = new NavigationAreaImpl(tree);
-						this.trees.put(tree, parent);
-					}
-				}
-
-				if (parentPath != null && !parentPath.isEmpty()) {
-					parent = parent.resolveOrCreateArea(parentPath);
-				}
-				if (navSpec.area()) {
-					NavigationAreaImpl areaImpl = new NavigationAreaImpl(id, parent, actionCommand);
-					areaImpl.setPerspective(perspective);
-					parent.addChildArea(areaImpl);
-				}
-				else{
-					UICommandImpl cmd = new UICommandImpl(id, parent, actionCommand);
-					cmd.setPerspective(perspective);
+				if (commandSpec != null) {
+					String[] parts = splitTarget(commandSpec.value());
+					parent = initParent(parts[0], commandSpec.tree());
+					NavigateableCommandItem cmd = new NavigateableCommandItem(parts[1], parent,
+							actionCommand);
+					cmd.setPerspective(commandSpec.perspective());
 					parent.addCommand(cmd);
 				}
+				else if (areaSpec != null) {
+					String[] parts = splitTarget(areaSpec.value());
+					parent = initParent(parts[0], areaSpec.tree());
+					NavigationAreaImpl areaImpl = new NavigationAreaImpl(parts[1],
+							parent, actionCommand);
+					areaImpl.setPerspective(areaSpec.perspective());
+					parent.addChildArea(areaImpl);
+				}
 			} catch (Exception e) {
-				LOGGER.error("Error registering navigation command: "
+				LOGGER.error("Error registering navigation action: "
 						+ actionCommand, e);
 			}
 		}
 	}
 
+	private String[] splitTarget(String target) {
+		int index = target.lastIndexOf('/');
+		String id = null;
+		String parentPath = null;
+		NavigationAreaImpl parent = null;
+		if (index >= 0) {
+			parentPath = target.substring(0, index);
+			id = target.substring(index + 1);
+		} else {
+			parentPath = "";
+			id = target;
+		}
+		return new String[]{parentPath, id};
+	}
+
+	private NavigationAreaImpl initParent(String parentPath, String tree) {
+		NavigationAreaImpl parent = null;
+		if (tree == null || tree.isEmpty()) {
+			parent = (NavigationAreaImpl) getRootNavigation();
+		} else {
+			parent = (NavigationAreaImpl) getRootNavigation(tree);
+			if (parent == null) {
+				parent = new NavigationAreaImpl(tree);
+				this.trees.put(tree, parent);
+			}
+		}
+
+		if (parentPath != null && !parentPath.isEmpty()) {
+			parent = parent.resolveOrCreateArea(parentPath);
+		}
+		return parent;
+	}
+
 	@Override
-	public NavigationArea getRootNavigation() {
+	public NavigateableArea getRootNavigation() {
 		return this.trees.get("default");
 	}
 
 	@Override
-	public NavigationArea getRootNavigation(String treeName) {
+	public NavigateableArea getRootNavigation(String treeName) {
 		return this.trees.get(treeName);
 	}
 

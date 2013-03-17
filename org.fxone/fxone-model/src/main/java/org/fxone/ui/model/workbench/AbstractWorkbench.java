@@ -2,19 +2,13 @@ package org.fxone.ui.model.workbench;
 
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.inject.Instance;
+import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.fxone.core.cdi.Container;
-import org.fxone.ui.annot.UIPerspective;
-import org.fxone.ui.model.nav.NavigationArea;
-import org.fxone.ui.model.nav.NavigationManager;
-import org.fxone.ui.model.perspective.Perspective;
-import org.fxone.ui.model.workbench.cmd.WorkbenchCommands;
 
 public abstract class AbstractWorkbench implements Workbench {
 
@@ -25,8 +19,8 @@ public abstract class AbstractWorkbench implements Workbench {
 
 	public AbstractWorkbench(Instance<Perspective> perspectives) {
 		for (Perspective perspective : perspectives) {
-			UIPerspective annot = perspective.getClass().getAnnotation(
-					UIPerspective.class);
+			Named annot = perspective.getClass().getAnnotation(
+					Named.class);
 			String perspectiveName = perspective.getClass().getSimpleName();
 			if (annot != null) {
 				perspectiveName = annot.value();

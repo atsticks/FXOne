@@ -46,18 +46,10 @@ public class DefaultApplicationLoader implements ApplicationLoader {
 						splashScreen.updateProgress("Loading application container...", 40);
 						Thread.sleep(500L);
 					}
-//					ApplicationContainer applicationContainer = new ApplicationContainerImpl();
-//					ApplicationContainer result = Context.getInstance(
-//							ApplicationContainer.class, false);
 					if(splashScreen!=null){
 						splashScreen.updateProgress("Initializing Maina UI...", 70);
 						Thread.sleep(500L);
 					}
-//					MainScene applicationScene = new MainScene(primaryGroup,
-//							applicationContainer); // (DialogRootPane) dlogMan, 
-//					updateProgress("Initializing scene title area...", 60);
-//					ViewTitle viewTitle = new ViewInfoAreaAdapter(
-//							applicationScene.getNode());
 					if(splashScreen!=null){
 						splashScreen.updateProgress("Application started.", 95);
 						Thread.sleep(500L);

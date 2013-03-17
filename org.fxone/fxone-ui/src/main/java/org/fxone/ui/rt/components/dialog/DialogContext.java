@@ -2,25 +2,24 @@ package org.fxone.ui.rt.components.dialog;
 
 import java.util.Arrays;
 
-import org.fxone.ui.annot.UIComponent;
-
 public final class DialogContext {
 
 	private String id;
 	private Object[] params;
-	private UIComponent dialogSpec;
+	// private UIComponent dialogSpec;
 	private DialogContainer dialogContainer;
 
-	public DialogContext(String id, DialogContainer dialogContainer, 
-			UIComponent dialogSpec, Object... params) {
+	public DialogContext(String id, DialogContainer dialogContainer,
+			Object... params) {
 		if (id == null) {
 			throw new IllegalArgumentException("Id may not be null.");
 		}
 		if (dialogContainer == null) {
-			throw new IllegalArgumentException("dialogContainer may not be null.");
+			throw new IllegalArgumentException(
+					"dialogContainer may not be null.");
 		}
 		this.id = id;
-		this.dialogSpec = dialogSpec;
+		// this.dialogSpec = dialogSpec;
 		this.params = params;
 		this.dialogContainer = dialogContainer;
 	}
@@ -32,9 +31,10 @@ public final class DialogContext {
 		return id;
 	}
 
-	public UIComponent getDialogSpec() {
-		return this.dialogSpec;
-	}
+	//
+	// public UIComponent getDialogSpec() {
+	// return this.dialogSpec;
+	// }
 
 	/**
 	 * @return the params
@@ -54,8 +54,8 @@ public final class DialogContext {
 	 */
 	@Override
 	public String toString() {
-		return "DialogContext [id=" + id + ", dialogSpec=" + dialogSpec + ", params="
-				+ Arrays.toString(params) + "]";
+		return "DialogContext [id=" + id // + ", dialogSpec=" + dialogSpec
+				+ ", params=" + Arrays.toString(params) + "]";
 	}
 
 }

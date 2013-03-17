@@ -1,10 +1,12 @@
-package org.fxone.ui.model.view;
+package org.fxone.ui.model.view.cmd;
 
 import java.util.Map;
 
 import org.fxone.core.events.Notification;
 import org.fxone.core.events.NotificationType;
 import org.fxone.core.events.Severity;
+import org.fxone.ui.model.view.View;
+import org.fxone.ui.model.view.ViewContainer;
 
 public final class ViewCommand extends Notification {
 
@@ -46,7 +48,7 @@ public final class ViewCommand extends Notification {
 		super(notif);
 	}
 
-	public View getView() {
+	public View<?> getView() {
 		return getAttribute(VIEW, View.class);
 	}
 

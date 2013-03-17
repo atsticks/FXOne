@@ -1,4 +1,4 @@
-package org.fxone.ui.model.msg;
+package org.fxone.ui.model.res;
 
 import java.util.Locale;
 

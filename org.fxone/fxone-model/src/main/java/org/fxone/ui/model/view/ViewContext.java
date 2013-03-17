@@ -2,21 +2,17 @@ package org.fxone.ui.model.view;
 
 import java.util.Arrays;
 
-import org.fxone.ui.annot.UIComponent;
-
 public final class ViewContext {
 
 	private String id;
 	private String viewContainerID;
 	private Object[] params;
-	private UIComponent viewSpec;
 
-	public ViewContext(String id, String viewContainerID, UIComponent viewSpec, Object... params) {
+	public ViewContext(String id, String viewContainerID, Object... params) {
 		if (id == null) {
 			throw new IllegalArgumentException("Id may not be null.");
 		}
 		this.id = id;
-		this.viewSpec = viewSpec;
 		this.params = params;
 		this.viewContainerID = viewContainerID;
 	}
@@ -35,10 +31,6 @@ public final class ViewContext {
 		return viewContainerID;
 	}
 
-	public UIComponent getViewSpec() {
-		return this.viewSpec;
-	}
-
 	/**
 	 * @return the params
 	 */
@@ -53,7 +45,7 @@ public final class ViewContext {
 	 */
 	@Override
 	public String toString() {
-		return "ViewContext [id=" + id + ", viewSpec=" + viewSpec + ", params="
+		return "ViewContext [id=" + id + ", viewSpec=" // + viewSpec + ", params="
 				+ Arrays.toString(params) + "]";
 	}
 

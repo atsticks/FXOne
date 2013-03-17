@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 public class DialogInput extends AbstractFXMLDialog {
+	
 	@FXML
 	private TextField valueField;
 

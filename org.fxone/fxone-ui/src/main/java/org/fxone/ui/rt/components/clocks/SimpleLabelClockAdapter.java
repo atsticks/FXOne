@@ -4,18 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Default;
-import javax.inject.Named;
-
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.Label;
 
-@Dependent
-@Default
-@Named("clock")
-public class SimpleLabelClock extends Label {
+public class SimpleLabelClockAdapter {
 
+	private Label targetLabel;
 	private static final long TIME_PERIOD = 200L;
 	private long lastTimeCall = 0;
 	private SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss",
@@ -32,13 +26,17 @@ public class SimpleLabelClock extends Label {
 		}
 	};
 	
-	public SimpleLabelClock() {
+	public SimpleLabelClockAdapter(Label targetLabel) {
+		if(targetLabel==null){
+			throw new IllegalArgumentException("targetLabel required.");
+		}
+		this.targetLabel = targetLabel;
 		setClock();
 		TIMER.start();
 	}
 
 	public void setClock() {
-		this.setText(df.format(new Date()));
+		this.targetLabel.setText(df.format(new Date()));
 	}
 
 	public void customize(String pattern, Locale locale) {

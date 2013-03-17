@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.fxone.core.cdi.Container;
-import org.fxone.ui.model.msg.ResourceProvider;
+import org.fxone.ui.model.res.ResourceProvider;
 
 public class PresentableAdapter implements Presentable {
 
