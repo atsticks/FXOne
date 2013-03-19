@@ -1,41 +1,30 @@
 package org.fxone.ui.model.view;
 
 
+public interface ViewContainer<T> {
 
-public interface ViewContainer{
-
-	boolean isViewOpened(String id);
-
-	boolean isViewVisible(String id);
-
-	View<?> getCurrentView();
-
-	boolean closeView(String id);
+	public void setEnabled(boolean enabled);
 	
-	boolean closeView(View<?> view);
-
-	boolean closeAllViews();
-
-	View<?>[] getViewsOpened();
+	public abstract View<T> getCurrentView();
 
 	/**
-	 * Take ensemble to the given page path, navigating there and adding current
-	 * page to history.
+	 * Take ensemble to the given page object, navigating there.
 	 * 
-	 * @param pagePath
-	 *            The path for the new page to show
+	 * @param view
+	 *            Page object to show
 	 * @param addHistory
 	 *            When true add current page to history before navigating
 	 * @param force
-	 *            Reload page even if its the current page
+	 *            When true reload page if page is current page
+	 * @param swapViews
+	 *            If view should be swapped to new page
 	 */
-	View<?> getView(String id);
-	
-	boolean openView(View<?> view);
-	
-	boolean showView(String id);
-	
-	View<?>[] getViewsVisible();
-	
-}
+	public abstract boolean openView(View<T> view);
 
+	public abstract T getUI();
+
+	public abstract boolean closeView(View<T> view);
+
+	public abstract boolean closeAllViews();
+
+}

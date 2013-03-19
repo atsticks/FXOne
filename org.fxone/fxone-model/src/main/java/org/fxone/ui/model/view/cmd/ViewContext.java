@@ -1,11 +1,13 @@
-package org.fxone.ui.model.view;
+package org.fxone.ui.model.view.cmd;
 
 import java.util.Arrays;
+
+import org.fxone.ui.model.workbench.Workbench;
 
 public final class ViewContext {
 
 	private String id;
-	private String viewContainerID;
+	private Workbench workbench;
 	private Object[] params;
 
 	public ViewContext(String id, String viewContainerID, Object... params) {
@@ -14,7 +16,6 @@ public final class ViewContext {
 		}
 		this.id = id;
 		this.params = params;
-		this.viewContainerID = viewContainerID;
 	}
 
 	/**
@@ -22,13 +23,6 @@ public final class ViewContext {
 	 */
 	public final String getId() {
 		return id;
-	}
-	
-	/**
-	 * @return the id
-	 */
-	public final String getViewContainerID() {
-		return viewContainerID;
 	}
 
 	/**
@@ -45,8 +39,20 @@ public final class ViewContext {
 	 */
 	@Override
 	public String toString() {
-		return "ViewContext [id=" + id + ", viewSpec=" // + viewSpec + ", params="
+		return "ViewContext [id=" + id + ", viewSpec=" // + viewSpec +
+														// ", params="
 				+ Arrays.toString(params) + "]";
+	}
+
+	public Workbench getWorkbench() {
+		return workbench;
+	}
+
+	public void setWorkbench(Workbench workbench) {
+		if (workbench == null) {
+			throw new IllegalArgumentException("Workbench is required.");
+		}
+		this.workbench = workbench;
 	}
 
 }

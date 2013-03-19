@@ -14,8 +14,8 @@ import org.fxone.ui.model.nav.NavigationManager;
 
 public class NavigationTree extends StackPane {
 
-	private Node rootIcon = new ImageView(new Image(getClass()
-			.getResourceAsStream("/img/16x16/folder_open_16x16.gif")));
+	private static Image FOLDERIMAGE = new Image(NavigationTree.class
+			.getResourceAsStream("/img/16x16/folder_open_16x16.gif"));
 	private String treeID;
 	private TreeView<NavigateableAction> tree;
 	private NavigationTreeItem root = null;
@@ -37,7 +37,7 @@ public class NavigationTree extends StackPane {
 		} else {
 			current = man.getRootNavigation(treeID);
 		}
-		root = new NavigationTreeItem(current, rootIcon);
+		root = new NavigationTreeItem(current);
 		tree = new TreeView<NavigateableAction>(root);
 		getChildren().clear();
 		getChildren().add(tree);
@@ -51,7 +51,7 @@ public class NavigationTree extends StackPane {
 		} else {
 			current = man.getRootNavigation(treeID);
 		}
-		root = new NavigationTreeItem(current, rootIcon);
+		root = new NavigationTreeItem(current);
 		tree = new TreeView<NavigateableAction>(root);
 		getChildren().add(tree);
 	}
@@ -68,7 +68,7 @@ public class NavigationTree extends StackPane {
 		}
 
 		public NavigationTreeItem(NavigateableArea navItem) {
-			super(navItem);
+			super(navItem, new ImageView(FOLDERIMAGE));
 			initChildren();
 		}
 

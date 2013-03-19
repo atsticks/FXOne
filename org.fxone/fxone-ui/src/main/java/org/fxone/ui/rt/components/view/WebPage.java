@@ -8,7 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.ViewContext;
+import org.fxone.ui.model.view.cmd.ViewContext;
 
 public class WebPage extends AnchorPane implements View<Node> {
 

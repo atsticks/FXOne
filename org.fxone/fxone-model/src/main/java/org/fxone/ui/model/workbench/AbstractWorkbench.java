@@ -13,12 +13,13 @@ import org.apache.log4j.Logger;
 public abstract class AbstractWorkbench implements Workbench {
 
 	protected static final String DEFAULT_STYLE_ID = "default";
+	@SuppressWarnings("rawtypes")
 	protected final Map<String, Perspective> perspectives = new ConcurrentHashMap<String, Perspective>();
-	private Perspective currentPerspective;
+	private Perspective<?> currentPerspective;
 	private final Logger log = Logger.getLogger(getClass());
 
-	public AbstractWorkbench(Instance<Perspective> perspectives) {
-		for (Perspective perspective : perspectives) {
+	public AbstractWorkbench(Instance<Perspective<?>> perspectives) {
+		for (Perspective<?> perspective : perspectives) {
 			Named annot = perspective.getClass().getAnnotation(
 					Named.class);
 			String perspectiveName = perspective.getClass().getSimpleName();
@@ -29,26 +30,27 @@ public abstract class AbstractWorkbench implements Workbench {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Enumeration<Perspective> getPerspectives() {
 		return Collections.enumeration(perspectives.values());
 	}
 
 	@Override
-	public Perspective getCurrentPerspective() {
+	public Perspective<?> getCurrentPerspective() {
 		return currentPerspective;
 	}
 
 	@Override
 	public boolean setCurrentPerspective(String persepectiveID) {
-		Perspective perspectiveInstance = perspectives.get(persepectiveID);
+		Perspective<?> perspectiveInstance = perspectives.get(persepectiveID);
 		if (perspectiveInstance == getCurrentPerspective()) {
 			return true;
 		}
 		if (perspectiveInstance != null) {
-			Perspective current = getCurrentPerspective();
+			Perspective<?> current = getCurrentPerspective();
 			this.currentPerspective = perspectiveInstance;
-			applyStyle(perspectiveInstance);
+			applyPerspective(perspectiveInstance);
 			if (current != null) {
 				current.deactivated(this);
 			}
@@ -65,6 +67,6 @@ public abstract class AbstractWorkbench implements Workbench {
 		setCurrentPerspective(DEFAULT_STYLE_ID);
 	}
 
-	protected abstract void applyStyle(Perspective styleInstance);
+	protected abstract void applyPerspective(Perspective<?> styleInstance);
 
 }

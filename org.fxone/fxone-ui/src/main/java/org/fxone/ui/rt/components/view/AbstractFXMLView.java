@@ -1,7 +1,7 @@
 package org.fxone.ui.rt.components.view;
 
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.ViewContext;
+import org.fxone.ui.model.view.cmd.ViewContext;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
 public class AbstractFXMLView extends AbstractFXMLComponent

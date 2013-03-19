@@ -7,7 +7,7 @@ import java.io.StringWriter;
 import javafx.scene.control.Label;
 
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.ViewContext;
+import org.fxone.ui.model.view.cmd.ViewContext;
 
 @SuppressWarnings("unchecked")
 public class EmptyView extends Label implements View<Node> {

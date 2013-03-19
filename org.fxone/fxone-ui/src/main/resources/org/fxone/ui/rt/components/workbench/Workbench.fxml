@@ -18,12 +18,12 @@
   <children>
     <BorderPane fx:id="rootLayout" minWidth="1033.0" prefHeight="1081.0" prefWidth="1033.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="10.0">
       <bottom>
-        <BorderPane id="workbenchFooter" fx:id="Footer_BorderPane" maxHeight="25.0" maxWidth="1.7976931348623157E308" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="-1.0">
+        <BorderPane id="workbenchFooterPane" fx:id="Footer_BorderPane" maxHeight="25.0" maxWidth="1.7976931348623157E308" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="-1.0">
           <left>
-            <Label fx:id="statusLabel" prefHeight="40.0" prefWidth="200.0" />
+            <Label fx:id="workbenchStatus" prefHeight="40.0" prefWidth="200.0" />
           </left>
           <right>
-            <Label fx:id="infoLabel" prefHeight="150.0" prefWidth="200.0" />
+            <Label fx:id="workbenchInfo" prefHeight="150.0" prefWidth="200.0" />
           </right>
           <top>
             <Separator prefWidth="200.0" />
@@ -31,19 +31,7 @@
         </BorderPane>
       </bottom>
       <center>
-        <AnchorPane id="workbenchContent" prefHeight="200.0" prefWidth="200.0">
-          <children>
-            <SplitPane fx:id="splitPane" dividerPositions="0.2551440329218107" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <items>
-                <AnchorPane id="leftSplitPane" fx:id="leftSplitPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                  <padding>
-                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" fx:id="x2" />
-                  </padding>
-                </AnchorPane>
-                <AnchorPane id="rightSplitPane" fx:id="rightSplitPane" minHeight="0.0" minWidth="0.0" padding="$x2" prefHeight="596.0" prefWidth="762.0" />
-              </items>
-            </SplitPane>
-          </children>
+        <AnchorPane fx:id="workbenchContentPane" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER">
           <BorderPane.margin>
             <Insets bottom="10.0" top="10.0" />
           </BorderPane.margin>
@@ -53,13 +41,13 @@
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
       </padding>
       <top>
-        <VBox id="workbenchHeader" prefHeight="-1.0" prefWidth="-1.0">
+        <VBox id="workbenchHeaderPane" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="TOP_CENTER">
           <children>
-            <HBox id="titlePane" fx:id="workbenchHeader" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="1225.0">
+            <HBox fx:id="workbenchTitlePane" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="1225.0">
               <children>
-                <HBox id="workbenchTitleBox" fx:id="areaTitleBox" alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="NEVER">
+                <HBox fx:id="workbenchTitleLayout" alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="NEVER">
                   <children>
-                    <Label id="areaTitle" fx:id="workbenchTitle" depthTest="INHERIT" text="FXOne Sample Workbench" textFill="#fff966" wrapText="false" HBox.hgrow="NEVER">
+                    <Label fx:id="workbenchTitle" depthTest="INHERIT" text="FXOne Sample Workbench" textFill="#fff966" wrapText="false" HBox.hgrow="NEVER">
                       <effect>
                         <Reflection bottomOpacity="0.14285714285714285" fraction="0.2142857142857143" topOpacity="0.746031746031746" />
                       </effect>
@@ -81,30 +69,38 @@
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                   </HBox.margin>
                 </HBox>
-                <Label fx:id="workbenchTopTitle" alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text=" " HBox.hgrow="ALWAYS">
-                  <graphicTextGap>
-                    <Long fx:value="4" />
-                  </graphicTextGap>
-                  <HBox.margin>
-                    <Insets top="35.0" />
-                  </HBox.margin>
-                </Label>
-                <VBox fx:id="workbenchTimeBox" alignment="TOP_RIGHT" fillWidth="false" minHeight="64.99990844726562" prefHeight="64.99990844726562" HBox.hgrow="NEVER">
+                <HBox fx:id="workbenchMiddleHeader" alignment="CENTER" fillHeight="false" HBox.hgrow="ALWAYS">
                   <children>
-                    <Label fx:id="clockLabel" text="00:00:00">
+                    <Label fx:id="workbenchMiddleTitle" alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text=" " HBox.hgrow="ALWAYS">
+                      <graphicTextGap>
+                        <Long fx:value="4" />
+                      </graphicTextGap>
+                      <HBox.margin>
+                        <Insets top="35.0" />
+                      </HBox.margin>
+                    </Label>
+                  </children>
+                  <prefHeight>
+                    <Long fx:value="-1" />
+                  </prefHeight>
+                  <prefWidth>
+                    <Long fx:value="-1" />
+                  </prefWidth>
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+                </HBox>
+                <VBox fx:id="workbenchRightHeader" alignment="TOP_RIGHT" fillWidth="false" minHeight="64.99990844726562" prefHeight="64.99990844726562" HBox.hgrow="NEVER">
+                  <children>
+                    <Label fx:id="workbenchRightTitle" text="00:00:00">
                       <font>
                         <Font size="16.0" />
                       </font>
                     </Label>
-                    <!-- SimpleLabelClock fx:id="Clock" alignment="TOP_RIGHT" contentDisplay="TEXT_ONLY" styleClass="timeLabel" text="00:00 h" textAlignment="RIGHT" VBox.vgrow="NEVER">
-		                  <graphicTextGap>
-		                    <Long fx:value="4" />
-		                  </graphicTextGap>
-		                  <VBox.margin>
-		                    <Insets fx:id="x1" />
-		                  </VBox.margin>
-		                </SimpleLabelClock>
-		                 -->
+                    <!-- SimpleLabelClock fx:id="Clock" alignment="TOP_RIGHT" contentDisplay="TEXT_ONLY" 
+											styleClass="timeLabel" text="00:00 h" textAlignment="RIGHT" VBox.vgrow="NEVER"> 
+											<graphicTextGap> <Long fx:value="4" /> </graphicTextGap> <VBox.margin> <Insets 
+											fx:id="x1" /> </VBox.margin> </SimpleLabelClock> -->
                   </children>
                   <prefWidth>
                     <Long fx:value="-1" />
