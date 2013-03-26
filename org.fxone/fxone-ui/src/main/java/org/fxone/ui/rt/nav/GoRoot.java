@@ -3,7 +3,7 @@ package org.fxone.ui.rt.nav;
 import org.fxone.ui.annot.UINavigationCommand;
 import org.fxone.ui.model.nav.AbstractUIAction;
 
-@UINavigationCommand(value = "/", perspective = "main")
+@UINavigationCommand(value = "/")
 public class GoRoot extends AbstractUIAction {
 
 	@Override

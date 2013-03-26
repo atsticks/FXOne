@@ -14,12 +14,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.fxone.core.cdi.Container;
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
 import org.fxone.ui.model.res.ResourceProvider;
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.cmd.ViewCommand;
+import org.fxone.ui.model.view.ViewContainer;
+import org.fxone.ui.model.view.cmd.ViewClosedNotif;
+import org.fxone.ui.model.view.cmd.ViewOpenedNotif;
 
 @Dependent
 @Named("view-menu")
@@ -37,7 +39,9 @@ public class ViewMenu extends MenuButton implements NotificationListener {
 
 	@Inject
 	private ResourceProvider resourceProvider;
-	
+
+	private ViewContainer viewContainer;
+
 	public ViewMenu() {
 		super.setText("View");
 		getItems().addAll(closeItem, closeAllItem, new SeparatorMenuItem(),
@@ -50,17 +54,17 @@ public class ViewMenu extends MenuButton implements NotificationListener {
 		NotificationService.get().removeListener(this);
 	};
 
-	private void initViewSelectionMenu(View currentView,
-			View[] currentViews) {
+	private void initViewSelectionMenu(View currentView, View[] currentViews) {
 		this.viewSelectionMenu.getItems().clear();
-		if (currentViews.length==0) {
+		if (currentViews.length == 0) {
 			this.viewSelectionMenu.setDisable(true);
 		} else {
 			this.viewSelectionMenu.setDisable(false);
 			// Add views to be selected...
 			Locale userLocale = Locale.ENGLISH; // TODO i18n
 			for (View v : currentViews) {
-				RadioMenuItem mi = new RadioMenuItem(resourceProvider.getName(Container.getName(v), userLocale));
+				RadioMenuItem mi = new RadioMenuItem(resourceProvider.getName(
+						Container.getName(v), userLocale));
 				mi.setUserData(v);
 				if (v == currentView) {
 					mi.setSelected(true);
@@ -99,27 +103,31 @@ public class ViewMenu extends MenuButton implements NotificationListener {
 		this.viewActionsMenu.setDisable(true);
 	}
 
-	public void notified(Notification event) {
-		if (ViewCommand.NOTIFTYPE_VIEW_CLOSED.isMatching(event)) {
-			ViewCommand ve = event.getAdapter(ViewCommand.class);
-			View[] currentViews = ve.getViewContainer().getViewsVisible();
-			if (currentViews.length==0) {
-				viewClosed();
-				this.viewSelectionMenu.setDisable(true);
-				this.viewActionsMenu.setDisable(true);
-			} else {
-				viewOpenend();
+	public void notified(AbstractNotification event) {
+		if (event.isMatching(ViewClosedNotif.class)) {
+			if (viewContainer != null) {
+				ViewClosedNotif notif = (ViewClosedNotif)event;
+				View[] currentViews = notif.getViewContainer().getViewsVisible();
+				if (currentViews.length == 0) {
+					viewClosed();
+					this.viewSelectionMenu.setDisable(true);
+					this.viewActionsMenu.setDisable(true);
+				} else {
+					viewOpenend();
+				}
 			}
-		} else if (ViewCommand.NOTIFTYPE_VIEW_OPENED.isMatching(event)) {
-			ViewCommand ve = event.getAdapter(ViewCommand.class);
-			View viewOpened = ve.getView();
-			View[] currentViews = ve.getViewContainer().getViewsVisible();
-			if (currentViews.length==0) {
-				viewClosed();
-			} else {
-				viewOpenend();
-				initViewActionsMenu(viewOpened);
-				initViewSelectionMenu(viewOpened, currentViews);
+		} else if (event.isMatching(ViewOpenedNotif.class)) {
+			if (viewContainer != null) {
+				ViewOpenedNotif ve = (ViewOpenedNotif)event;
+				View viewOpened = ve.getView();
+				View[] currentViews = ve.getViewContainer().getViewsVisible();
+				if (currentViews.length == 0) {
+					viewClosed();
+				} else {
+					viewOpenend();
+					initViewActionsMenu(viewOpened);
+					initViewSelectionMenu(viewOpened, currentViews);
+				}
 			}
 		}
 	}

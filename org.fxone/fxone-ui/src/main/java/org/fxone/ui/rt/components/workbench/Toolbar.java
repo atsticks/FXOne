@@ -44,10 +44,10 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.model.nav.cmd.Navigation;
+import org.fxone.ui.model.Model;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
 /**
@@ -73,25 +73,25 @@ public class Toolbar extends AbstractFXMLComponent implements
 		homeButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent evt) {
-				Navigation.goHome();
+				Model.Navigation.goHome();
 			}
 		});
 		upButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent evt) {
-				Navigation.goUp();
+				Model.Navigation.goUp();
 			}
 		});
 		prevButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent evt) {
-				Navigation.goBack();
+				Model.Navigation.goBack();
 			}
 		});
 		nextButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent evt) {
-				Navigation.goNext();
+				Model.Navigation.goNext();
 			}
 		});
 		toolbar.getItems().addAll(homeButton, new Separator(), upButton,
@@ -119,7 +119,7 @@ public class Toolbar extends AbstractFXMLComponent implements
 		return button;
 	}
 
-	public void notified(Notification event) {
+	public void notified(AbstractNotification event) {
 
 	}
 

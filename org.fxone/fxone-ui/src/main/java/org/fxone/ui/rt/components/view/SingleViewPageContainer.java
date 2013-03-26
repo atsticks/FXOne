@@ -3,19 +3,20 @@ package org.fxone.ui.rt.components.view;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
+import org.fxone.ui.model.Model;
 import org.fxone.ui.model.view.View;
 import org.fxone.ui.model.view.ViewContainer;
-import org.fxone.ui.model.view.cmd.ViewCommand;
-import org.fxone.ui.model.view.cmd.Views;
+import org.fxone.ui.model.view.cmd.CloseViewRequest;
+import org.fxone.ui.model.view.cmd.OpenViewRequest;
 
 import com.sun.javafx.tk.Toolkit;
 
-public class SingleViewPageContainer extends AnchorPane implements NotificationListener, ViewContainer<Node>{
+public class SingleViewPageContainer extends AnchorPane implements NotificationListener, ViewContainer{
 
-	private View<Node> currentView;
+	private View currentView;
 	private Node currentNode;
 	private Node defaultNode;
 
@@ -27,7 +28,7 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 	 * @see org.fxone.ui.rt.components.view.ViewContainer#getCurrentView()
 	 */
 	@Override
-	public View<Node> getCurrentView() {
+	public View getCurrentView() {
 		return currentView;
 	}
 
@@ -35,19 +36,8 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 	 * @see org.fxone.ui.rt.components.view.ViewContainer#openView(org.fxone.ui.model.view.View)
 	 */
 	@Override
-	public boolean openView(View<Node> view) {
+	public boolean openView(View view) {
 		return openView(view, null);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.fxone.ui.rt.components.view.ViewContainer#getUI()
-	 */
-	@Override
-	public Node getUI() {
-		if (this.defaultNode != null) {
-			setContent(this.defaultNode, null);
-		}
-		return this;
 	}
 
 	/* (non-Javadoc)
@@ -84,7 +74,7 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 
 	private void initView() {
 		if(this.currentView!=null){
-			setContent(this.currentView.getUI(),
+			setContent((Node)this.currentView,
 					this.currentView.getName());
 		} else {
 			setContent(this.defaultNode, null);
@@ -134,10 +124,10 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 		return true;
 	}
 
-	private void openViewInternal(View<Node> view, Object ui) {
+	private void openViewInternal(View view, Object ui) {
 		if (view != null) {
 			if (ui == null || !(ui instanceof Node)) {
-				setContent(view.getUI(), view.getName());
+				setContent((Node)view, view.getName());
 			} else {
 				setContent((Node) ui, view.getName());
 			}
@@ -146,8 +136,7 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 		}
 		View closedView = this.currentView;
 		if (closedView != null) {
-			// closedView.closed(this);
-			Views.viewClosed(this, closedView);
+			Model.Views.viewClosed(this, closedView);
 		}
 		this.currentView = view;
 	}
@@ -166,7 +155,6 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 		return true;
 	}
 
-	@Override
 	public void setEnabled(boolean enabled) {
 		if(enabled){
 			NotificationService.get().addListener(this);
@@ -177,17 +165,25 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 	}
 
 	@Override
-	public void notified(Notification event) {
-		if(ViewCommand.NOTIFTYPE_VIEW_OPEN.isMatching(event)){
-			ViewCommand cmd = (ViewCommand)event;
-			View<Node> view = (View<Node>) cmd.getView();
+	public void notified(AbstractNotification event) {
+		if(event.isMatching(OpenViewRequest.class)){
+			OpenViewRequest cmd = (OpenViewRequest)event;
+			View view = (View) cmd.getView();
 			openView(view);
 		}
-		else if(ViewCommand.NOTIFTYPE_VIEW_CLOSE.isMatching(event)){
-			ViewCommand cmd = (ViewCommand)event;
-			View<Node> view = (View<Node>) cmd.getView();
+		else if(event.isMatching(CloseViewRequest.class)){
+			CloseViewRequest cmd = (CloseViewRequest)event;
+			View view = (View) cmd.getView();
 			closeView(view);
 		}
+	}
+
+	@Override
+	public View[] getViewsVisible() {
+		if(this.currentView!=null){
+			return new View[]{this.currentView};
+		}
+		return new View[0];
 	}
 
 }

@@ -8,9 +8,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.cmd.ViewContext;
+import org.fxone.ui.model.view.ViewContext;
 
-public class WebPage extends AnchorPane implements View<Node> {
+public class WebPage extends AnchorPane implements View {
 
 	private String location;
 	private WebView view = new WebView();
@@ -70,7 +70,8 @@ public class WebPage extends AnchorPane implements View<Node> {
 	public void closed() {
 	}
 
-	public Node getUI(){
-		return this;
+	@Override
+	public String getName() {
+		return this.location;
 	}
 }

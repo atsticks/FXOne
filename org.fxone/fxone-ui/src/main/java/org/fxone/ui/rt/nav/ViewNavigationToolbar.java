@@ -15,7 +15,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
 import org.fxone.core.cdi.Container;
-import org.fxone.ui.model.nav.cmd.Navigation;
+import org.fxone.ui.model.Model;
 import org.fxone.ui.model.res.ResourceProvider;
 
 @Dependent
@@ -111,19 +111,19 @@ public class ViewNavigationToolbar extends HBox {
 	}
 
 	public void home() {
-		Navigation.goHome();
+		Model.Navigation.goHome();
 	}
 
 	public void back() {
-		Navigation.goBack();
+		Model.Navigation.goBack();
 	}
 
 	public void forward() {
-		Navigation.goNext();
+		Model.Navigation.goNext();
 	}
 
 	public void up() {
-		Navigation.goUp();
+		Model.Navigation.goUp();
 	}
 
 	public Button[] getButtons() {

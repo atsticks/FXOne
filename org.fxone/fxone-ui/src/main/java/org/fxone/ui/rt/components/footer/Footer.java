@@ -8,10 +8,10 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.model.workbench.WorkbenchEvent;
+import org.fxone.ui.model.workbench.cmd.SetWorkbenchStatus;
 
 @Dependent
 @Named("footer")
@@ -49,15 +49,13 @@ public class Footer extends HBox implements NotificationListener {
 	}
 
 	@Override
-	public void notified(Notification notif) {
-		if (WorkbenchEvent.NOTIFTYPE_SETSTATUS.isMatching(notif)) {
-			WorkbenchEvent cmd = (WorkbenchEvent) notif;
-			setStatus(cmd.getValue());
-		} else if (WorkbenchEvent.NOTIFTYPE_GETSTATUS
-				.isMatching(notif)) {
-			((WorkbenchEvent) notif).setResult(getStatus());
-		}
-		notif.setCompleted();
+	public void notified(AbstractNotification notif) {
+		if (SetWorkbenchStatus.NOTIFTYPE_SETSTATUS.isMatching(notif)) {
+			SetWorkbenchStatus cmd = (SetWorkbenchStatus) notif;
+			if(cmd.getStatus()!=null){
+				setStatus(cmd.getStatus());
+			}
+		} 
 	}
 
 }

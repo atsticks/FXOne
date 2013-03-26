@@ -8,10 +8,10 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.model.workbench.WorkbenchEvent;
+import org.fxone.ui.model.workbench.cmd.SetWorkbenchStatus;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
 import com.sun.javafx.tk.Toolkit;
@@ -33,10 +33,10 @@ public class StatusPane extends AbstractFXMLComponent implements
 	}
 
 	@Override
-	public void notified(Notification notif) {
-		if (WorkbenchEvent.NOTIFTYPE_SETSTATUS.isMatching(notif)) {
-			WorkbenchEvent evt = (WorkbenchEvent) notif;
-			setStatus(evt.getValue());
+	public void notified(AbstractNotification notif) {
+		if (notif.isMatching(SetWorkbenchStatus.class)) {
+			SetWorkbenchStatus evt = (SetWorkbenchStatus) notif;
+			setStatus(evt.getStatus());
 		}
 	}
 

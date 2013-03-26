@@ -6,4 +6,9 @@ public abstract class AbstractUIAction implements NavigateableAction {
 		return true;
 	}
 
+	@Override
+	public String getIdentifier() {
+		return getClass().getSimpleName();
+	}
+
 }

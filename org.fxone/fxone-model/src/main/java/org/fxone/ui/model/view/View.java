@@ -1,11 +1,10 @@
 package org.fxone.ui.model.view;
 
-import org.fxone.ui.model.view.cmd.ViewContext;
 
 
 
 
-public interface View<T>{
+public interface View{
 
 	String getName();
 	
@@ -17,6 +16,4 @@ public interface View<T>{
 
 	void closed();
 	
-	public T getUI();
-
 }

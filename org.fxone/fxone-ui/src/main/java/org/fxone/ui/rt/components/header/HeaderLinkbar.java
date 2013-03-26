@@ -5,13 +5,12 @@ import javafx.scene.layout.HBox;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.fxone.ui.model.nav.NavigateableAction;
+import org.fxone.ui.model.nav.NavigateableArea;
 import org.fxone.ui.model.nav.NavigationManager;
-import org.fxone.ui.model.nav.impl.HeaderCommand;
-import org.fxone.ui.rt.components.view.ViewMenu;
 import org.fxone.ui.rt.nav.CommandLink;
 
 @Dependent
@@ -20,10 +19,11 @@ import org.fxone.ui.rt.nav.CommandLink;
 public class HeaderLinkbar extends HBox {
 	
 	@Inject
-	public HeaderLinkbar(NavigationManager man, ViewMenu viewMenu, Instance<HeaderCommand> headerCommands) {
+	public HeaderLinkbar(NavigationManager man) {
 		setId("header-linkbar");
 		setAlignment(Pos.BASELINE_RIGHT);
-		for (HeaderCommand cmd : headerCommands) {
+		NavigateableArea area = man.getRootNavigation("header");
+		for (NavigateableAction cmd : area.getCommands()) {
 			getChildren().add(new CommandLink(cmd));
 		}
 	}

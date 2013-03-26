@@ -61,7 +61,7 @@ public final class NotificationGroup implements Comparable<NotificationGroup>{
 	public static NotificationGroup valueOf(String name) {
 		if (name == null || name.trim().isEmpty()) {
 			throw new IllegalArgumentException(
-					"Notification groupmust not be null or empty.");
+					"AbstractNotification groupmust not be null or empty.");
 		}
 		NotificationGroup g = GROUPS.get(name);
 		if (g == null) {

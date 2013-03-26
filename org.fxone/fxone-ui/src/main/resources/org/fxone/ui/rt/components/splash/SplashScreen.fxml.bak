@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane id="BorderPane" cache="true" cacheHint="SPEED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="319.0" style="-fx-background-color: gray" styleClass="root" xmlns:fx="http://javafx.com/fxml">
+  <bottom>
+    <Label fx:id="progressLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" text="Loading..." BorderPane.alignment="TOP_LEFT">
+      <font>
+        <Font size="10.0" />
+      </font>
+      <BorderPane.margin>
+        <Insets />
+      </BorderPane.margin>
+    </Label>
+  </bottom>
+  <center>
+    <ProgressBar fx:id="progressBar" progress="0.0" BorderPane.alignment="BOTTOM_LEFT">
+      <prefWidth>
+        <Long fx:value="300" />
+      </prefWidth>
+    </ProgressBar>
+  </center>
+  <effect>
+    <InnerShadow choke="0.2777777777777778" color="#dfdfdf" height="23.023809523809522" offsetX="1.0" offsetY="1.0" radius="10.50595238095238" />
+  </effect>
+  <padding>
+    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+  </padding>
+  <stylesheets>
+    <URL value="@../../../../../../../../resources/skins/dark/styles.css" />
+  </stylesheets>
+  <top>
+    <Label fx:id="splashscreenLabel" labelFor="$progressBar" opacity="0.89" text="Loading Homemotion">
+      <effect>
+        <Glow level="0.5075471698113208" />
+      </effect>
+      <font>
+        <Font name="System Bold" size="18.0" />
+      </font>
+    </Label>
+  </top>
+</BorderPane>

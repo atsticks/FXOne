@@ -8,11 +8,10 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.model.workbench.WorkbenchEvent;
+import org.fxone.ui.model.workbench.cmd.SetWorkbenchStatus;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
-import org.fxone.ui.rt.components.api.WorkbenchInfo;
 
 import com.sun.javafx.tk.Toolkit;
 
@@ -20,10 +19,10 @@ import com.sun.javafx.tk.Toolkit;
 @Named("info-pane")
 @Default
 public class InfoPane extends AbstractFXMLComponent implements
-		org.fxone.core.events.NotificationListener, WorkbenchInfo {
+		org.fxone.core.events.NotificationListener {
 	@FXML
 	private AnchorPane infoPane;
-	
+
 	@FXML
 	private Label noInfoLabel;
 
@@ -35,19 +34,10 @@ public class InfoPane extends AbstractFXMLComponent implements
 	}
 
 	@Override
-	public void notified(Notification notif) {
-		// TODO
-//		if (SelectionEvent.NOTIFTYPE_SET_SELECTION.isMatching(notif)) {
-//			SelectionEvent selEvt = notif.getAdapter(SelectionEvent.class);
-//			this.selectedItem = selEvt.getSelection();
-//			showInfo();
-//			notif.setHandledBy(this);
-//		}
-//		else 
-			if (WorkbenchEvent.NOTIFTYPE_SETINFO.isMatching(notif)) {
-			WorkbenchEvent evt = (WorkbenchEvent)notif;
-			setInfo(evt.getValue());
-			notif.setCompleted();
+	public void notified(AbstractNotification event) {
+		if (event.isMatching(SetWorkbenchStatus.class)) {
+			SetWorkbenchStatus evt = (SetWorkbenchStatus) event;
+			setInfo(evt.getInfo());
 		}
 	}
 
@@ -60,7 +50,6 @@ public class InfoPane extends AbstractFXMLComponent implements
 		}
 	}
 
-	@Override
 	public void setInfo(final String info) {
 		if (!Toolkit.getToolkit().isFxUserThread()) {
 			Toolkit.getToolkit().defer(new Runnable() {
@@ -75,7 +64,6 @@ public class InfoPane extends AbstractFXMLComponent implements
 		}
 	}
 
-	@Override
 	public String getInfo() {
 		return noInfoLabel.getText();
 	}

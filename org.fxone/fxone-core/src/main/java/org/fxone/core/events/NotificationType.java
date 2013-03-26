@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.log4j.Logger;
 import org.fxone.core.annot.NotificationExtension;
 import org.fxone.core.events.AbstractNotificationConsumer.ParseResult;
+import org.fxone.core.events.NotificationType.Builder;
 import org.fxone.core.types.AnnotationManager;
 
 public final class NotificationType implements Comparable<NotificationType> {
@@ -22,7 +23,7 @@ public final class NotificationType implements Comparable<NotificationType> {
 	private NotificationGroup group;
 	private String name;
 	private String description;
-	private Map<String, ParamDef> params = new HashMap<String, ParamDef>();
+	private Class<? extends AbstractNotification> type;
 	private Severity severity = Severity.UNKNOWN;
 	private boolean readOnly = false;
 	private Class resultType;
@@ -86,17 +87,17 @@ public final class NotificationType implements Comparable<NotificationType> {
 	}
 
 	private NotificationType(NotificationGroup family, String name,
-			String description, Severity severity, Map<String, ParamDef> params) {
-		this(family, name, description, severity, params, null);
+			String description, Severity severity, Class<? extends AbstractNotification> type) {
+		this(family, name, description, severity, type, null);
 	}
 
 	private NotificationType(NotificationGroup family, String name,
 			String description, Severity severity,
-			Map<String, ParamDef> params, Class<?> resultType) {
+			Class<? extends AbstractNotification> type, Class<?> resultType) {
 		this.group = family;
 		this.name = name;
 		this.description = description;
-		this.params = params;
+		this.type = type;
 		this.resultType = resultType;
 	}
 
@@ -139,37 +140,8 @@ public final class NotificationType implements Comparable<NotificationType> {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public Map<String, Class> getParameterTypes() {
-		Map<String, Class> result = new TreeMap<String, Class>();
-		for (ParamDef def : this.params.values()) {
-			result.put(def.getName(), def.getClass());
-		}
-		return result;
-	}
-
-	public int getParamCount() {
-		return this.params.size();
-	}
-
-	@SuppressWarnings("rawtypes")
-	public Class getParamType(String key) {
-		ParamDef def = this.params.get(key);
-		if (def != null) {
-			return def.getType();
-		}
-		return null;
-	}
-
-	public boolean isParamRequired(String key) {
-		ParamDef def = this.params.get(key);
-		if (def != null) {
-			return def.isRequired();
-		}
-		return false;
-	}
-
-	public String[] getParamKeys() {
-		return this.params.keySet().toArray(new String[params.size()]);
+	public Class<? extends AbstractNotification> getType() {
+		return this.type;
 	}
 
 	@Override
@@ -213,50 +185,14 @@ public final class NotificationType implements Comparable<NotificationType> {
 		return name.compareTo(o.name);
 	}
 
-	public void validateParameter(String key, Object value) {
-		ParamDef def = this.params.get(key);
-		if (def == null) {
-			throw new IllegalArgumentException("No such parameter defined: "
-					+ key);
-		}
-		def.validate(value);
-	}
-
-	@SuppressWarnings("rawtypes")
-	public NotificationType defineParameter(String name, Class type) {
-		return defineParameter(name, type, true);
-	}
-
-	@SuppressWarnings("rawtypes")
-	public NotificationType defineParameter(String name, Class type,
-			boolean required) {
-		checkReadOnly();
-		if (this.params.containsKey(name)) {
-			throw new IllegalArgumentException("Parameter is already defined.");
-		}
-		ParamDef def = new ParamDef(name, type, required);
-		this.params.put(name, def);
-		return this;
-	}
-
 	private void checkReadOnly() {
 		if (this.readOnly) {
 			throw new IllegalStateException("EventDefinition is read only.");
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	public NotificationType defineParameter(Class type) {
-		return defineParameter(type.getName(), type, true);
-	}
-
-	@SuppressWarnings("rawtypes")
-	public NotificationType defineParameter(Class type, boolean required) {
-		return defineParameter(type.getName(), type, required);
-	}
-
-	public boolean isMatching(Notification event) {
-		return event.getEventTypeID() == getEventId();
+	public boolean isMatching(AbstractNotification event) {
+		return event.getClass().getName().equals(this.type.getName());
 	}
 
 	public boolean isMatching(ParseResult result) {
@@ -269,7 +205,7 @@ public final class NotificationType implements Comparable<NotificationType> {
 		private String group;
 		private String name;
 		private String description;
-		private Map<String, ParamDef> params = new HashMap<String, ParamDef>();
+		private Class<? extends AbstractNotification> type;
 		private Severity severity = Severity.UNKNOWN;
 		private Class<?> resultType;
 
@@ -309,6 +245,9 @@ public final class NotificationType implements Comparable<NotificationType> {
 				return false;
 			}
 			if (name == null) {
+				return false;
+			}
+			if (type == null) {
 				return false;
 			}
 			return true;
@@ -363,79 +302,19 @@ public final class NotificationType implements Comparable<NotificationType> {
 			return group;
 		}
 
-		@SuppressWarnings("rawtypes")
-		public Map<String, Class> getParameterTypes() {
-			Map<String, Class> result = new TreeMap<String, Class>();
-			for (ParamDef def : this.params.values()) {
-				result.put(def.getName(), def.getClass());
-			}
-			return result;
-		}
-
-		public int getParamCount() {
-			return this.params.size();
-		}
-
-		@SuppressWarnings("rawtypes")
-		public Class getParamType(String key) {
-			ParamDef def = this.params.get(key);
-			if (def != null) {
-				return def.getType();
-			}
-			return null;
-		}
-
-		public boolean isParamRequired(String key) {
-			ParamDef def = this.params.get(key);
-			if (def != null) {
-				return def.isRequired();
-			}
-			return false;
-		}
-
-		public String[] getParamKeys() {
-			return this.params.keySet().toArray(new String[params.size()]);
-		}
 
 		@Override
 		public String toString() {
 			return "EventDefinition.Builder [group=" + group + ", name=" + name
 					+ "]";
 		}
-
-		@SuppressWarnings("rawtypes")
-		public Builder defineParameter(String name, Class type) {
-			return defineParameter(name, type, true);
-		}
-
-		@SuppressWarnings("rawtypes")
-		public Builder defineParameter(String name, Class type, boolean required) {
-			if (this.params.containsKey(name)) {
-				throw new IllegalArgumentException(
-						"Parameter is already defined.");
-			}
-			ParamDef def = new ParamDef(name, type, required);
-			this.params.put(name, def);
-			return this;
-		}
-
-		@SuppressWarnings("rawtypes")
-		public Builder defineParameter(Class type) {
-			return defineParameter(type.getName(), type, true);
-		}
-
-		@SuppressWarnings("rawtypes")
-		public Builder defineParameter(Class type, boolean required) {
-			return defineParameter(type.getName(), type, required);
-		}
-
 		public NotificationType build() {
 			if (!isBuildable()) {
 				throw new IllegalStateException(
 						"NotificationType is not fully defined.");
 			}
 			return new NotificationType(NotificationGroup.valueOf(group), name,
-					description, severity, this.params, resultType);
+					description, severity, this.type, resultType);
 		}
 
 		public NotificationType buildAndRegister() {
@@ -446,6 +325,11 @@ public final class NotificationType implements Comparable<NotificationType> {
 		public Builder addResult(Class<?> resultType) {
 			this.resultType = resultType;
 			return this;
+		}
+
+		public Builder define(Class<? extends AbstractNotification> type) {
+			this.type = type;
+			return null;
 		}
 	}
 

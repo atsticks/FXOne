@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?scenebuilder-background-color 0x000000ff?>
+
+<VBox id="BorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="150.0" minWidth="300.0" prefHeight="150.0" style="-fx-background-color: transparent;&#10;" styleClass="boxed" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <AnchorPane id="AnchorPane">
+      <children>
+        <Label fx:id="messageTickerLabel" text="Message Ticker" textFill="#bfbfbf" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <MenuButton fx:id="messageLevelButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Severity Level" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="-2.0">
+          <font>
+            <Font size="11.0" />
+          </font>
+          <graphicTextGap>
+            <Long fx:value="4" />
+          </graphicTextGap>
+          <items>
+            <CheckMenuItem id="offLevelAction" mnemonicParsing="false" text="None (Off)" fx:id="offLevelAction" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <CheckMenuItem id="alarmLevelAction" mnemonicParsing="false" text="Alarm" fx:id="alarmLevelAction" />
+            <CheckMenuItem id="alarmLevelAction" mnemonicParsing="false" text="Severe" fx:id="fatalErrorAction" />
+            <CheckMenuItem id="errorLevelAction" mnemonicParsing="false" text="Error" fx:id="errorLevelAction" />
+            <CheckMenuItem id="warningLevelAction" mnemonicParsing="false" selected="true" text="Warning" fx:id="warningLevelAction" />
+            <CheckMenuItem id="infoLevelAction" mnemonicParsing="false" style="" text="Info" fx:id="infoLevelAction" />
+            <CheckMenuItem id="debugLevelAction" mnemonicParsing="false" style="" text="All" fx:id="debugLevelAction" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem id="" mnemonicParsing="false" text="Clear Messages" fx:id="clearItem" />
+          </items>
+        </MenuButton>
+      </children>
+    </AnchorPane>
+    <TableView fx:id="messageTickerTable" opacity="0.5" prefHeight="95.0" prefWidth="500.0" style="-fx-background-color: transparent;-fx-text-fill: #222222;" VBox.vgrow="ALWAYS" />
+  </children>
+  <layoutX>
+    <Long fx:value="0" />
+  </layoutX>
+  <padding>
+    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+  </padding>
+  <prefWidth>
+    <Long fx:value="300" />
+  </prefWidth>
+  <spacing>
+    <Long fx:value="0" />
+  </spacing>
+</VBox>

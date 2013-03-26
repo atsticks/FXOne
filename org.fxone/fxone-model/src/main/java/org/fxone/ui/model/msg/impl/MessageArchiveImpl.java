@@ -8,9 +8,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
+import org.fxone.core.events.MessageEvent;
 import org.fxone.core.events.Severity;
-import org.fxone.core.events.notif.Message;
 import org.fxone.ui.model.msg.MessageArchive;
 import org.fxone.ui.model.res.ResourceProvider;
 
@@ -24,7 +24,7 @@ public final class MessageArchiveImpl implements MessageArchive {
 	@Inject
 	private ResourceProvider resourceProvider;
 
-	private List<Message> messages = new ArrayList<Message>(20);
+	private List<MessageEvent> messages = new ArrayList<MessageEvent>(20);
 
 	public MessageArchiveImpl() {
 	}
@@ -35,19 +35,19 @@ public final class MessageArchiveImpl implements MessageArchive {
 		}
 	}
 
-	public List<Message> getArchivedMessages() {
+	public List<MessageEvent> getArchivedMessages() {
 		synchronized (LOCK) {
 			return Collections.unmodifiableList(messages);
 		}
 	}
 
-	public List<Message> getArchivedMessages(Severity... severities) {
+	public List<MessageEvent> getArchivedMessages(Severity... severities) {
 		synchronized (LOCK) {
-			List<Message> result = new ArrayList<Message>();
+			List<MessageEvent> result = new ArrayList<MessageEvent>();
 			if (severities == null || severities.length == 0) {
 				return result;
 			}
-			for (Message message : messages) {
+			for (MessageEvent message : messages) {
 				for (Severity sev : severities) {
 					if (message.getSeverity().equals(sev)) {
 						result.add(message);
@@ -71,7 +71,7 @@ public final class MessageArchiveImpl implements MessageArchive {
 		}
 	}
 
-	public void notified(Notification n) {
+	public void notified(AbstractNotification n) {
 		// TODO implement correctly
 		// MessageEvent me = n.getAdapter(MessageEvent.class);
 		// if (me!=null) {

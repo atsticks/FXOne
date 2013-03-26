@@ -81,7 +81,7 @@ package org.fxone.ui.rt.components.dock;
 //		}
 //	}
 //
-//	public void notified(@Observes Notification cmd) {
+//	public void notified(@Observes AbstractNotification cmd) {
 //		if ("Navigate".equals(cmd.getFamily())) {
 //			if ("to".equals(cmd.getMethod())) {
 //				String target = cmd.getParam(0, String.class);

@@ -9,10 +9,11 @@ import java.util.ResourceBundle;
 import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationType;
 import org.fxone.core.events.Severity;
 import org.fxone.ui.model.res.ResourceProvider;
+import org.fxone.ui.model.res.cmd.ResourceRequest;
 
 @Singleton
 public final class ResourceProviderImpl implements ResourceProvider {
@@ -27,12 +28,6 @@ public final class ResourceProviderImpl implements ResourceProvider {
 	private static final String BASE128 = "128x128/";
 	private static final String BASESCALABLE = "scalable/";
 
-	private static NotificationType GET_MESSAGE_NOTIF = new NotificationType.Builder(
-			"UI", "Resource:getMessage",
-			"Access a message using the application's UI bundle.",
-			Severity.DEBUG).defineParameter("message", String.class)
-			.defineParameter("contextData", Object[].class)
-			.addResult(String.class).buildAndRegister();
 
 	@Override
 	public String getMessage(String key, Locale locale, Object... contextData) {
@@ -63,21 +58,20 @@ public final class ResourceProviderImpl implements ResourceProvider {
 		}
 	}
 
-	public void notified(Notification n) {
-		if (GET_MESSAGE_NOTIF.isMatching(n)) {
-			String family = n.getAttribute("family", String.class);
-			String key = n.getAttribute("key", String.class);
+	public void notified(AbstractNotification n) {
+		if (ResourceRequest.NOTIF_TYPE.isMatching(n)) {
+			ResourceRequest req = (ResourceRequest)n;
+			String family = req.getFamily();
+			String key = req.getKey();
 			Locale locale = Locale.getDefault();
-			if (n.getAttribute("locale", Locale.class) != null) {
-				locale = (Locale) n.getAttribute("locale", Locale.class);
+			if (req.getLocale()!=null) {
+				locale = req.getLocale();
 			}
-			Object[] contextData = n
-					.getAttribute("contextData", Object[].class);
+			Object[] contextData = req.getContextData();
 			if (contextData == null) {
 				contextData = new Object[0];
 			}
-			n.getAttribute("returnResult",
-					getMessage(family, key, locale, contextData));
+			n.setResult(getMessage(family, key, locale, contextData));
 			n.setCompleted();
 		}
 	}

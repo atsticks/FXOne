@@ -15,9 +15,9 @@ public interface Workbench {
 
 	public Enumeration<Perspective> getPerspectives();
 
-	public Perspective<?> getPerspective(String key);
+	public Perspective getPerspective(String key);
 
-	public Perspective<?> getCurrentPerspective();
+	public Perspective getCurrentPerspective();
 
 	public boolean setCurrentPerspective(String perspectiveID);
 

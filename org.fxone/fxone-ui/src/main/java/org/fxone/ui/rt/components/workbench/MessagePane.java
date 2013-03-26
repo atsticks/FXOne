@@ -25,11 +25,11 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
 import org.fxone.core.events.Severity;
-import org.fxone.ui.model.workbench.cmd.WorkbenchCommands;
+import org.fxone.ui.model.Model;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 import org.homemotion.ui.fx.framework.widget.table.ImageCell;
 
@@ -65,7 +65,7 @@ public class MessagePane extends AbstractFXMLComponent implements
 		TableColumn<MessageEntry, String> nameCol = new TableColumn<MessageEntry, String>(
 				"Name");
 		TableColumn<MessageEntry, String> paramsCol = new TableColumn<MessageEntry, String>(
-				"Parameters");
+				"Details");
 		paramsCol.setMaxWidth(Integer.MAX_VALUE);
 		severityCol
 				.setCellValueFactory(new PropertyValueFactory<MessageEntry, Image>(
@@ -84,7 +84,7 @@ public class MessagePane extends AbstractFXMLComponent implements
 				"name"));
 		paramsCol
 				.setCellValueFactory(new PropertyValueFactory<MessageEntry, String>(
-						"parameters"));
+						"details"));
 		messageTickerTable.getColumns().addAll(severityCol, groupCol, nameCol,
 				paramsCol);
 		messageTickerTable.setItems(data);
@@ -180,33 +180,25 @@ public class MessagePane extends AbstractFXMLComponent implements
 		this.level = level;
 	};
 
-	public void addMessage(Notification notif) {
+	public void addMessage(AbstractNotification<?> notif) {
 		if (this.level != null
 				&& this.level.compareTo(notif.getSeverity()) <= 0) {
 			MessageEntry msg = new MessageEntry();
-			msg.group = notif.getType().getGroup().getName();
-			msg.name = notif.getType().getName();
+			msg.group = notif.getGroup();
+			msg.name = notif.getClass().getName();
 			msg.severity = notif.getSeverity();
-			msg.params = String.valueOf(notif.getAttributes());
+			msg.details = String.valueOf(notif.toString());
 			data.add(msg);
 		}
 	}
 
-	// public void addMessages(Severity severity, String... messages) {
-	// List<MessageEntry> collection = new ArrayList<MessageEntry>(
-	// messages.length);
-	// for (String message : messages) {
-	// addMessage(severity, message);
-	// }
-	// data.addAll(collection);
-	// }
 
 	public static final class MessageEntry {
 
 		private Severity severity;
 		private String group;
 		private String name;
-		private String params;
+		private String details;
 		private long timestamp = System.currentTimeMillis();
 		private static Map<Severity, Image> images = new HashMap<Severity, Image>();
 
@@ -249,38 +241,14 @@ public class MessagePane extends AbstractFXMLComponent implements
 			return this.name;
 		}
 
-		public String getParameters() {
-			return this.params;
+		public String getDetails() {
+			return this.details;
 		}
 	}
 
-	// public static class MessagePaneTester extends PaneTester {
-	// @Override
-	// protected Pane createPane() {
-	// MessagePane pane = new MessagePane();
-	// pane.addMessage(Severity.INFO, "An info message.");
-	// pane.addMessage(Severity.DEBUG, "A debug message.");
-	// pane.addMessage(Severity.ERROR, "An error message.");
-	// pane.addMessage(Severity.INFO, "An info message.");
-	// pane.addMessage(Severity.WARNING, "A warning message.");
-	// pane.addMessage(Severity.INFO, "An info message.");
-	// pane.addMessage(Severity.INFO, "An info message.");
-	// pane.addMessage(Severity.FATAL, "An fatal message.");
-	// pane.addMessage(Severity.ERROR, "An error message.");
-	// pane.addMessage(Severity.INFO, "An info message.");
-	// pane.addMessage(Severity.DEBUG, "A debug message.");
-	// pane.addMessage(Severity.ERROR, "An error message.");
-	// pane.addMessage(Severity.INFO, "An info message.");
-	// pane.addMessage(Severity.DEBUG, "A debug message.");
-	// pane.addMessage(Severity.DEBUG, "A debug message.");
-	// pane.addMessage(Severity.DEBUG, "A debug message.");
-	// pane.addMessage(Severity.ERROR, "An error message.");
-	// return pane;
-	// }
-	// }
 
 	@Override
-	public void notified(Notification notif) {
+	public void notified(AbstractNotification notif) {
 		this.addMessage(notif);
 	}
 
@@ -311,7 +279,7 @@ public class MessagePane extends AbstractFXMLComponent implements
 
 	public void setStatus(String status) {
 		this.status = status;
-		WorkbenchCommands.setStatus(status);
+		Model.Workbench.setStatus(status, null);
 	}
 
 	public String getStatus() {

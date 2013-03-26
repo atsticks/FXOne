@@ -6,8 +6,4 @@ public interface NavigateableAction extends Runnable, Identifiable {
 
 	public boolean isEnabled();
 	
-	public String getPath();
-	
-	public NavigateableArea getParent();
-
 }

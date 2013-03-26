@@ -1,11 +1,9 @@
 package org.fxone.ui.model.view;
 
 
-public interface ViewContainer<T> {
+public interface ViewContainer {
 
-	public void setEnabled(boolean enabled);
-	
-	public abstract View<T> getCurrentView();
+	public View getCurrentView();
 
 	/**
 	 * Take ensemble to the given page object, navigating there.
@@ -19,12 +17,12 @@ public interface ViewContainer<T> {
 	 * @param swapViews
 	 *            If view should be swapped to new page
 	 */
-	public abstract boolean openView(View<T> view);
+	public boolean openView(View view);
 
-	public abstract T getUI();
+	public boolean closeView(View view);
 
-	public abstract boolean closeView(View<T> view);
+	public boolean closeAllViews();
 
-	public abstract boolean closeAllViews();
+	public View[] getViewsVisible();
 
 }

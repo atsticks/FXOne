@@ -6,11 +6,12 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationService;
-import org.fxone.ui.model.nav.NavigationEvent;
 import org.fxone.ui.model.nav.NavigationHistory;
-import org.fxone.ui.model.nav.cmd.Navigation;
+import org.fxone.ui.model.nav.cmd.ClearNavigationHistory;
+import org.fxone.ui.model.nav.cmd.NavigateTo;
+import org.fxone.ui.model.nav.cmd.PrintNavigationHistory;
 
 @Singleton
 public class NavigationHistoryImpl implements NavigationHistory {
@@ -28,9 +29,7 @@ public class NavigationHistoryImpl implements NavigationHistory {
 		synchronized (history) {
 			if (isBackEnabled()) {
 				perform(history.get(--pos));
-			} else {
-				Navigation.goHome();
-			}
+			} 
 		}
 	}
 
@@ -47,7 +46,7 @@ public class NavigationHistoryImpl implements NavigationHistory {
 
 	private void perform(HistoryItem cmd) {
 		LOGGER.info("Performing command: " + cmd.cmd);
-		NotificationService.get().publishEvent(cmd.cmd, NavigationEvent.class);
+		NotificationService.get().publishEvent(cmd.cmd, NavigateTo.class);
 	}
 
 	/**
@@ -64,12 +63,12 @@ public class NavigationHistoryImpl implements NavigationHistory {
 
 	private static final class HistoryItem {
 		String title;
-		NavigationEvent cmd;
+		NavigateTo cmd;
 	}
 
-	public NavigationEvent removeNavigation(int pos) {
+	public NavigateTo removeNavigation(int pos) {
 		synchronized (history) {
-			NavigationEvent cmd = this.history.remove(pos).cmd;
+			NavigateTo cmd = this.history.remove(pos).cmd;
 			if (pos >= history.size()) {
 				pos = history.size() - 1;
 			}
@@ -92,7 +91,7 @@ public class NavigationHistoryImpl implements NavigationHistory {
 	}
 
 	@Override
-	public void addNotification(NavigationEvent cmd, String title) {
+	public void addNotification(NavigateTo cmd, String title) {
 		synchronized (history) {
 			if (history.size() > pos) {
 				int start = pos + 1;
@@ -134,20 +133,24 @@ public class NavigationHistoryImpl implements NavigationHistory {
 	}
 
 	@Override
-	public NavigationEvent getNotification(int pos) {
+	public NavigateTo getNotification(int pos) {
 		synchronized (history) {
 			return history.get(pos).cmd;
 		}
 	}
 
-	public void notified(Notification evt) {
-		if (NavigationEvent.NOTIFTYPE_NAVIGATE_BACK.isMatching(evt)) {
-			back();
-		} else if (NavigationEvent.NOTIFTYPE_NAVIGATE_NEXT.isMatching(evt)) {
-			forward();
-		} else if (NavigationEvent.NOTIFTYPE_CLEAR_HIST.isMatching(evt)) {
+	public void notified(AbstractNotification evt) {
+		if (NavigateTo.NOTIFTYPE_NAVIGATE_TO.isMatching(evt)) {
+			NavigateTo nav = (NavigateTo)evt;
+			if("_back".equals(nav.getNavigationTarget())){
+				back();
+			}
+			if("_next".equals(nav.getNavigationTarget())){
+				forward();
+			}
+		} else if (ClearNavigationHistory.NOTIFTYPE.isMatching(evt)) {
 			clearHistory();
-		} else if (NavigationEvent.NOTIFTYPE_PRINT_HIST.isMatching(evt)) {
+		} else if (PrintNavigationHistory.NOTIFTYPE.isMatching(evt)) {
 			printHistory();
 		}
 	}

@@ -7,13 +7,12 @@ import javafx.scene.control.Label;
 import javax.inject.Inject;
 
 import org.fxone.core.cdi.Container;
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
 import org.fxone.ui.model.nav.NavigationManager;
 import org.fxone.ui.model.view.View;
 import org.fxone.ui.model.view.ViewContainer;
-import org.fxone.ui.model.view.cmd.ViewCommand;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 //
 //public class SingleViewPane extends AbstractFXMLComponent implements
@@ -47,12 +46,12 @@ import org.fxone.ui.rt.components.AbstractFXMLComponent;
 //	}
 //
 //	@Override
-//	public void notified(Notification notif) {
+//	public void notified(AbstractNotification notif) {
 //		if (!this.active) {
 //			return;
 //		}
-//		if (ViewCommand.NOTIFTYPE_OPEN_VIEW.isMatching(notif)) {
-//			ViewCommand evt = (ViewCommand)notif;
+//		if (AbstractViewCommand.NOTIFTYPE_OPEN_VIEW.isMatching(notif)) {
+//			AbstractViewCommand evt = (AbstractViewCommand)notif;
 //			View view = evt.getView();
 //			if (view == null) {
 //				String viewID = evt.getViewID();
@@ -66,8 +65,8 @@ import org.fxone.ui.rt.components.AbstractFXMLComponent;
 //				viewContainer.openView(view);
 //			}
 //		}
-//		else if (ViewCommand.NOTIFTYPE_CLOSE_VIEW.isMatching(notif)) {
-//			ViewCommand evt = (ViewCommand)notif;
+//		else if (AbstractViewCommand.NOTIFTYPE_CLOSE_VIEW.isMatching(notif)) {
+//			AbstractViewCommand evt = (AbstractViewCommand)notif;
 //			View view = evt.getView();
 //			if (view == null) {
 //				String viewID = evt.getViewID();

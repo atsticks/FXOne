@@ -88,7 +88,7 @@ public final class NotificationService {
 	public void removeListener(NotificationListener l, String target) {
 		if (l == null) {
 			throw new IllegalArgumentException(
-					"Message Listener can not be null.");
+					"MessageEvent Listener can not be null.");
 		}
 		Collection<NotificationListener> found = listeners.get(DEFAULT_TARGET);
 		if (found != null) {
@@ -108,7 +108,7 @@ public final class NotificationService {
 	public void removeListener(NotificationListener l) {
 		if (l == null) {
 			throw new IllegalArgumentException(
-					"Message Listener can not be null.");
+					"MessageEvent Listener can not be null.");
 		}
 		for (Collection<NotificationListener> list : listeners.values()) {
 			list.remove(l);
@@ -122,7 +122,7 @@ public final class NotificationService {
 	public void addListener(NotificationListener l, String target) {
 		if (l == null) {
 			throw new IllegalArgumentException(
-					"Message Listener can not be null.");
+					"MessageEvent Listener can not be null.");
 		}
 		if (target == null) {
 			target = DEFAULT_TARGET;
@@ -144,7 +144,7 @@ public final class NotificationService {
 		synchronized (parsers) {
 			if (!parsers.contains(p)) {
 				parsers.add(p);
-				LOGGER.info("Registered Notification Parser: " + p);
+				LOGGER.info("Registered AbstractNotification Parser: " + p);
 			}
 		}
 	}
@@ -155,20 +155,20 @@ public final class NotificationService {
 		}
 	}
 
-	public <T extends Notification> Future<T> publishEvent(final T event,
+	public <T extends AbstractNotification> Future<T> publishEvent(final T event,
 			Class<T> type) {
-		ExecutorService service = this.eventQueues.get(event.getType()
-				.getGroup().getName());
+		final String groupName = event.getGroup();
+		ExecutorService service = this.eventQueues.get(groupName);
 		if (service == null) {
-			defineTarget(event.getType().getGroup().getName());
+			defineTarget(groupName);
 			service = this.eventQueues
-					.get(event.getType().getGroup().getName());
+					.get(groupName);
 		}
 		return service.submit(new Callable<T>() {
 			public T call() {
 				try {
 					final Collection<NotificationListener> targets = listeners
-							.get(event.getType().getGroup());
+							.get(groupName);
 					if (targets != null) {
 						notifyTargets(event, targets);
 					}
@@ -183,7 +183,7 @@ public final class NotificationService {
 				return event;
 			}
 
-			protected void notifyTargets(final Notification event,
+			protected void notifyTargets(final AbstractNotification event,
 					Collection<NotificationListener> targets) {
 				synchronized (targets) {
 					for (NotificationListener l : targets) {
@@ -209,19 +209,19 @@ public final class NotificationService {
 
 	public void start() {
 		if (!started) {
-			LOGGER.info("Starting Notification Service...");
+			LOGGER.info("Starting AbstractNotification Service...");
 
 			// Load notification provider
 			Set<String> annotatedClasses = AnnotationManager
 					.getAnnotatedClasses(NotificationExtension.class.getName());
 			started = true;
-			LOGGER.info("Notification Service started.");
+			LOGGER.info("AbstractNotification Service started.");
 		}
 	}
 
 	public void stop() {
 		if (started) {
-			LOGGER.info("Stopping Notification Service...");
+			LOGGER.info("Stopping AbstractNotification Service...");
 			String[] keys = this.eventQueues.keySet().toArray(new String[0]);
 			for (String target : keys) {
 				ExecutorService service = this.eventQueues.remove(target);
@@ -235,7 +235,7 @@ public final class NotificationService {
 				}
 			}
 			started = false;
-			LOGGER.info("Notification Service stopped.");
+			LOGGER.info("AbstractNotification Service stopped.");
 		}
 	}
 
@@ -247,7 +247,7 @@ public final class NotificationService {
 			return;
 		}
 		this.eventQueues.put(target, createExecutorService());
-		LOGGER.info("Defined Notification Service target: " + target);
+		LOGGER.info("Defined AbstractNotification Service target: " + target);
 	}
 
 	public synchronized void undefineTarget(String target) {
@@ -263,13 +263,13 @@ public final class NotificationService {
 		return (T) this.notificationProvider.get(providerType);
 	}
 
-	public Future<Notification> send(Object owner, String notification) {
+	public Future<AbstractNotification> send(Object owner, String notification) {
 		for (NotificationConsumer parser : this.parsers) {
 			try {
-				Notification notif = parser.parseNotification(owner,
+				AbstractNotification notif = parser.parseNotification(owner,
 						notification);
 				if (notif != null) {
-					return publishEvent(notif, Notification.class);
+					return publishEvent(notif, AbstractNotification.class);
 				}
 			} catch (Exception e) {
 				LOGGER.error("Error parsing notification using: " + parser, e);

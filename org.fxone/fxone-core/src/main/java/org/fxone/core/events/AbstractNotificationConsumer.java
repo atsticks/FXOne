@@ -25,7 +25,7 @@ public abstract class AbstractNotificationConsumer implements NotificationConsum
 	}
 
 	@Override
-	public Notification parseNotification(Object owner, String notification) {
+	public AbstractNotification parseNotification(Object owner, String notification) {
 		if (owner == null) {
 			throw new IllegalArgumentException("Owner is required.");
 		}
@@ -70,6 +70,6 @@ public abstract class AbstractNotificationConsumer implements NotificationConsum
 		return pr;
 	}
 
-	protected abstract Notification parseNotification(ParseResult result);
+	protected abstract AbstractNotification parseNotification(ParseResult result);
 
 }

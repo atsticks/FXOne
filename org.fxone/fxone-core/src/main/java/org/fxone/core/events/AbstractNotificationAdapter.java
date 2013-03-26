@@ -3,31 +3,30 @@ package org.fxone.core.events;
 
 public abstract class AbstractNotificationAdapter {
 
-	private final Notification notification;
+	private final AbstractAdaptableNotification notification;
 	
-	public AbstractNotificationAdapter(Notification notification) {
+	public AbstractNotificationAdapter(AbstractAdaptableNotification notification) {
+		if(notification==null){
+			throw new IllegalArgumentException("base notification is required.");
+		}
 		this.notification = notification;
 		this.notification.setAdapter(this);
 		this.notification.setReadOnly();
 	}
 	
 	public String getName(){
-		return getNotificationType().getName();
+		return this.notification.getClass().getName();
 	}
 	
 	public final Object getOwner(){
 		return getNotification().getOwner();
 	}
 	
-	public final NotificationType getNotificationType(){
-		return getNotification().getNotificationType();
-	}
-	
 	public final Severity getSeverity(){
 		return getNotification().getSeverity();
 	}
 	
-	public final Notification getNotification(){
+	public final AbstractAdaptableNotification getNotification(){
 		return notification;
 	}
 	

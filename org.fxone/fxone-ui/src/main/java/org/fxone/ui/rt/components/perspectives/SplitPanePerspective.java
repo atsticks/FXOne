@@ -14,7 +14,7 @@ import org.fxone.ui.rt.components.workbench.NavigationTree;
 
 @Named("default")
 public class SplitPanePerspective extends AbstractFXMLComponent implements
-		Perspective<Parent> {
+		Perspective {
 
 	private Workbench workbench;
 	private SingleViewPageContainer pageContainer;
@@ -56,11 +56,6 @@ public class SplitPanePerspective extends AbstractFXMLComponent implements
 
 	public Workbench getWorkbench(){
 		return this.workbench;
-	}
-
-	@Override
-	public Parent getUI() {
-		return this;
 	}
 
 }

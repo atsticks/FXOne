@@ -7,33 +7,33 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 import org.fxone.core.cdi.Container;
-import org.fxone.ui.model.nav.UICommand;
+import org.fxone.ui.model.Model;
+import org.fxone.ui.model.nav.NavigateableAction;
 import org.fxone.ui.model.res.ResourceProvider;
-import org.fxone.ui.model.workbench.cmd.WorkbenchCommands;
 
 public class CommandButton extends MenuButton {
 
-	public CommandButton(final UICommand navNode) {
+	public CommandButton(final NavigateableAction action) {
 		final ResourceProvider prov = Container.getInstance(ResourceProvider.class);
 		setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				WorkbenchCommands.setSceneInfo(prov.getDescription(navNode.getPath(), Locale.ENGLISH)); // TODO i18n
+				Model.Workbench.setStatus(null, prov.getDescription(action.getIdentifier(), Locale.ENGLISH)); // TODO i18n
 			}
 		});
 		setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				WorkbenchCommands.setSceneInfo(null);
+				Model.Workbench.setStatus(null, "");
 			}
 		});
-		setText(prov.getName(navNode.getPath(), Locale.ENGLISH)); // TODO i18n
-		setGraphic(createResource(prov.getIcon32("ui",navNode.getPath(), Locale.ENGLISH))); // TODO i18n
-		setUserData(navNode);
+		setText(prov.getName(action.getIdentifier(), Locale.ENGLISH)); // TODO i18n
+		setGraphic(createResource(prov.getIcon32("ui",action.getIdentifier(), Locale.ENGLISH))); // TODO i18n
+		setUserData(action);
 		setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				navNode.run();
+				action.run();
 			}
 		});
 	}

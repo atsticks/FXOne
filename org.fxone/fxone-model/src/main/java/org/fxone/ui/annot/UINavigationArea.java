@@ -10,6 +10,5 @@ import java.lang.annotation.Target;
 public @interface UINavigationArea {
 	int priority() default 0;
 	String value();
-	String perspective() default "default";
 	String tree() default "default";
 }

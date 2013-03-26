@@ -7,18 +7,20 @@ import java.io.StringWriter;
 import javafx.scene.control.Label;
 
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.cmd.ViewContext;
+import org.fxone.ui.model.view.ViewContext;
 
 @SuppressWarnings("unchecked")
-public class EmptyView extends Label implements View<Node> {
+public class EmptyView extends Label implements View {
 
 	private String id;
 	
 	public EmptyView(String id) {
+		this.id = id;
 		setText("Undefined View: '" + id + "'.");
 	}
 	
 	public EmptyView(String id, Throwable err) {
+		this.id = id;
 		StringWriter tgt = new StringWriter(200);
 		PrintWriter w = new PrintWriter(tgt);
 		w.println("Failed to load View: '" + id + "': ");
@@ -45,6 +47,11 @@ public class EmptyView extends Label implements View<Node> {
 	@Override
 	public void opened() {
 		// may be empty
+	}
+
+	@Override
+	public String getName() {
+		return this.id;
 	}
 
 }

@@ -3,7 +3,7 @@ package org.fxone.ui.rt.misc;
 import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
 
@@ -21,7 +21,7 @@ public final class CommandLogger implements NotificationListener{
 		super.finalize();
 	};
 	
-	public void notified(Notification event) {
+	public void notified(AbstractNotification event) {
 		LOGGER.info("Notif - " + event);
 	}
 	

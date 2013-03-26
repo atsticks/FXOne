@@ -8,7 +8,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 import org.fxone.core.events.NotificationService;
 import org.fxone.core.events.Severity;
@@ -26,13 +26,13 @@ public final class EventCollector implements NotificationListener {
 
 	private Severity minLevel = Severity.INFO;
 
-	private List<Notification> events = new LinkedList<Notification>();
+	private List<AbstractNotification> events = new LinkedList<AbstractNotification>();
 
 	public EventCollector() {
 		NotificationService.get().addListener(this);
 	}
 
-	public void notified(Notification event) {
+	public void notified(AbstractNotification event) {
 		if (event.getSeverity().compareTo(this.minLevel) < 0) {
 			return;
 		}
@@ -47,7 +47,7 @@ public final class EventCollector implements NotificationListener {
 		return maxSize;
 	}
 
-	public List<Notification> getCurrentEvents() {
+	public List<AbstractNotification> getCurrentEvents() {
 		return Collections.unmodifiableList(events);
 	}
 
@@ -82,7 +82,7 @@ public final class EventCollector implements NotificationListener {
 		this.minLevel = minLevel;
 	}
 
-	public List<Notification> getEvents() {
+	public List<AbstractNotification> getEvents() {
 		return events;
 	}
 

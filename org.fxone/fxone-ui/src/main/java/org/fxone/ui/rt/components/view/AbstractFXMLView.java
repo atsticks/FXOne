@@ -1,10 +1,10 @@
 package org.fxone.ui.rt.components.view;
 
 import org.fxone.ui.model.view.View;
-import org.fxone.ui.model.view.cmd.ViewContext;
+import org.fxone.ui.model.view.ViewContext;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 
-public class AbstractFXMLView extends AbstractFXMLComponent
+public abstract class AbstractFXMLView extends AbstractFXMLComponent
 		implements View {
 
 	private ViewContext viewContext;
@@ -42,8 +42,9 @@ public class AbstractFXMLView extends AbstractFXMLComponent
 	protected final ViewContext getViewContext() {
 		return this.viewContext;
 	}
-	
-	public Node getUI(){
-		return this;
+
+	@Override
+	public String getName() {
+		return getClass().getSimpleName();
 	}
 }

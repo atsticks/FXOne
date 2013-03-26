@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?scenebuilder-background-color 0xdfdfdfff?>
+
+<BorderPane fx:id="dialogLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="350.0" xmlns:fx="http://javafx.com/fxml">
+  <bottom>
+    <HBox fx:id="buttonLayout" alignment="CENTER" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <children>
+        <Button fx:id="yesButton" defaultButton="true" mnemonicParsing="false" text="OK">
+          <font>
+            <Font size="14.0" fx:id="x1" />
+          </font>
+        </Button>
+      </children>
+    </HBox>
+  </bottom>
+  <center>
+    <AnchorPane fx:id="contentPane" BorderPane.alignment="CENTER">
+      <children>
+        <Label fx:id="questionLabel" font="$x1" graphicTextGap="6.0" text="Alert!" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="5.0">
+          <graphic>
+            <ImageView fitHeight="32.0" fitWidth="32.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" smooth="false">
+              <image>
+                <Image url="@Alert.png" preserveRatio="false" smooth="false" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Label>
+      </children>
+      <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      </padding>
+      <BorderPane.margin>
+        <Insets />
+      </BorderPane.margin>
+    </AnchorPane>
+  </center>
+  <padding>
+    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+  </padding>
+  <top>
+    <AnchorPane fx:id="titlePane" prefHeight="33.0" prefWidth="590.0" style="-fx-fill-color: black;" styleClass="my-gridpane">
+      <children>
+        <Label fx:id="titleLabel" layoutX="14.0" layoutY="6.0" text="Alert">
+          <font>
+            <Font name="System Bold" size="16.0" />
+          </font>
+        </Label>
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+      </padding>
+      <stylesheets>
+        <URL value="@../../skins/dark/styles.css" />
+      </stylesheets>
+    </AnchorPane>
+  </top>
+</BorderPane>

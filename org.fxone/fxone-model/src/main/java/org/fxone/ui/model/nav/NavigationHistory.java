@@ -1,5 +1,7 @@
 package org.fxone.ui.model.nav;
 
+import org.fxone.ui.model.nav.cmd.NavigateTo;
+
 
 
 public interface NavigationHistory {
@@ -8,12 +10,12 @@ public interface NavigationHistory {
 	public boolean isForwardEnabled();
 	public boolean isBackEnabled();
 	public void back();
-	public void addNotification(NavigationEvent cmd, String title);
-	public NavigationEvent removeNavigation(int pos);
+	public void addNotification(NavigateTo cmd, String title);
+	public NavigateTo removeNavigation(int pos);
 	public void clearHistory();
 	public int getSize();
 	public int getIndex();
 	public String getNotificationTitle(int pos);
-	public NavigationEvent getNotification(int pos);
+	public NavigateTo getNotification(int pos);
 	
 }

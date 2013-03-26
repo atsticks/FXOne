@@ -18,8 +18,6 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 
 	private NavigateableAction delegate;
 
-	private String perspective;
-
 	private Map<String, NavigateableArea> childAreas;
 	private Map<String, NavigateableAction> commands;
 
@@ -35,7 +33,8 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 		this(id, null, action);
 	}
 
-	public NavigationAreaImpl(String id, NavigateableArea parent, NavigateableAction action) {
+	public NavigationAreaImpl(String id, NavigateableArea parent,
+			NavigateableAction action) {
 		super(id);
 		this.parent = parent;
 		this.delegate = action;
@@ -44,7 +43,8 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 	public String getPath() {
 		if (cachedPath == null) {
 			if (parent != null) {
-				cachedPath = parent.getPath() + '/' + getIdentifier();
+				cachedPath = ((NavigateableActionImpl) parent).getPath() + '/'
+						+ getIdentifier();
 			} else {
 				cachedPath = getIdentifier();
 			}
@@ -77,7 +77,7 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 
 	public void addChildArea(NavigationAreaImpl cmd) {
 		if (childAreas == null) {
-			childAreas = new ConcurrentHashMap<String,NavigateableArea>();
+			childAreas = new ConcurrentHashMap<String, NavigateableArea>();
 		}
 		childAreas.put(cmd.getIdentifier(), cmd);
 	}
@@ -91,7 +91,7 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 
 	@Override
 	public String toString() {
-		return "Area: " +getIdentifier();
+		return "Area: " + getIdentifier();
 	}
 
 	public boolean isRoot() {
@@ -122,23 +122,17 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 		}
 	}
 
-	@Override
 	public NavigateableArea getParent() {
 		return this.parent;
 	}
 
-
-	public void setPerspective(String perspective) {
-		this.perspective = perspective;
-	}
-
-	public void addCommand(NavigateableAction cmd) {
+	public void addCommand(NavigateableActionImpl cmd) {
 		if (commands == null) {
 			commands = new ConcurrentHashMap<String, NavigateableAction>();
 		}
 		commands.put(cmd.getIdentifier(), cmd);
 	}
-	
+
 	NavigationAreaImpl resolveOrCreateArea(String name) {
 		if (name.isEmpty()) {
 			return this;
@@ -149,7 +143,8 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 			if (path.isEmpty()) {
 				continue;
 			}
-			NavigationAreaImpl child = (NavigationAreaImpl) curNode.getChildArea(path);
+			NavigationAreaImpl child = (NavigationAreaImpl) curNode
+					.getChildArea(path);
 			if (child == null) {
 				child = new NavigationAreaImpl(path, curNode);
 				curNode.addChildArea(child);

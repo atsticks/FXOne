@@ -40,9 +40,8 @@ public class NavigationManagerImpl implements NavigationManager {
 				if (commandSpec != null) {
 					String[] parts = splitTarget(commandSpec.value());
 					parent = initParent(parts[0], commandSpec.tree());
-					NavigateableCommandItem cmd = new NavigateableCommandItem(parts[1], parent,
+					NavigateableActionImpl cmd = new NavigateableActionImpl(parts[1], parent,
 							actionCommand);
-					cmd.setPerspective(commandSpec.perspective());
 					parent.addCommand(cmd);
 				}
 				else if (areaSpec != null) {
@@ -50,7 +49,6 @@ public class NavigationManagerImpl implements NavigationManager {
 					parent = initParent(parts[0], areaSpec.tree());
 					NavigationAreaImpl areaImpl = new NavigationAreaImpl(parts[1],
 							parent, actionCommand);
-					areaImpl.setPerspective(areaSpec.perspective());
 					parent.addChildArea(areaImpl);
 				}
 			} catch (Exception e) {

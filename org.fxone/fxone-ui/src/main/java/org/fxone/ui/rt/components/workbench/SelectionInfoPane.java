@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.fxone.core.types.Identifiable;
-import org.fxone.core.types.NamedItem;
 import org.fxone.ui.model.res.ResourceProvider;
 
 @Dependent
@@ -90,15 +89,10 @@ public class SelectionInfoPane extends BorderPane {
 				id = "-";
 			}
 			idValue.setText(id);
-			if (item instanceof NamedItem) {
-				nameValue.setText(((NamedItem) item).getName());
-				descriptionValue.setText(((NamedItem) item).getDescription());
-			} else {
-				nameValue.setText(resourceProvider.getName(item.getClass(),
-						Locale.ENGLISH)); // TODO i18n
-				nameValue.setText(resourceProvider.getDescription(
-						item.getClass(), Locale.ENGLISH)); // TODO i18n
-			}
+			nameValue.setText(resourceProvider.getName(item.getClass(),
+					Locale.ENGLISH)); // TODO i18n
+			nameValue.setText(resourceProvider.getDescription(item.getClass(),
+					Locale.ENGLISH)); // TODO i18n
 		}
 	}
 }

@@ -75,7 +75,7 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 
 	private Scene workbenchScene;
 
-	private Perspective<Parent> currentPerspective;
+	private Perspective currentPerspective;
 
 	@SuppressWarnings("rawtypes")
 	private Map<String, Perspective> registeredPerspectives = new ConcurrentHashMap<String, Perspective>();
@@ -109,13 +109,13 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 	private Label workbenchInfo;
 
 	@Inject
-	public DefaultWorkbench(Instance<Perspective<?>> perspectives, Stage stage) {
+	public DefaultWorkbench(Instance<Perspective> perspectives, Stage stage) {
 		super("/org/fxone/ui/rt/components/workbench/Workbench.fxml");
 		setId("workbench");
 		this.stage = stage;
 		workbenchScene = new Scene(workbenchGroup);
 		workbenchScene.setRoot(this);
-		for (Perspective<?> perspective : perspectives) {
+		for (Perspective perspective : perspectives) {
 			registeredPerspectives.put(getIdentifier(perspective), perspective);
 		}
 		stage.initStyle(StageStyle.DECORATED);
@@ -148,7 +148,7 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 		return "/styles/default.css";
 	}
 
-	private String getIdentifier(Perspective<?> perspective) {
+	private String getIdentifier(Perspective perspective) {
 		Named named = perspective.getClass().getAnnotation(Named.class);
 		if (named != null) {
 			return named.value();
@@ -184,18 +184,18 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Perspective<Node> getPerspective(String key) {
+	public Perspective getPerspective(String key) {
 		return this.registeredPerspectives.get(key);
 	}
 
 	@Override
-	public Perspective<Parent> getCurrentPerspective() {
+	public Perspective getCurrentPerspective() {
 		return currentPerspective;
 	}
 
 	@Override
 	public boolean setCurrentPerspective(String perspectiveID) {
-		final Perspective<Node> newPerspective = getPerspective(perspectiveID);
+		final Perspective newPerspective = getPerspective(perspectiveID);
 		if (newPerspective == null) {
 			return false;
 		}
@@ -207,7 +207,7 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 				@Override
 				public void run() {
 					newPerspective.activated(DefaultWorkbench.this);
-					Node node = newPerspective.getUI();
+					Node node = (Node)newPerspective;
 					DefaultWorkbench.this.workbenchContentPane.getChildren()
 							.clear();
 					DefaultWorkbench.this.workbenchContentPane.getChildren()
@@ -220,7 +220,7 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 			});
 		} else {
 			newPerspective.activated(DefaultWorkbench.this);
-			Node node = newPerspective.getUI();
+			Node node = (Node)newPerspective;
 			this.workbenchContentPane.getChildren().clear();
 			this.workbenchContentPane.getChildren().add(node);
 			AnchorPane.setTopAnchor(node, 0.0d);

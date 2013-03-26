@@ -2,12 +2,12 @@ package org.fxone.core.events;
 
 import java.util.Random;
 
-import org.fxone.core.events.Notification;
+import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
 
 public final class LoggingEventListener implements NotificationListener{
 	
-	public void notified(Notification event) {
+	public void notified(AbstractNotification event) {
 		try{
 			Thread.sleep(new Random().nextInt(200));
 		}
