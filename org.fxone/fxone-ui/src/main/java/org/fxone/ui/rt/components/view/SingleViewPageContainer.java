@@ -1,7 +1,13 @@
 package org.fxone.ui.rt.components.view;
 
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+
+import javax.enterprise.context.Dependent;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Default;
+import javax.inject.Singleton;
 
 import org.fxone.core.events.AbstractNotification;
 import org.fxone.core.events.NotificationListener;
@@ -14,11 +20,13 @@ import org.fxone.ui.model.view.cmd.OpenViewRequest;
 
 import com.sun.javafx.tk.Toolkit;
 
+@Singleton
+@Default
 public class SingleViewPageContainer extends AnchorPane implements NotificationListener, ViewContainer{
 
 	private View currentView;
 	private Node currentNode;
-	private Node defaultNode;
+//	private Node defaultNode;
 
 	public SingleViewPageContainer() {
 		setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -37,7 +45,7 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 	 */
 	@Override
 	public boolean openView(View view) {
-		return openView(view, null);
+		return openView(view, new Label(view.getName()));
 	}
 
 	/* (non-Javadoc)
@@ -76,14 +84,15 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 		if(this.currentView!=null){
 			setContent((Node)this.currentView,
 					this.currentView.getName());
-		} else {
-			setContent(this.defaultNode, null);
 		}
+//		else {
+//			setContent(this.defaultNode, null);
+//		}
 	}
 
-	public void setDefaultNode(Node node) {
-		this.defaultNode = node;
-	}
+//	public void setDefaultNode(Node node) {
+//		this.defaultNode = node;
+//	}
 
 	public Node getCurrentNode() {
 		return this.currentNode;
@@ -131,9 +140,10 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 			} else {
 				setContent((Node) ui, view.getName());
 			}
-		} else {
-			setContent(this.defaultNode, null);
-		}
+		} 
+//		else {
+//			setContent(this.defaultNode, null);
+//		}
 		View closedView = this.currentView;
 		if (closedView != null) {
 			Model.Views.viewClosed(this, closedView);
@@ -155,17 +165,17 @@ public class SingleViewPageContainer extends AnchorPane implements NotificationL
 		return true;
 	}
 
-	public void setEnabled(boolean enabled) {
-		if(enabled){
-			NotificationService.get().addListener(this);
-		}
-		else{
-			NotificationService.get().removeListener(this);
-		}
-	}
+//	public void setEnabled(boolean enabled) {
+//		if(enabled){
+//			NotificationService.get().addListener(this);
+//		}
+//		else{
+//			NotificationService.get().removeListener(this);
+//		}
+//	}
 
 	@Override
-	public void notified(AbstractNotification event) {
+	public void notified(@Observes AbstractNotification event) {
 		if(event.isMatching(OpenViewRequest.class)){
 			OpenViewRequest cmd = (OpenViewRequest)event;
 			View view = (View) cmd.getView();

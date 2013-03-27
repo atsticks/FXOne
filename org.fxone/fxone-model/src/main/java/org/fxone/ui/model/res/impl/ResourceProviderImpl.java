@@ -10,8 +10,6 @@ import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
 import org.fxone.core.events.AbstractNotification;
-import org.fxone.core.events.NotificationType;
-import org.fxone.core.events.Severity;
 import org.fxone.ui.model.res.ResourceProvider;
 import org.fxone.ui.model.res.cmd.ResourceRequest;
 
@@ -27,7 +25,6 @@ public final class ResourceProviderImpl implements ResourceProvider {
 	private static final String BASE64 = "64x64/";
 	private static final String BASE128 = "128x128/";
 	private static final String BASESCALABLE = "scalable/";
-
 
 	@Override
 	public String getMessage(String key, Locale locale, Object... contextData) {
@@ -60,11 +57,11 @@ public final class ResourceProviderImpl implements ResourceProvider {
 
 	public void notified(AbstractNotification n) {
 		if (ResourceRequest.NOTIF_TYPE.isMatching(n)) {
-			ResourceRequest req = (ResourceRequest)n;
+			ResourceRequest req = (ResourceRequest) n;
 			String family = req.getFamily();
 			String key = req.getKey();
 			Locale locale = Locale.getDefault();
-			if (req.getLocale()!=null) {
+			if (req.getLocale() != null) {
 				locale = req.getLocale();
 			}
 			Object[] contextData = req.getContextData();
@@ -268,11 +265,16 @@ public final class ResourceProviderImpl implements ResourceProvider {
 
 	@Override
 	public String getName(Class<?> adapterClass, Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle(
-				getBundleName("classes"), locale);
 		String accessKey = adapterClass.getName() + ".name";
-		if (bundle.containsKey(accessKey)) {
-			return bundle.getString(accessKey);
+		try {
+			ResourceBundle bundle = ResourceBundle.getBundle(
+					getBundleName("classes"), locale);
+
+			if (bundle.containsKey(accessKey)) {
+				return bundle.getString(accessKey);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		LOGGER.debug("Name 'i18n/ui' for key '" + accessKey + "' not found");
 		return adapterClass.getSimpleName();

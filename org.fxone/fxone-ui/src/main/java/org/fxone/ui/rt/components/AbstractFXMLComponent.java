@@ -21,7 +21,7 @@ import com.sun.corba.se.spi.ior.Identifiable;
 public class AbstractFXMLComponent extends
 		AnchorPane{
 
-	private static final String DEFAULT_BUNDLE = "i18n/translation";
+	private static final String DEFAULT_BUNDLE = "i18n/translations";
 
 	protected final Logger logger = Logger.getLogger(getClass());
 

@@ -14,7 +14,7 @@
 <?import javafx.scene.text.*?>
 <?import org.fxone.ui.rt.components.workbench.*?>
 
-<AnchorPane fx:id="root" cache="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" prefHeight="768.0" prefWidth="1024.0" styleClass="root" xmlns:fx="http://javafx.com/fxml">
+<AnchorPane fx:id="root" cache="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml">
   <children>
     <BorderPane fx:id="rootLayout" minWidth="1033.0" prefHeight="1081.0" prefWidth="1033.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="10.0">
       <bottom>
@@ -107,9 +107,6 @@
                   </prefWidth>
                 </VBox>
               </children>
-              <effect>
-                <Shadow blurType="ONE_PASS_BOX" height="1.0" radius="0.0" width="1.0" />
-              </effect>
               <minHeight>
                 <Long fx:value="65" />
               </minHeight>

@@ -1,7 +1,7 @@
 .root{
    -fx-base: rgb(230, 230, 230);
-   -fx-background-color: rgb(230, 230, 230);
-   -fx-control-inner-background:  rgb(240,240, 240);
+   -fx-background-color: rgb(250, 250, 250);
+   -fx-control-inner-background:  rgb(240,240,240);
    -fx-padding: 5px;
    -fx-font-size: 14pt;
 }

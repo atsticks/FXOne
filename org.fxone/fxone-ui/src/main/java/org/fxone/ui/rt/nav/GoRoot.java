@@ -1,9 +1,10 @@
 package org.fxone.ui.rt.nav;
 
-import org.fxone.ui.annot.UINavigationCommand;
+import org.fxone.ui.annot.ProvidedCommands;
+import org.fxone.ui.annot.UICommand;
 import org.fxone.ui.model.nav.AbstractUIAction;
 
-@UINavigationCommand(value = "/")
+@ProvidedCommands(value = { @UICommand("/") })
 public class GoRoot extends AbstractUIAction {
 
 	@Override

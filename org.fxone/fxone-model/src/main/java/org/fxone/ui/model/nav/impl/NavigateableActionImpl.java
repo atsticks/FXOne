@@ -1,10 +1,9 @@
 package org.fxone.ui.model.nav.impl;
 
-import org.fxone.core.types.AbstractIdentifiable;
 import org.fxone.ui.model.nav.NavigateableAction;
 import org.fxone.ui.model.nav.NavigateableArea;
 
-public class NavigateableActionImpl extends AbstractIdentifiable implements
+public class NavigateableActionImpl extends AbstractNavigateable implements
 		NavigateableAction {
 
 	protected NavigateableArea parent;
@@ -18,11 +17,21 @@ public class NavigateableActionImpl extends AbstractIdentifiable implements
 		this.delegate = delegate;
 	}
 
+	public NavigateableActionImpl(String id, NavigateableArea parent,
+			NavigateableAction delegate, String before, String after) {
+		super(id);
+		this.parent = parent;
+		this.delegate = delegate;
+		setPlacedAfter(after);
+		setPlacedBefore(before);
+	}
+
 	public String getPath() {
 		if (parent == null) {
 			return "<ROOT>";
 		}
-		return ((NavigateableActionImpl)parent).getPath() + '/' + getIdentifier();
+		return ((NavigateableActionImpl) parent).getPath() + '/'
+				+ getIdentifier();
 	}
 
 	public NavigateableArea getParent() {

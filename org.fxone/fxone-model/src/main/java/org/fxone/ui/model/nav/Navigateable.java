@@ -1,25 +1,11 @@
 package org.fxone.ui.model.nav;
 
+import org.fxone.core.types.Identifiable;
 
+public interface Navigateable extends Identifiable, Comparable<Navigateable> {
 
-public interface Navigateable {
+	public String getPlacedAfter();
 
-	public void navigateTo(String path);
-	
-	public void navigateTo(String tree, String path);
-
-	public NavigateableArea getCurrentNavigation();
-	
-	public NavigateableArea getCurrentNavigation(String tree);
-
-	public void navigateTo(NavigateableArea nav);
-
-	public void home();
-	
-	public void home(String tree);
-
-	public void up();
-	
-	public void up(String tree);
+	public String getPlacedBefore();
 
 }

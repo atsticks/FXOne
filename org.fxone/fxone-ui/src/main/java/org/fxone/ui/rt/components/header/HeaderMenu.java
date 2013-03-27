@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.fxone.ui.model.nav.NavigationManager;
+import org.fxone.ui.rt.components.perspectives.PerspectiveMenu;
 import org.fxone.ui.rt.components.view.ViewMenu;
 
 @Dependent
@@ -17,9 +18,9 @@ import org.fxone.ui.rt.components.view.ViewMenu;
 public class HeaderMenu extends HBox {
 	
 	@Inject
-	public HeaderMenu(NavigationManager man, ViewMenu viewMenu) {
+	public HeaderMenu(NavigationManager man, PerspectiveMenu perspectiveMenu) {
 		setId("header-menu");
-		getChildren().add(viewMenu);
+		getChildren().add(perspectiveMenu);
 		setAlignment(Pos.BASELINE_RIGHT);
 	}
 	

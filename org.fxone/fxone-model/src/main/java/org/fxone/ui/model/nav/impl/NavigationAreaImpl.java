@@ -1,15 +1,18 @@
 package org.fxone.ui.model.nav.impl;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.fxone.core.types.AbstractIdentifiable;
+import org.fxone.ui.model.nav.Navigateable;
 import org.fxone.ui.model.nav.NavigateableAction;
 import org.fxone.ui.model.nav.NavigateableArea;
 
-public class NavigationAreaImpl extends AbstractIdentifiable implements
+public class NavigationAreaImpl extends AbstractNavigateable implements
 		NavigateableArea {
 
 	protected NavigateableArea parent;
@@ -18,8 +21,9 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 
 	private NavigateableAction delegate;
 
-	private Map<String, NavigateableArea> childAreas;
-	private Map<String, NavigateableAction> commands;
+	private List<Navigateable> children = new ArrayList<Navigateable>();
+	private Map<String, NavigateableArea> childAreas = new HashMap<String, NavigateableArea>();
+	private Map<String, NavigateableAction> commands = new HashMap<String, NavigateableAction>();
 
 	public NavigationAreaImpl(String id, NavigationAreaImpl parent) {
 		this(id, parent, null);
@@ -35,9 +39,16 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 
 	public NavigationAreaImpl(String id, NavigateableArea parent,
 			NavigateableAction action) {
+		this(id, parent, action, null, null);
+	}
+
+	public NavigationAreaImpl(String id, NavigateableArea parent,
+			NavigateableAction action, String before, String after) {
 		super(id);
 		this.parent = parent;
 		this.delegate = action;
+		setPlacedBefore(before);
+		setPlacedAfter(after);
 	}
 
 	public String getPath() {
@@ -56,14 +67,50 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 		return this.childAreas == null || this.childAreas.isEmpty();
 	}
 
-	public NavigateableArea getChildArea(String id) {
+	public NavigateableArea getChildArea(String path) {
 		if (childAreas == null) {
 			return null;
 		}
-		return childAreas.get(id);
+		NavigateableArea current = this;
+		String[] paths = path.split("/");
+		if (paths.length == 1) {
+			return this.childAreas.get(paths[0]);
+		}
+		for (int i = 0; i < paths.length; i++) {
+			current = current.getChildArea(paths[i]);
+			if (current == null) {
+				break;
+			}
+		}
+		if (current == null) {
+			throw new IllegalArgumentException("Path not found: " + path);
+		}
+		return current;
 	}
 
-	public NavigationAreaImpl removeChildArea(String name) {
+	public NavigateableAction getCommand(String path) {
+		if (childAreas == null) {
+			return null;
+		}
+		NavigateableArea current = this;
+		NavigateableAction action = null;
+		String[] paths = path.split("/");
+		for (int i = 0; i < paths.length; i++) {
+			if (i == (paths.length - 1)) {
+				action = current.getCommand(paths[i]);
+			}
+			current = current.getChildArea(paths[i]);
+			if (current == null) {
+				break;
+			}
+		}
+		if (action == null) {
+			throw new IllegalArgumentException("Command not found: " + path);
+		}
+		return action;
+	}
+
+	public Navigateable removeChild(String name) {
 		if (childAreas == null) {
 			return null;
 		}
@@ -72,21 +119,38 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 			this.childAreas.remove(child);
 			child.parent = null;
 		}
-		return child;
+		NavigateableAction command = (NavigateableAction) getCommand(name);
+		if (command != null) {
+			this.commands.remove(command);
+			child.parent = null;
+		}
+		for (Navigateable childNav : children) {
+			if (childNav.getIdentifier().equals(name)) {
+				children.remove(childNav);
+				return childNav;
+			}
+		}
+		return null;
 	}
 
-	public void addChildArea(NavigationAreaImpl cmd) {
-		if (childAreas == null) {
-			childAreas = new ConcurrentHashMap<String, NavigateableArea>();
+	public void addChild(Navigateable nav) {
+		this.children.add(nav);
+		Collections.sort(this.children);
+		if (nav instanceof NavigateableArea) {
+			this.childAreas.put(nav.getIdentifier(), (NavigateableArea) nav);
+		} else if (nav instanceof NavigateableAction) {
+			this.commands.put(nav.getIdentifier(), (NavigateableAction) nav);
 		}
-		childAreas.put(cmd.getIdentifier(), cmd);
 	}
 
-	public Collection<NavigateableArea> getChildAreas() {
-		if (childAreas == null) {
-			return Collections.emptySet();
+	public Enumeration<NavigateableArea> getChildAreas() {
+		List<NavigateableArea> areas = new ArrayList<NavigateableArea>();
+		for (Navigateable nav : children) {
+			if (nav instanceof NavigateableArea) {
+				areas.add((NavigateableArea) nav);
+			}
 		}
-		return childAreas.values();
+		return Collections.enumeration(areas);
 	}
 
 	@Override
@@ -102,11 +166,11 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 		return this.delegate != null;
 	}
 
-	public Collection<NavigateableAction> getCommands() {
+	public Enumeration<NavigateableAction> getCommands() {
 		if (commands == null) {
-			return Collections.emptySet();
+			return Collections.emptyEnumeration();
 		}
-		return commands.values();
+		return Collections.enumeration(commands.values());
 	}
 
 	public boolean isEnabled() {
@@ -131,6 +195,7 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 			commands = new ConcurrentHashMap<String, NavigateableAction>();
 		}
 		commands.put(cmd.getIdentifier(), cmd);
+		this.children.add(cmd);
 	}
 
 	NavigationAreaImpl resolveOrCreateArea(String name) {
@@ -147,11 +212,16 @@ public class NavigationAreaImpl extends AbstractIdentifiable implements
 					.getChildArea(path);
 			if (child == null) {
 				child = new NavigationAreaImpl(path, curNode);
-				curNode.addChildArea(child);
+				curNode.addChild(child);
 			}
 			curNode = child;
 		}
 		return curNode;
+	}
+
+	@Override
+	public Enumeration<Navigateable> getItems() {
+		return Collections.enumeration(children);
 	}
 
 }

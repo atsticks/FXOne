@@ -16,11 +16,11 @@ public class WebPage extends AnchorPane implements View {
 	private WebView view = new WebView();
 
 	public WebPage(String pageId) {
-		this(pageId, null);
+		this(pageId, pageId);
 	}
-	
+
 	public WebPage(String pageId, String location) {
-		if(location==null){
+		if (location == null) {
 			throw new IllegalArgumentException("location is null.");
 		}
 		getChildren().add(view);
@@ -29,14 +29,16 @@ public class WebPage extends AnchorPane implements View {
 		AnchorPane.setRightAnchor(view, 0d);
 		AnchorPane.setLeftAnchor(view, 0d);
 		setLocation(location);
+		setMinSize(100, 100);
+		setPrefSize(1024, 1280);
+		setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 	}
 
 	public String getLocation() {
-		if(location==null){
+		if (location == null) {
 			return null;
 		}
-		if (location.startsWith("http://")
-				|| location.startsWith("https://")) {
+		if (location.startsWith("http://") || location.startsWith("https://")) {
 			return location;
 		} else {
 			return "http://" + location;
@@ -45,10 +47,9 @@ public class WebPage extends AnchorPane implements View {
 
 	public void setLocation(String location) {
 		this.location = location;
-		if(location==null){
+		if (location == null) {
 			view.getEngine().load("<html/>");
-		}
-		else{
+		} else {
 			view.getEngine().load(getLocation());
 		}
 	}
@@ -59,6 +60,7 @@ public class WebPage extends AnchorPane implements View {
 
 	@Override
 	public void opened() {
+		view.getEngine().load(getLocation());
 	}
 
 	@Override

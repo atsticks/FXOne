@@ -329,7 +329,7 @@ public final class NotificationType implements Comparable<NotificationType> {
 
 		public Builder define(Class<? extends AbstractNotification> type) {
 			this.type = type;
-			return null;
+			return this;
 		}
 	}
 

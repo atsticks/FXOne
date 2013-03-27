@@ -1,8 +1,7 @@
 package org.fxone.ui.model.nav;
 
-import org.fxone.core.types.Identifiable;
 
-public interface NavigateableAction extends Runnable, Identifiable {
+public interface NavigateableAction extends Runnable, Navigateable {
 
 	public boolean isEnabled();
 	

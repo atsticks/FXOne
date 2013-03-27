@@ -1,14 +1,19 @@
 package org.fxone.ui.model.nav;
 
-import java.util.Collection;
+import java.util.Enumeration;
 
 public interface NavigateableArea extends NavigateableAction {
 
-	public Collection<NavigateableArea> getChildAreas();
+	public Enumeration<NavigateableArea> getChildAreas();
 
-	public Collection<NavigateableAction> getCommands();
+	public Enumeration<NavigateableAction> getCommands();
 
 	public boolean isRoot();
+
+	public NavigateableArea getChildArea(String path);
 	
+	public NavigateableAction getCommand(String path);
+
+	public Enumeration<Navigateable> getItems();
 
 }

@@ -8,14 +8,22 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.log4j.Logger;
-import org.fxone.ui.annot.UINavigationArea;
-import org.fxone.ui.annot.UINavigationCommand;
+import org.fxone.ui.annot.ProvidedAreas;
+import org.fxone.ui.annot.ProvidedCommands;
+import org.fxone.ui.annot.ProvidedSeparators;
+import org.fxone.ui.annot.UIArea;
+import org.fxone.ui.annot.UICommand;
+import org.fxone.ui.annot.UISeparator;
+import org.fxone.ui.model.nav.Navigateable;
+import org.fxone.ui.model.nav.NavigateableAction;
 import org.fxone.ui.model.nav.NavigateableArea;
 import org.fxone.ui.model.nav.NavigationManager;
-import org.fxone.ui.model.nav.NavigateableAction;
+import org.fxone.ui.model.nav.Separator;
 
 @Singleton
 public class NavigationManagerImpl implements NavigationManager {
+
+	private static final String DEFAULT_TREE = "default";
 
 	private static final Logger LOGGER = Logger
 			.getLogger(NavigationManagerImpl.class);
@@ -23,37 +31,65 @@ public class NavigationManagerImpl implements NavigationManager {
 	private Map<String, NavigateableArea> trees = new ConcurrentHashMap<String, NavigateableArea>();
 
 	@Inject
-	public NavigationManagerImpl(Instance<NavigateableAction> commandInstances) {
-		this.trees.put("default", new NavigationAreaImpl("default"));
-		for (NavigateableAction actionCommand : commandInstances) {
-			try {
-				UINavigationCommand commandSpec = (UINavigationCommand) actionCommand
-						.getClass().getAnnotation(UINavigationCommand.class);
-				UINavigationArea areaSpec = (UINavigationArea) actionCommand
-						.getClass().getAnnotation(UINavigationArea.class);
-				if (commandSpec == null && areaSpec==null) {
-					LOGGER.warn("Missing annotation '@UINavigationCommand' or '@UINavigationArea' for action, ignoring: "
-							+ actionCommand.getClass());
-					continue;
+	public NavigationManagerImpl(Instance<Navigateable> navInstances) {
+		this.trees.put(DEFAULT_TREE, new NavigationAreaImpl(DEFAULT_TREE));
+		for (Navigateable nav : navInstances) {
+			ProvidedCommands commandsSpec = (ProvidedCommands) nav.getClass()
+					.getAnnotation(ProvidedCommands.class);
+			ProvidedAreas areasSpec = (ProvidedAreas) nav.getClass()
+					.getAnnotation(ProvidedAreas.class);
+			ProvidedSeparators sepsSpec = (ProvidedSeparators) nav.getClass()
+					.getAnnotation(ProvidedSeparators.class);
+			if (commandsSpec == null && areasSpec == null && sepsSpec == null) {
+				if (!nav.getClass().equals(Separator.class)) {
+					LOGGER.info("Missing annotation '@ProvidedCommands', '@ProvidedAreas' or '@ProvidedSeparators' for action/area, ignoring: "
+							+ nav.getClass());
 				}
-				NavigationAreaImpl parent = null;
-				if (commandSpec != null) {
-					String[] parts = splitTarget(commandSpec.value());
-					parent = initParent(parts[0], commandSpec.tree());
-					NavigateableActionImpl cmd = new NavigateableActionImpl(parts[1], parent,
-							actionCommand);
-					parent.addCommand(cmd);
+				continue;
+			}
+			if (commandsSpec != null) {
+				for (UICommand cmdSpec : commandsSpec.value()) {
+					try {
+						NavigationAreaImpl parent = null;
+						String[] parts = splitTarget(cmdSpec.value());
+						parent = initParent(parts[0], cmdSpec.tree());
+						NavigateableActionImpl cmd = new NavigateableActionImpl(
+								parts[1], parent, (NavigateableAction) nav,
+								cmdSpec.before(), cmdSpec.after());
+						parent.addCommand(cmd);
+					} catch (Exception e) {
+						LOGGER.error("Error registering UI command: " + nav, e);
+					}
 				}
-				else if (areaSpec != null) {
-					String[] parts = splitTarget(areaSpec.value());
-					parent = initParent(parts[0], areaSpec.tree());
-					NavigationAreaImpl areaImpl = new NavigationAreaImpl(parts[1],
-							parent, actionCommand);
-					parent.addChildArea(areaImpl);
+			}
+			if (areasSpec != null) {
+				for (UIArea areaSpec : areasSpec.value()) {
+					try {
+						NavigationAreaImpl parent = null;
+						String[] parts = splitTarget(areaSpec.value());
+						parent = initParent(parts[0], areaSpec.tree());
+						NavigationAreaImpl areaImpl = new NavigationAreaImpl(
+								parts[1], parent, (NavigateableArea) nav,
+								areaSpec.before(), areaSpec.after());
+						parent.addChild(areaImpl);
+					} catch (Exception e) {
+						LOGGER.error("Error registering UI area: " + nav, e);
+					}
 				}
-			} catch (Exception e) {
-				LOGGER.error("Error registering navigation action: "
-						+ actionCommand, e);
+			}
+			if (sepsSpec != null) {
+				for (UISeparator sepSpec : sepsSpec.value()) {
+					try {
+						NavigationAreaImpl parent = null;
+						String[] parts = splitTarget(sepSpec.value());
+						parent = initParent(parts[0], sepSpec.tree());
+						parent.addChild(new NavigationSeparator(
+								sepSpec.value(), parent, sepSpec.before(),
+								sepSpec.after()));
+					} catch (Exception e) {
+						LOGGER.error("Error registering UI area: " + nav, e);
+					}
+				}
 			}
 		}
 	}
@@ -70,7 +106,7 @@ public class NavigationManagerImpl implements NavigationManager {
 			parentPath = "";
 			id = target;
 		}
-		return new String[]{parentPath, id};
+		return new String[] { parentPath, id };
 	}
 
 	private NavigationAreaImpl initParent(String parentPath, String tree) {
@@ -93,7 +129,7 @@ public class NavigationManagerImpl implements NavigationManager {
 
 	@Override
 	public NavigateableArea getRootNavigation() {
-		return this.trees.get("default");
+		return this.trees.get(DEFAULT_TREE);
 	}
 
 	@Override
