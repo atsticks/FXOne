@@ -32,7 +32,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -42,16 +41,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
+import org.apache.log4j.Logger;
 import org.fxone.ui.model.workbench.Perspective;
 import org.fxone.ui.model.workbench.Workbench;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 import org.fxone.ui.rt.components.clocks.SimpleLabelClockAdapter;
+import org.fxone.ui.rt.components.view.PerspectiveMenu;
 
 import com.sun.javafx.tk.Toolkit;
 
@@ -62,12 +63,15 @@ import com.sun.javafx.tk.Toolkit;
  * @author <a href="mailto:amo.ahcp@gmail.com"> Andy Moncsek</a>
  * 
  */
-@Dependent
+@Singleton
 @Named("workbench")
 @Default
 public class DefaultWorkbench extends AbstractFXMLComponent implements
 		Workbench {
 	private static final String DEFAULT_PERSPECTIVE_ID = "default";
+
+	private static final Logger LOGGER = Logger
+			.getLogger(DefaultWorkbench.class);
 
 	private Stage stage;
 
@@ -109,15 +113,17 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 	private Label workbenchInfo;
 
 	@Inject
-	public DefaultWorkbench(Instance<Perspective> perspectives, Stage stage) {
+	public DefaultWorkbench(Instance<Perspective> perspectives, Stage stage, PerspectiveMenu perspectiveMenu) {
 		super("/org/fxone/ui/rt/components/workbench/Workbench.fxml");
 		setId("workbench");
 		this.stage = stage;
+		LOGGER.info("Loading Workbench...");
 		workbenchScene = new Scene(workbenchGroup);
 		workbenchScene.setRoot(this);
 		for (Perspective perspective : perspectives) {
 			registeredPerspectives.put(getIdentifier(perspective), perspective);
 		}
+		LOGGER.info("Loaded perspectives: " + registeredPerspectives.keySet());
 		stage.initStyle(StageStyle.DECORATED);
 		// window.setFullScreen(true);
 		workbenchScene.getStylesheets().addAll(
@@ -132,6 +138,7 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 		setDefaultPerspective();
 		this.workbenchHeaderPane.getChildren().add(globalDescription);
 		setInfo("This is a small demonstration workbench...");
+		workbenchRightHeader.getChildren().add(perspectiveMenu);
 		this.layout();
 	}
 
@@ -194,7 +201,7 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 	}
 
 	@Override
-	public boolean setCurrentPerspective(String perspectiveID) {
+	public boolean setCurrentPerspective(final String perspectiveID) {
 		final Perspective newPerspective = getPerspective(perspectiveID);
 		if (newPerspective == null) {
 			return false;
@@ -207,7 +214,7 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 				@Override
 				public void run() {
 					newPerspective.activated(DefaultWorkbench.this);
-					Node node = (Node)newPerspective;
+					Node node = (Node) newPerspective;
 					DefaultWorkbench.this.workbenchContentPane.getChildren()
 							.clear();
 					DefaultWorkbench.this.workbenchContentPane.getChildren()
@@ -216,17 +223,19 @@ public class DefaultWorkbench extends AbstractFXMLComponent implements
 					AnchorPane.setBottomAnchor(node, 0.0d);
 					AnchorPane.setLeftAnchor(node, 0.0d);
 					AnchorPane.setRightAnchor(node, 0.0d);
+					LOGGER.info("Switched Perspective to: " + perspectiveID);
 				}
 			});
 		} else {
 			newPerspective.activated(DefaultWorkbench.this);
-			Node node = (Node)newPerspective;
+			Node node = (Node) newPerspective;
 			this.workbenchContentPane.getChildren().clear();
 			this.workbenchContentPane.getChildren().add(node);
 			AnchorPane.setTopAnchor(node, 0.0d);
 			AnchorPane.setBottomAnchor(node, 0.0d);
 			AnchorPane.setLeftAnchor(node, 0.0d);
 			AnchorPane.setRightAnchor(node, 0.0d);
+			LOGGER.info("Switched Perspective to: " + perspectiveID);
 		}
 		return true;
 	}
