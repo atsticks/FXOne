@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import org.fxone.ui.rt.components.workbench.*?>
+
+<AnchorPane fx:id="root" cache="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml" fx:controller="WorkbenchController">
+  <children>
+    <BorderPane fx:id="rootLayout" minWidth="1033.0" prefHeight="1081.0" prefWidth="1033.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="10.0">
+      <bottom>
+        <BorderPane id="workbenchFooterPane" fx:id="Footer_BorderPane" maxHeight="25.0" maxWidth="1.7976931348623157E308" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="-1.0">
+          <left>
+            <Label fx:id="workbenchStatus" prefHeight="40.0" prefWidth="200.0" />
+          </left>
+          <right>
+            <Label fx:id="workbenchInfo" prefHeight="150.0" prefWidth="200.0" />
+          </right>
+          <top>
+            <Separator prefWidth="200.0" />
+          </top>
+        </BorderPane>
+      </bottom>
+      <center>
+        <AnchorPane fx:id="workbenchContentPane" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER">
+          <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+          </BorderPane.margin>
+        </AnchorPane>
+      </center>
+      <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+      </padding>
+      <top>
+        <VBox id="workbenchHeaderPane" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="TOP_CENTER">
+          <children>
+            <HBox fx:id="workbenchTitlePane" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="1225.0">
+              <children>
+                <HBox fx:id="workbenchTitleLayout" alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="NEVER">
+                  <children>
+                    <Label fx:id="workbenchTitle" depthTest="INHERIT" text="FXOne Sample Workbench" textFill="#fff966" wrapText="false" HBox.hgrow="NEVER">
+                      <effect>
+                        <Reflection bottomOpacity="0.14285714285714285" fraction="0.2142857142857143" topOpacity="0.746031746031746" />
+                      </effect>
+                      <font>
+                        <Font size="18.0" />
+                      </font>
+                      <HBox.margin>
+                        <Insets fx:id="x1" />
+                      </HBox.margin>
+                    </Label>
+                  </children>
+                  <prefHeight>
+                    <Long fx:value="-1" />
+                  </prefHeight>
+                  <prefWidth>
+                    <Long fx:value="-1" />
+                  </prefWidth>
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+                </HBox>
+                <HBox fx:id="workbenchMiddleHeader" alignment="CENTER" fillHeight="false" HBox.hgrow="ALWAYS">
+                  <children>
+                    <Label fx:id="workbenchMiddleTitle" alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text=" " HBox.hgrow="ALWAYS">
+                      <graphicTextGap>
+                        <Long fx:value="4" />
+                      </graphicTextGap>
+                      <HBox.margin>
+                        <Insets top="35.0" />
+                      </HBox.margin>
+                    </Label>
+                  </children>
+                  <prefHeight>
+                    <Long fx:value="-1" />
+                  </prefHeight>
+                  <prefWidth>
+                    <Long fx:value="-1" />
+                  </prefWidth>
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+                </HBox>
+                <VBox fx:id="workbenchRightHeader" alignment="TOP_RIGHT" fillWidth="false" minHeight="64.99990844726562" prefHeight="64.99990844726562" HBox.hgrow="NEVER">
+                  <children>
+                    <Label fx:id="workbenchRightTitle" text="00:00:00">
+                      <font>
+                        <Font size="16.0" />
+                      </font>
+                    </Label>
+                    <!-- SimpleLabelClock fx:id="Clock" alignment="TOP_RIGHT" contentDisplay="TEXT_ONLY" 
+											styleClass="timeLabel" text="00:00 h" textAlignment="RIGHT" VBox.vgrow="NEVER"> 
+											<graphicTextGap> <Long fx:value="4" /> </graphicTextGap> <VBox.margin> <Insets 
+											fx:id="x1" /> </VBox.margin> </SimpleLabelClock> -->
+                  </children>
+                  <prefWidth>
+                    <Long fx:value="-1" />
+                  </prefWidth>
+                </VBox>
+              </children>
+              <minHeight>
+                <Long fx:value="65" />
+              </minHeight>
+            </HBox>
+            <MenuBar fx:id="menubar">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem id="showMessageHistoryMenuItem" mnemonicParsing="false" text="Show Message History" fx:id="showMessageHistoryMenuItem" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ToolBar id="toolbar" prefHeight="32.000091552734375" prefWidth="974.0000999999975">
+              <items>
+                <Button mnemonicParsing="false" onAction="#buttonPressed" text="Button" />
+              </items>
+            </ToolBar>
+          </children>
+        </VBox>
+      </top>
+    </BorderPane>
+  </children>
+  <stylesheets>
+    <URL value="@../../../../../../styles/default.css" />
+  </stylesheets>
+</AnchorPane>

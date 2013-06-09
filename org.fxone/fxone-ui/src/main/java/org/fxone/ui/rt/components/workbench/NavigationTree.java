@@ -1,7 +1,7 @@
 package org.fxone.ui.rt.components.workbench;
 
-import java.util.Enumeration;
 
+import java.util.Enumeration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;

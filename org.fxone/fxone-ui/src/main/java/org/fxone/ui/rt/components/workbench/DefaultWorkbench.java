@@ -52,6 +52,7 @@ import org.fxone.ui.model.workbench.Perspective;
 import org.fxone.ui.model.workbench.Workbench;
 import org.fxone.ui.rt.components.AbstractFXMLComponent;
 import org.fxone.ui.rt.components.clocks.SimpleLabelClockAdapter;
+import org.fxone.ui.rt.components.view.PerspectiveMenu;
 
 import com.sun.javafx.tk.Toolkit;
 
