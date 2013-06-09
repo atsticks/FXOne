@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.log4j.Logger;
 
-public class ItemAttribute extends AbstractItem implements
+public class ItemAttribute implements
 		Comparable<ItemAttribute>, Serializable {
 	/**
 	 * serialVersionUID.

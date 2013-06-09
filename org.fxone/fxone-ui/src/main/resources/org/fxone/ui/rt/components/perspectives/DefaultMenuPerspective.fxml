@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import org.fxone.ui.rt.components.workbench.*?>
+
+<BorderPane fx:id="perspectiveRoot" cache="false"
+	maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="100.0"
+	prefHeight="-1.0" prefWidth="-1.0" styleClass="root" xmlns:fx="http://javafx.com/fxml">
+	<top>
+		<VBox id="headerPane" prefHeight="-1.0" prefWidth="-1.0"
+			BorderPane.alignment="TOP_CENTER">
+			<children>
+				<MenuBar fx:id="menubar">
+					<menus>
+						<Menu mnemonicParsing="false" text="File">
+							<items>
+								<MenuItem mnemonicParsing="false" text="Exit" />
+							</items>
+						</Menu>
+					</menus>
+				</MenuBar>
+				<ToolBar id="toolbar" prefHeight="32.000091552734375"
+					prefWidth="974.0000999999975">
+					<items>
+						<Button mnemonicParsing="false" text="Button" />
+					</items>
+				</ToolBar>
+			</children>
+		</VBox>
+	</top>
+	<stylesheets>
+		<URL value="@../../../../../../styles/default.css" />
+	</stylesheets>
+</BorderPane>

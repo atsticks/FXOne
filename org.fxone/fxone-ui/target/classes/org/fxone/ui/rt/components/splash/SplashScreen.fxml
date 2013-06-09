@@ -35,7 +35,7 @@
     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
   </padding>
   <top>
-    <Label fx:id="splashscreenLabel" labelFor="$progressBar" opacity="0.89" text="Loading Homemotion" textFill="WHITE">
+    <Label fx:id="splashscreenLabel" labelFor="$progressBar" opacity="0.89" text="Loading..." textFill="WHITE">
       <effect>
         <Glow level="0.5075471698113208" />
       </effect>
