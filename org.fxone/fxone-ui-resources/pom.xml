@@ -11,7 +11,7 @@
 	<artifactId>fxone-ui-resources</artifactId>
 
 	<!-- The Basics -->
-	<name>FXOne UI</name>
+	<name>FXOne UI Resources</name>
 	<description>FXOne UI Resources.</description>
 
 	<packaging>jar</packaging>

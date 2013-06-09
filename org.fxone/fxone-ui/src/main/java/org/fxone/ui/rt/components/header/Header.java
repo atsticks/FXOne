@@ -24,5 +24,5 @@ public class Header extends VBox {
 		spacer.setPrefHeight(4);
 		getChildren().addAll(headerLinks, spacer, headerMenu);
 	}
-	
+
 }
