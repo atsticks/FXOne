@@ -86,6 +86,7 @@ public class NavigationTree extends StackPane {
 			initChildren();
 		}
 
+<<<<<<< HEAD
 		private void initChildren() {
 			if(getValue() instanceof NavigateableArea){
 				NavigateableArea area = (NavigateableArea)getValue();
@@ -102,6 +103,16 @@ public class NavigationTree extends StackPane {
 						// TODO
 					}
 				}
+=======
+		private void initChildren() {
+			for (NavigateableArea area : ((NavigateableArea) getValue())
+					.getChildAreas()) {
+				getChildren().add(new NavigationTreeItem(area));
+			}
+			for (NavigateableAction command : ((NavigateableArea) getValue())
+					.getCommands()) {
+				getChildren().add(new NavigationTreeItem(command));
+>>>>>>> origin/master
 			}
 		}
 
